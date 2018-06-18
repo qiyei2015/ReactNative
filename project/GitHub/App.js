@@ -6,10 +6,10 @@
 
 import React, { Component } from 'react';
 import {
-  Platform,
-  StyleSheet,
-  Text,
-  View
+    Platform,
+    StyleSheet,
+    Text, TouchableHighlight,
+    View
 } from 'react-native';
 
 const instructions = Platform.select({
@@ -20,7 +20,21 @@ const instructions = Platform.select({
 });
 
 type Props = {};
+
+class Greeting extends Component{
+  render(){
+      return (
+          <Text>Hello {this.props.name}</Text>
+      );
+  }
+}
+
 export default class App extends Component<Props> {
+
+  _onPressButton(){
+    console.log("点击了按钮！");
+  }
+
   render() {
     return (
       <View style={styles.container}>
@@ -33,6 +47,13 @@ export default class App extends Component<Props> {
         <Text style={styles.instructions}>
           {instructions}
         </Text>
+        <Greeting name='React 1'/>
+        <Greeting name='React 2'/>
+        <Greeting name='React 3'/>
+
+          <TouchableHighlight onPress={this._onPressButton}>
+              <Text>Button</Text>
+          </TouchableHighlight>
       </View>
     );
   }
