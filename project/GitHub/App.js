@@ -62,14 +62,7 @@ export default class App extends Component<Props> {
         console.log('componentWillMount');
     }
 
-    /**
-     * 在组件渲染完成之后，当reactNative组件接受到新的props时，这个函数将被调用，这个函数接受一个object参数，object里时新的props。
-     * @param nextProps 新的props
-     */
-    componentWillReceiveProps(nextProps) {
-        console.log('componentWillReceiveProps' + nextProps.value);
-    }
-
+    //实例化 渲染
     render() {
         console.log("render()");
         return (
@@ -103,6 +96,13 @@ export default class App extends Component<Props> {
         console.log('componentDidMount');
     }
 
+    /**
+     * 在组件渲染完成之后，当reactNative组件接受到新的props时，这个函数将被调用，这个函数接受一个object参数，object里时新的props。
+     * @param nextProps 新的props
+     */
+    componentWillReceiveProps(nextProps) {
+        console.log('componentWillReceiveProps' + nextProps.value);
+    }
 }
 
 const styles = StyleSheet.create({
