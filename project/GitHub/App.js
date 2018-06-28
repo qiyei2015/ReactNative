@@ -6,12 +6,15 @@
 
 import React, { Component } from 'react';
 import {
+    Alert,
     Platform,
     StyleSheet,
     Text, TouchableHighlight,
     View
 } from 'react-native';
 import { PropTypes} from 'prop-types';
+import Counter from "./src/component/Counter";
+
 
 const instructions = Platform.select({
   ios: 'Press Cmd+R to reload,\n' +
@@ -81,14 +84,16 @@ export default class App extends Component<Props> {
                 <Greeting name='React 3'/>
 
                 <TouchableHighlight onPress={this._onPressButton}>
-                    <Text>Button</Text>
+                    <Text style={styles.button}>Button</Text>
                 </TouchableHighlight>
+                <Counter></Counter>
             </View>
         );
     }
 
     _onPressButton() {
         console.log("点击了按钮！");
+        Alert.alert(title='点击按钮');
     }
 
     //实例化 组件已经被加载 可以与JS其他组件交互 只调用一次
@@ -101,7 +106,29 @@ export default class App extends Component<Props> {
      * @param nextProps 新的props
      */
     componentWillReceiveProps(nextProps) {
+        this.setState({loopsRemaining:nextProps.maxLoops});
         console.log('componentWillReceiveProps' + nextProps.value);
+    }
+
+    //返回布尔值（决定是否需要更新组件）
+    shouldComponentUpdate(nextProps,nextState){
+        console.log("shouldComponentUpdate");
+        return true;
+    }
+
+    //组件将要更新
+    componentWillUpdate(nextProps, nextState){
+        console.log("componentWillUpdate");
+    }
+
+    //组件已经更新
+    componentDidUpdate() {
+
+    }
+
+    //销毁阶段 组件将要销毁
+    componentWillUnmount(){
+        console.log("componentWillUnmount");
     }
 }
 
@@ -110,16 +137,24 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: '#F5FCFF',
+        backgroundColor: '#FFFFFF',
     },
     welcome: {
         fontSize: 20,
         textAlign: 'center',
         margin: 10,
+        backgroundColor: '#FF00FF',
     },
     instructions: {
         textAlign: 'center',
         color: '#333333',
         marginBottom: 5,
+        backgroundColor: '#FFFF00',
     },
+    button:{
+        width:200,
+        height:50,
+        textAlign:'center',
+        backgroundColor:'gray',
+    }
 });
