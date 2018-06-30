@@ -60,6 +60,7 @@ const styles = StyleSheet.create({
         margin:10,
     },
     childStyle3:{
+        left:40,
         width:120,
         height:80,
         backgroundColor:'green',

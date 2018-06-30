@@ -83,6 +83,11 @@ export default class Counter extends Component{
             value:Number(txt)
         })
     }
+
+    //返回数值
+    getCount(){
+        return this.state.value;
+    }
 }
 
 //样式

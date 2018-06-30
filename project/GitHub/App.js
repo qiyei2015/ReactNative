@@ -14,6 +14,9 @@ import {
 } from 'react-native';
 import { PropTypes} from 'prop-types';
 import Counter from "./src/component/Counter";
+import PropsTest from "./src/test/PropsTest";
+import StateTest from "./src/test/StateTest";
+import RefTest from "./src/test/RefTest";
 
 
 const instructions = Platform.select({
@@ -24,14 +27,6 @@ const instructions = Platform.select({
 });
 
 type Props = {};
-
-class Greeting extends Component{
-  render(){
-      return (
-          <Text>Hello {this.props.name}</Text>
-      );
-  }
-}
 
 export default class App extends Component<Props> {
 
@@ -48,7 +43,6 @@ export default class App extends Component<Props> {
         posterFrameSrc:PropTypes.string.isRequired,
         videoSrc: PropTypes.string.isRequired,
         nameString: PropTypes.string.isRequired,
-
     };
 
     //组件实例化时调用 可调用多次
@@ -79,20 +73,25 @@ export default class App extends Component<Props> {
                 <Text style={styles.instructions}>
                     {instructions}
                 </Text>
-                <Greeting name='React 1'/>
-                <Greeting name='React 2'/>
-                <Greeting name='React 3'/>
 
-                <TouchableHighlight onPress={this._onPressButton}>
+                <TouchableHighlight onPress={this._onPressButton.bind(this)}>
                     <Text style={styles.button}>Button</Text>
                 </TouchableHighlight>
                 <Counter></Counter>
+
+                <PropsTest name={12356}></PropsTest>
+
+                <StateTest name={"123"}/>
+                <RefTest name={"reftest"}/>
             </View>
         );
     }
 
     _onPressButton() {
         console.log("点击了按钮！");
+        this.setState({
+            loopsRemaining:20,
+        })
         Alert.alert(title='点击按钮');
     }
 
@@ -101,10 +100,7 @@ export default class App extends Component<Props> {
         console.log('componentDidMount');
     }
 
-    /**
-     * 在组件渲染完成之后，当reactNative组件接受到新的props时，这个函数将被调用，这个函数接受一个object参数，object里时新的props。
-     * @param nextProps 新的props
-     */
+    //在组件渲染完成之后，当reactNative组件接受到新的props时，这个函数将被调用，这个函数接受一个object参数，object里时新的props。
     componentWillReceiveProps(nextProps) {
         this.setState({loopsRemaining:nextProps.maxLoops});
         console.log('componentWillReceiveProps' + nextProps.value);
@@ -113,7 +109,7 @@ export default class App extends Component<Props> {
     //返回布尔值（决定是否需要更新组件）
     shouldComponentUpdate(nextProps,nextState){
         console.log("shouldComponentUpdate");
-        return true;
+        return false;
     }
 
     //组件将要更新
@@ -123,7 +119,7 @@ export default class App extends Component<Props> {
 
     //组件已经更新
     componentDidUpdate() {
-
+        console.log("componentDidUpdate");
     }
 
     //销毁阶段 组件将要销毁
