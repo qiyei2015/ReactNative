@@ -2,14 +2,19 @@ import React, { Component } from 'react';
 import {View, StyleSheet, TouchableOpacity, Text} from "react-native";
 import FlexBox from "../test/FlexBox";
 
+import {mainBackgroundColor} from "../common/BaseStyles";
+
 
 export default class LauncherPage extends Component{
 
     render(){
         return(
             <View style={styles.container}>
-                <TouchableOpacity activeOpacity={0.6} onPress={this.gotoMainPage.bind(this)}>
-                    <Text> 点击跳转页面</Text>
+                <TouchableOpacity style={styles.listItem} activeOpacity={0.6} onPress={this.gotoMainPage.bind(this)}>
+                    <Text>主页面</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.listItem} activeOpacity={0.6} onPress={this.gotoDemoTestPage.bind(this)}>
+                    <Text>Demo测试</Text>
                 </TouchableOpacity>
             </View>
         );
@@ -19,14 +24,25 @@ export default class LauncherPage extends Component{
         this.props.navigation.push('FlexBox');
     }
 
+    gotoDemoTestPage(){
+        this.props.navigation.push('DemoTestPage');
+    }
 }
+
 
 const styles = StyleSheet.create({
     container: {
+        flexDirection:"column",
         flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: '#FFFFFF',
+        justifyContent: 'flex-start', //主轴
+        alignItems: 'stretch', //侧轴
+        backgroundColor: mainBackgroundColor,
+    },
+    listItem:{
+        marginTop:10,
+        marginBottom:10,
+        alignItems:"center", //子元素侧轴
+        backgroundColor: '#FFFF00',
     },
     welcome: {
         fontSize: 20,

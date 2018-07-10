@@ -1,10 +1,27 @@
 import React,{ Component } from 'react';
 import {StyleSheet, Text, TextInput, TouchableOpacity, View} from "react-native";
+import { PropTypes} from 'prop-types';
 
 /**
  * 计数器
  */
 export default class Counter extends Component{
+
+    /**
+     * 定义属性
+     * @type {{}}
+     */
+    static defaultProps = {
+        initValue:0,
+    };
+
+    /**
+     * 属性类型
+     * @type {{}}
+     */
+    static propTypes = {
+        initValue:PropTypes.number,
+    };
 
     /**
      * 构造方法
@@ -15,7 +32,7 @@ export default class Counter extends Component{
 
         //初始状态
         this.state = {
-            value : 1
+            value : this.props.initValue,
         };
     }
 
