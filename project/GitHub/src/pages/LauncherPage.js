@@ -16,6 +16,9 @@ export default class LauncherPage extends Component{
                 <TouchableOpacity style={styles.listItem} activeOpacity={0.6} onPress={this.gotoDemoTestPage.bind(this)}>
                     <Text>Demo测试</Text>
                 </TouchableOpacity>
+                <TouchableOpacity style={styles.listItem} activeOpacity={0.6} onPress={this.gotoTShop.bind(this)}>
+                    <Text>电商</Text>
+                </TouchableOpacity>
             </View>
         );
     }
@@ -26,6 +29,10 @@ export default class LauncherPage extends Component{
 
     gotoDemoTestPage(){
         this.props.navigation.push('DemoTestPage');
+    }
+
+    gotoTShop(){
+        this.props.navigation.push('MyTab');
     }
 }
 
