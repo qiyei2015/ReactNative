@@ -3,6 +3,7 @@ import {View, StyleSheet, TouchableOpacity, Text} from "react-native";
 import Counter from "../component/Counter";
 
 import {mainBackgroundColor} from "../common/BaseStyles";
+import ImageDemo from "./ImageDemo";
 /**
  * Demo测试
  */
@@ -11,21 +12,23 @@ export default class DemoTestPage extends Component{
     render(){
         return(
             <View style={styles.container}>
-                <TouchableOpacity onPress={this._onPress.bind(this)} onLongPress={this._onLongPress.bind(this)}>
-                    <Text>onPress</Text>
-                </TouchableOpacity>
-                <TouchableOpacity onLongPress={this._onLongPress.bind(this)}>
-                    <Text>onLongPress</Text>
-                </TouchableOpacity>
-                <TouchableOpacity disabled={true}>
-                    <Text>无法点击</Text>
-                </TouchableOpacity>
-                <TouchableOpacity onPressIn={this._pressIn.bind(this)} onPressOut={this._pressOut.bind(this)}>
-                    <Text>测试按下的时间</Text>
-                </TouchableOpacity>
+                {/*<TouchableOpacity onPress={this._onPress.bind(this)} onLongPress={this._onLongPress.bind(this)}>*/}
+                    {/*<Text>onPress</Text>*/}
+                {/*</TouchableOpacity>*/}
+                {/*<TouchableOpacity onLongPress={this._onLongPress.bind(this)}>*/}
+                    {/*<Text>onLongPress</Text>*/}
+                {/*</TouchableOpacity>*/}
+                {/*<TouchableOpacity disabled={true}>*/}
+                    {/*<Text>无法点击</Text>*/}
+                {/*</TouchableOpacity>*/}
+                {/*<TouchableOpacity onPressIn={this._pressIn.bind(this)} onPressOut={this._pressOut.bind(this)}>*/}
+                    {/*<Text>测试按下的时间</Text>*/}
+                {/*</TouchableOpacity>*/}
 
-                <Counter/>
-                <Counter initValue={10}/>
+                {/*<Counter/>*/}
+                {/*<Counter initValue={10}/>*/}
+
+                <ImageDemo/>
 
             </View>
         );
