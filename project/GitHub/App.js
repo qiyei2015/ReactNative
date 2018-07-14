@@ -14,6 +14,7 @@ import React from "react";
 import CategoryPage from "./src/tshop/pages/CategoryPage";
 import Theme from "./src/config/Theme";
 import Icon from "react-native-vector-icons/Ionicons";
+import TabNavigatorDemo from "./src/test/TabNavigatorDemo";
 
 
 /**
@@ -97,6 +98,14 @@ const App = createStackNavigator({
     },
     MyTab:{
         screen:MyTab,
+        navigationOptions:{
+            gesturesEnabled:false, //手势打开
+            header:null,
+            headerText:null, //去除标题
+        }
+    },
+    TabNavigatorDemo:{
+        screen:TabNavigatorDemo,
         navigationOptions:{
             gesturesEnabled:false, //手势打开
             header:null,

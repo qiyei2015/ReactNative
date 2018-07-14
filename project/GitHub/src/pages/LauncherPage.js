@@ -3,6 +3,7 @@ import {View, StyleSheet, TouchableOpacity, Text} from "react-native";
 import FlexBox from "../test/FlexBox";
 
 import {mainBackgroundColor} from "../common/BaseStyles";
+import TabNavigatorDemo from "../test/TabNavigatorDemo";
 
 
 export default class LauncherPage extends Component{
@@ -19,6 +20,9 @@ export default class LauncherPage extends Component{
                 <TouchableOpacity style={styles.listItem} activeOpacity={0.6} onPress={this.gotoTShop.bind(this)}>
                     <Text>电商</Text>
                 </TouchableOpacity>
+                <TouchableOpacity style={styles.listItem} activeOpacity={0.6} onPress={this.gotoTabNavigatorDemo.bind(this)}>
+                    <Text>TabNavigatorDemo</Text>
+                </TouchableOpacity>
             </View>
         );
     }
@@ -33,6 +37,9 @@ export default class LauncherPage extends Component{
 
     gotoTShop(){
         this.props.navigation.push('MyTab');
+    }
+    gotoTabNavigatorDemo(){
+        this.props.navigation.push('TabNavigatorDemo');
     }
 }
 

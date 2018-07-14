@@ -4,6 +4,8 @@ import Counter from "../component/Counter";
 
 import {mainBackgroundColor} from "../common/BaseStyles";
 import ImageDemo from "./ImageDemo";
+import TabNavigatorDemo from "./TabNavigatorDemo";
+
 /**
  * Demo测试
  */
@@ -29,7 +31,6 @@ export default class DemoTestPage extends Component{
                 {/*<Counter initValue={10}/>*/}
 
                 <ImageDemo/>
-
             </View>
         );
     }
@@ -49,6 +50,8 @@ export default class DemoTestPage extends Component{
     _pressOut(){
         console.log("pressOut");
     }
+
+
 }
 
 const styles = StyleSheet.create({
