@@ -29,7 +29,6 @@ export default class DemoTestPage extends Component{
 
                 {/*<Counter/>*/}
                 {/*<Counter initValue={10}/>*/}
-
                 <ImageDemo/>
             </View>
         );

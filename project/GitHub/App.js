@@ -1,7 +1,7 @@
 
 import {
     createBottomTabNavigator,
-    createStackNavigator,
+    createStackNavigator, StackNavigator,
 } from 'react-navigation';
 import LauncherPage from "./src/pages/LauncherPage";
 import FlexBox from "./src/test/FlexBox";
@@ -113,6 +113,5 @@ const App = createStackNavigator({
         }
     }
 });
-
 
 export default App
