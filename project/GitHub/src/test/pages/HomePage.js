@@ -7,6 +7,7 @@ export default class HomePage extends Component{
     //覆盖路由里面设置
     static navigationOptions = {
         title:"Home",
+        headerBackTitle:"主页返回",
     };
 
     render(){
@@ -27,7 +28,13 @@ export default class HomePage extends Component{
                 <Button
                     title="Go to Page2"
                     onPress={() => {
-                        navigation.navigate('Page2',{name:"hehh"});
+                        navigation.navigate('Page2',{name:"page2的页面"});
+                    }}
+                />
+                <Button
+                    title="Go to Page3"
+                    onPress={() => {
+                        navigation.navigate('Page3',{title:"哈哈"});
                     }}
                 />
             </View>

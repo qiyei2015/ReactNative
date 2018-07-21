@@ -14,7 +14,7 @@ export default class Page2 extends Component{
                         navigation.goBack();
                     }}
                 />
-                <Text>Page2 + {navigation.name}</Text>
+                <Text>Page2 + {navigation.state.params.name}</Text>
             </View>
         );
     }
