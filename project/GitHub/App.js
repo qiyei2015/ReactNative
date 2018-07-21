@@ -15,6 +15,7 @@ import CategoryPage from "./src/tshop/pages/CategoryPage";
 import Theme from "./src/config/Theme";
 import Icon from "react-native-vector-icons/Ionicons";
 import TabNavigatorDemo from "./src/test/TabNavigatorDemo";
+import AppStackNavigator, {AppTabNavigator} from "./src/navigator/AppNavigator";
 
 
 /**
@@ -71,7 +72,7 @@ const MyTab = createBottomTabNavigator({
 
 
 //创建页面路由
-const App = createStackNavigator({
+let App = createStackNavigator({
     LauncherPage:{
         screen:LauncherPage,
         navigationOptions:{
@@ -113,5 +114,8 @@ const App = createStackNavigator({
         }
     }
 });
+
+//导出组件
+App = AppStackNavigator;
 
 export default App

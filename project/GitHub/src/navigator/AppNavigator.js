@@ -1,14 +1,60 @@
 
-import {StackNavigator} from "react-navigation";
+import {StackNavigator,createBottomTabNavigator} from "react-navigation";
 import HomePage from "../test/pages/HomePage";
 import Page1 from "../test/pages/Page1";
 import Page2 from "../test/pages/Page2";
 import Page3 from "../test/pages/Page3";
 import React from "react";
 import {Button,StyleSheet} from "react-native";
+import Ionicons from "react-native-vector-icons/Ionicons";
 
+//TabNavigator已经被废弃了
+const AppTabNavigator = createBottomTabNavigator({
+    Page1:{
+        screen:Page1,
+        navigationOptions:{
+            tabBarLabel:"Page1",
+            //传递两个参数
+            tabBarIcon:({tintColor, focused}) => (
+                <Ionicons
+                    name = {focused ? "ios-home" : "ios-home-outline"}
+                    size={25}
+                    style={{color:tintColor}}
+                />
+            ),
+        }
+    },
+    Page2:{
+        screen:Page2,
+        navigationOptions:{
+            tabBarLabel:"Page2",
+            //两个参数
+            tabBarIcon:({tintColor, focused}) => (
+                <Ionicons
+                    name = {focused ? "ios-people" : "ios-people-outline"}
+                    size={25}
+                    style={{color:tintColor}}
+                />
+            ),
+        }
+    },
+    Page3:{
+        screen:Page3,
+        navigationOptions:{
+            tabBarLabel:"Page3",
+            //两个参数
+            tabBarIcon:({tintColor, focused}) => (
+                <Ionicons
+                    name = {focused ? "ios-chatboxes" : "ios-chatboxes-outline"}
+                    size={25}
+                    style={{color:tintColor}}
+                />
+            ),
+        }
+    },
+});
 
-const AppNavigator = StackNavigator({
+const AppStackNavigator = StackNavigator({
     HomePage:{
         screen:HomePage,
         navigationOptions:{
@@ -48,6 +94,12 @@ const AppNavigator = StackNavigator({
                 )
             }
         }
+    },
+    AppTabNavigator:{
+        screen:AppTabNavigator,
+        navigationOptions:{
+            title:"this is AppTabNavigator",
+        }
     }
 
 },{
@@ -57,11 +109,12 @@ const AppNavigator = StackNavigator({
     }
 });
 
-
-export default AppNavigator;
-
 const styles = StyleSheet.create({
     button:{
         marginRight:10,
     }
 });
+
+export default AppStackNavigator;
+
+export {AppTabNavigator};

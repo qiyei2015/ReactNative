@@ -15,7 +15,7 @@ export default class Page1 extends Component{
                     }}
                 />
                 {/*使用属性名*/}
-                <Text>Page1 + {navigation.state.params.name}</Text>
+                <Text>Page1</Text>
             </View>
         );
     }

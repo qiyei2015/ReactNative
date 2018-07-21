@@ -17,7 +17,7 @@ export default class Page3 extends Component{
                         navigation.goBack();
                     }}
                 />
-                <Text>Page3 + {navigation.state.params.title}</Text>
+                <Text>Page3 </Text>
                 <Text>{showText}</Text>
                 <TextInput
                     style={styles.input}

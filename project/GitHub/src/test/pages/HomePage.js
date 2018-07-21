@@ -37,6 +37,12 @@ export default class HomePage extends Component{
                         navigation.navigate('Page3',{title:"哈哈"});
                     }}
                 />
+                <Button
+                    title="Go to AppTabNavigator"
+                    onPress={() => {
+                        navigation.navigate('AppTabNavigator',{title:"哈哈"});
+                    }}
+                />
             </View>
         );
     }
