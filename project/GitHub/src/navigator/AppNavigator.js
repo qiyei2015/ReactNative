@@ -7,6 +7,7 @@ import Page3 from "../test/pages/Page3";
 import React,{Component}from "react";
 import {Button,StyleSheet} from "react-native";
 import Ionicons from "react-native-vector-icons/Ionicons";
+import ListViewDemo from "../test/ListViewDemo";
 
 
 //自定义TabBarComponent
@@ -135,7 +136,13 @@ const AppStackNavigator = StackNavigator({
         navigationOptions:{
             title:"this is AppTabNavigator",
         }
-    }
+    },
+    ListViewDemo:{
+        screen:ListViewDemo,
+        navigationOptions:{
+            title:"this is ListViewDemo",
+        }
+    },
 
 },{
     //全局配置参数
