@@ -1,12 +1,42 @@
 
-import {StackNavigator,createBottomTabNavigator} from "react-navigation";
+import {StackNavigator, createBottomTabNavigator, TabBarBottom} from "react-navigation";
 import HomePage from "../test/pages/HomePage";
 import Page1 from "../test/pages/Page1";
 import Page2 from "../test/pages/Page2";
 import Page3 from "../test/pages/Page3";
-import React from "react";
+import React,{Component}from "react";
 import {Button,StyleSheet} from "react-native";
 import Ionicons from "react-native-vector-icons/Ionicons";
+
+
+//自定义TabBarComponent
+class TabBarComponent extends Component{
+
+    constructor(props){
+        super(props);
+        this.theme = {
+            tintColor:this.props.activeTintColor,
+            updateTime: new Date().getTime(),
+        }
+    }
+
+    render(){
+        //属性有变化
+        const {routes,index} = this.props.navigation.state;
+        const {theme} = routes[index].params;
+        if (theme && theme.updateTime > this.theme.updateTime){
+            //更新theme
+            this.theme = theme;
+        }
+        return (
+            <TabBarBottom
+                {...this.props}
+                activeTintColor = {this.theme.tintColor || this.props.activeTintColor}
+            />
+        );
+    }
+}
+
 
 //TabNavigator已经被废弃了
 const AppTabNavigator = createBottomTabNavigator({
@@ -52,6 +82,11 @@ const AppTabNavigator = createBottomTabNavigator({
             ),
         }
     },
+},{
+    // tabBarComponent:TabBarComponent,
+    tabBarOptions:{
+        activeTintColor:"green",
+    }
 });
 
 const AppStackNavigator = StackNavigator({
