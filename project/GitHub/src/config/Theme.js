@@ -8,3 +8,4 @@ export default Module = {
     lightGray:'#F5F5F5',
     lightBlack: '#333333',
 }
+
