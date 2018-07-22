@@ -114,8 +114,4 @@ let App = createStackNavigator({
         }
     }
 });
-
-//导出组件
-App = AppStackNavigator;
-
 export default App
