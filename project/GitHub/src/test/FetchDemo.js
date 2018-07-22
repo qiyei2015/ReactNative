@@ -1,5 +1,6 @@
 import React,{Component}from "react";
 import {View, StyleSheet, TouchableOpacity, Text} from "react-native";
+import HttpUtil from "../util/HttpUtil";
 
 const dataUrl = "http://rapapi.org/mockjsdata/35672/qiyei2009";
 const loginUrl = "http://rapapi.org/mockjsdata/35672/login";
@@ -29,45 +30,33 @@ export default class FetchDemo extends Component{
 
     //加载网络数据
     onLoadFromNetwork(url){
-        fetch(url)
-            .then(response => response.json())
-            .then(data => {
-                //设置到状态中
+        HttpUtil.get(url)
+            .then((result) => {
                 this.setState({
-                    result: JSON.stringify(data),
+                    result: JSON.stringify(result),
                 })
             })
-            .catch(error => {
+            .catch((error) => {
                 this.setState({
                     result: JSON.stringify(error),
                 })
             });
     }
 
+
     //登录
     login(url,data){
-        fetch(url, {
-            method: "POST",
-            headers: {
-                Accept: 'application/json',
-                'Content-Type': 'application/json',
-            },
-            //对象需要序列化成json字符串
-            body: JSON.stringify(data),
-        })
-            .then(response => response.json())
-            .then(data => {
+        HttpUtil.post(url,data)
+            .then(result => {
                 //设置到状态中
                 this.setState({
-                    result: JSON.stringify(data),
+                    result: JSON.stringify(result),
                 })
+            }).catch(error => {
+            this.setState({
+                result: JSON.stringify(error),
             })
-            .catch(error => {
-                this.setState({
-                    result: JSON.stringify(error),
-                })
-            });
-
+        });
     }
 }
 
