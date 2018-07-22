@@ -3,19 +3,19 @@ import {
     createBottomTabNavigator,
     createStackNavigator, StackNavigator,
 } from 'react-navigation';
-import LauncherPage from "./src/pages/LauncherPage";
-import FlexBox from "./src/test/FlexBox";
-import DemoTestPage from "./src/test/DemoTestPage";
-import CartPage from "./src/tshop/pages/CartPage";
-import IndexPage from "./src/tshop/pages/IndexPage";
-import MyPage from "./src/tshop/pages/MyPage";
+import LauncherPage from "../tshop/pages/LauncherPage";
+import FlexBox from "./FlexBox";
+import DemoTestPage from "./DemoTestPage";
+import CartPage from "../tshop/pages/CartPage";
+import IndexPage from "../tshop/pages/IndexPage";
+import MyPage from "../tshop/pages/MyPage";
 
 import React from "react";
-import CategoryPage from "./src/tshop/pages/CategoryPage";
-import Theme from "./src/config/Theme";
+import CategoryPage from "../tshop/pages/CategoryPage";
+import Theme from "../config/Theme";
 import Icon from "react-native-vector-icons/Ionicons";
-import TabNavigatorDemo from "./src/test/TabNavigatorDemo";
-import AppStackNavigator, {AppTabNavigator} from "./src/navigator/AppNavigator";
+import TabNavigatorDemo from "./TabNavigatorDemo";
+import AppStackNavigator, {AppTabNavigator} from "../navigator/AppNavigator";
 
 
 /**

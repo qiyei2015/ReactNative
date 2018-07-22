@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import {View, StyleSheet, TouchableOpacity, Text} from "react-native";
-import FlexBox from "../test/FlexBox";
+import FlexBox from "../../test/FlexBox";
 
-import {mainBackgroundColor} from "../common/BaseStyles";
-import TabNavigatorDemo from "../test/TabNavigatorDemo";
+import {mainBackgroundColor} from "../../common/BaseStyles";
+import TabNavigatorDemo from "../../test/TabNavigatorDemo";
 
 
 export default class LauncherPage extends Component{
