@@ -6,12 +6,12 @@ import {
 import LauncherPage from "./LauncherPage";
 import FlexBox from "./FlexBox";
 import DemoTestPage from "./DemoTestPage";
-import CartPage from "../tshop/pages/CartPage";
-import IndexPage from "../tshop/pages/IndexPage";
-import MyPage from "../tshop/pages/MyPage";
+import CartPage from "./tshop/pages/CartPage";
+import IndexPage from "./tshop/pages/IndexPage";
+import MyPage from "./tshop/pages/MyPage";
 
 import React from "react";
-import CategoryPage from "../tshop/pages/CategoryPage";
+import CategoryPage from "./tshop/pages/CategoryPage";
 import Theme from "../config/Theme";
 import Icon from "react-native-vector-icons/Ionicons";
 import TabNavigatorDemo from "./TabNavigatorDemo";
