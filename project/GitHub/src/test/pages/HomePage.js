@@ -49,6 +49,12 @@ export default class HomePage extends Component{
                         navigation.navigate('ListViewDemo',{title:"ListViewDemo"});
                     }}
                 />
+                <Button
+                    title="Go to FetchDemo"
+                    onPress={() => {
+                        navigation.navigate('FetchDemo',{title:"FetchDemo"});
+                    }}
+                />
             </View>
         );
     }

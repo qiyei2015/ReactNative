@@ -8,6 +8,7 @@ import React,{Component}from "react";
 import {Button,StyleSheet} from "react-native";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import ListViewDemo from "../test/ListViewDemo";
+import FetchDemo from "../test/FetchDemo";
 
 
 //自定义TabBarComponent
@@ -143,7 +144,12 @@ const AppStackNavigator = StackNavigator({
             title:"this is ListViewDemo",
         }
     },
-
+    FetchDemo:{
+        screen:FetchDemo,
+        navigationOptions:{
+            title:"this is FetchDemo",
+        }
+    }
 },{
     //全局配置参数
     navigationOptions:{
