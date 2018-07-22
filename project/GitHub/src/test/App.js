@@ -3,7 +3,7 @@ import {
     createBottomTabNavigator,
     createStackNavigator, StackNavigator,
 } from 'react-navigation';
-import LauncherPage from "../tshop/pages/LauncherPage";
+import LauncherPage from "./LauncherPage";
 import FlexBox from "./FlexBox";
 import DemoTestPage from "./DemoTestPage";
 import CartPage from "../tshop/pages/CartPage";

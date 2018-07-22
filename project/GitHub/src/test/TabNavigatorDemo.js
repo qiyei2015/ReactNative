@@ -2,6 +2,7 @@ import React , { Component } from "react";
 import {StyleSheet,Image, View} from "react-native";
 import TabNavigator from "react-native-tab-navigator";
 
+//底部tab使用例子
 export default class TabNavigatorDemo extends Component{
 
     constructor(props){
@@ -19,8 +20,8 @@ export default class TabNavigatorDemo extends Component{
                         selected={this.state.selectedTab === 'home'}
                         selectedTitleStyle={{color:'red'}}
                         title="Home"
-                        renderIcon={() => <Image style={styles.image} source={require('../../res/images/ic_polular.png')} />}
-                        renderSelectedIcon={() => <Image style={[styles.image,{tintColor:'red'}]} source={require('../../res/images/ic_polular.png')} />}
+                        renderIcon={() => <Image style={styles.image} source={require('../../res/images/ic_popular.png')} />}
+                        renderSelectedIcon={() => <Image style={[styles.image,{tintColor:'red'}]} source={require('../../res/images/ic_popular.png')} />}
                         badgeText="1"
                         onPress={() => this.setState({ selectedTab: 'home' })}>
                         <View style={styles.page1}></View>
@@ -39,8 +40,8 @@ export default class TabNavigatorDemo extends Component{
                         selected={this.state.selectedTab === 'home2'}
                         selectedTitleStyle={{color:'red'}}
                         title="Home2"
-                        renderIcon={() => <Image style={styles.image} source={require('../../res/images/ic_polular.png')} />}
-                        renderSelectedIcon={() => <Image style={[styles.image,{tintColor:'red'}]} source={require('../../res/images/ic_polular.png')} />}
+                        renderIcon={() => <Image style={styles.image} source={require('../../res/images/ic_popular.png')} />}
+                        renderSelectedIcon={() => <Image style={[styles.image,{tintColor:'red'}]} source={require('../../res/images/ic_popular.png')} />}
                         badgeText="1"
                         onPress={() => this.setState({ selectedTab: 'home2' })}>
                         <View style={styles.page1}></View>

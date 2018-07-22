@@ -9,7 +9,7 @@ export default AppNavigator = StackNavigator({
         screen:WelcomePage,
     },
     HomePage: {
-        screen: HomePage
+        screen: HomePage,
     },
 
 },{
