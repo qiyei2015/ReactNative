@@ -1,6 +1,7 @@
 import React,{Component}from "react";
 import {View,Image,StyleSheet} from "react-native";
 import TabNavigator from "react-native-tab-navigator";
+import PopularPage from "./PopularPage";
 
 
 export default class HomePage extends Component{
@@ -25,7 +26,7 @@ export default class HomePage extends Component{
                         //角标显示
                         badgeText=""
                         onPress={() => this.setState({ selectedTab: 'popular' })}>
-                        <View style={styles.page1}></View>
+                        <PopularPage/>
                     </TabNavigator.Item>
                     <TabNavigator.Item
                         selected={this.state.selectedTab === 'profile'}
