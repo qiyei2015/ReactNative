@@ -2,6 +2,7 @@ import React,{Component}from "react";
 import {View,Image,StyleSheet} from "react-native";
 import TabNavigator from "react-native-tab-navigator";
 import PopularPage from "./PopularPage";
+import {colorPrimary} from "../common/BaseStyles";
 
 
 export default class HomePage extends Component{
@@ -19,14 +20,15 @@ export default class HomePage extends Component{
                 <TabNavigator>
                     <TabNavigator.Item
                         selected={this.state.selectedTab === 'popular'}
-                        selectedTitleStyle={{color:'red'}}
+                        selectedTitleStyle={{color:colorPrimary}}
                         title="最热"
                         renderIcon={() => <Image style={styles.image} source={require('../../res/images/ic_popular.png')} />}
-                        renderSelectedIcon={() => <Image style={[styles.image,{tintColor:'red'}]} source={require('../../res/images/ic_popular.png')} />}
+                        renderSelectedIcon={() => <Image style={[styles.image,{tintColor:colorPrimary}]} source={require('../../res/images/ic_popular.png')} />}
                         //角标显示
                         badgeText=""
                         onPress={() => this.setState({ selectedTab: 'popular' })}>
-                        <PopularPage/>
+                        {/*传递属性参数*/}
+                        <PopularPage {...this.props}/>
                     </TabNavigator.Item>
                     <TabNavigator.Item
                         selected={this.state.selectedTab === 'profile'}
