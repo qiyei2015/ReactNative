@@ -28,4 +28,15 @@ export default class ArrayUtil {
             }
         }
     }
+
+    /**
+     * 拷贝数组
+     * @param destArray
+     * @param srcArray
+     */
+    static clone(array,srcArray){
+        for (let i = 0,len = srcArray.length ; i < len;i++) {
+            array[i] = srcArray[i];
+        }
+    }
 }

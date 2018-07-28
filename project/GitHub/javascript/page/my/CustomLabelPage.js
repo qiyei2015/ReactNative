@@ -57,7 +57,8 @@ export default class CustomLabelPage extends Component{
                 console.log("loadData:" + JSON.stringify(result));
                 this.setState({
                     dataArray: result,
-                })
+                });
+                ArrayUtil.clone(this.changeValues,this.state.dataArray);
             })
             .catch(error => {
                 console.log(error);
@@ -123,7 +124,7 @@ export default class CustomLabelPage extends Component{
     //标签单击函数
     onClick(data){
         data.checked = !data.checked;
-        ArrayUtil.updateArray(this.changeValues,data);
+        ArrayUtil.updateArray2(this.changeValues,data);
     }
 }
 
