@@ -7,6 +7,7 @@ import RepositoryCell from "../component/RepositoryCell";
 import {colorPrimary} from "../common/BaseStyles";
 import NavigationBar from "../common/NavigationBar";
 import Toast from "react-native-easy-toast";
+import LanguageDao,{FLAG_LANGUAGE} from "../expand/dao/LanguageDao";
 
 
 const popularSearchUrl = "https://api.github.com/search/repositories?q=";
@@ -14,9 +15,9 @@ const popularSearchUrl = "https://api.github.com/search/repositories?q=";
 export default class PopularPage extends Component{
     constructor(props){
         super(props);
-
+        this.languageDao = new LanguageDao(FLAG_LANGUAGE.flag_language);
         this.state = {
-            result:"",
+            languages:[],
             searchKey:"android",
         }
     }
@@ -57,6 +58,11 @@ export default class PopularPage extends Component{
                     renderTabBar={() =>
                         <ScrollableTabBar/>
                     }>
+                    {/*根据配置文件加载标签*/}
+                    {/*{this.state.languages.map((result,i,arr) => {*/}
+                        {/*let lan = arr[i];*/}
+                        {/*return lan.checked ?  <PopularTab tabLabel={lan.name} theme={{colorPrimary: colorPrimary}}/>:null;*/}
+                    {/*})}*/}
                     <PopularTab tabLabel="java" theme={{colorPrimary: colorPrimary}}/>
                     <PopularTab tabLabel="android" theme={{colorPrimary: colorPrimary}}/>
                     <PopularTab tabLabel="ios" theme={{colorPrimary: colorPrimary}}/>
@@ -66,6 +72,24 @@ export default class PopularPage extends Component{
                 <Toast ref={(toast) => this.toast = toast}/>
             </View>
         );
+    }
+
+    //视图加载完成
+    componentDidMount(){
+        this.loadData();
+    }
+
+    //加载数据
+    loadData(){
+        this.languageDao.fetch()
+            .then(result => {
+                this.setState({
+                    languages: result,
+                })
+            })
+            .catch(error => {
+                console.log(error);
+            })
     }
 }
 
