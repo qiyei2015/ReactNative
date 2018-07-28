@@ -1,12 +1,12 @@
 import React,{Component}from "react";
 import {View, Image, StyleSheet, TouchableOpacity, Text, ListView, RefreshControl} from "react-native";
 import DataRepository from "../expand/dao/DataRepository";
-import NavigationBar from "../common/NavigationBar";
 import ScrollableTabView,{ScrollableTabBar} from "react-native-scrollable-tab-view";
 import { PropTypes} from 'prop-types';
 import Toast, {DURATION} from 'react-native-easy-toast'
 import RepositoryCell from "../component/RepositoryCell";
 import {colorPrimary} from "../common/BaseStyles";
+import NavigationBar from "../common/NavigationBar";
 
 
 const popularSearchUrl = "https://api.github.com/search/repositories?q=";
@@ -22,7 +22,7 @@ export default class PopularPage extends Component{
     }
 
     render(){
-        const {navigation} = this.props;
+        let {navigation} = this.props;
         return(
             <View style={styles.container}>
                 <NavigationBar

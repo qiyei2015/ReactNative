@@ -22,7 +22,7 @@ export default class WelcomePage extends Component{
 
         this.timer = setTimeout(() => {
             navigation.navigate("HomePage");
-        },2000);
+        },1000);
     }
 
     //将要被卸载

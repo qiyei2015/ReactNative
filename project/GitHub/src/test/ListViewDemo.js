@@ -2,7 +2,7 @@ import React,{ Component } from 'react';
 import {Image, ListView, Text, View, StyleSheet, TouchableOpacity,RefreshControl} from "react-native";
 import {data, data2} from "./DataSource";
 import Toast, {DURATION} from 'react-native-easy-toast'
-
+import Module from "../config/Theme"
 const image_path1 = 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1532239791998&di=32c51d8caf80fb4e3d99947cb4c792ea&imgtype=0&src=http%3A%2F%2Fs13.sinaimg.cn%2Fmw690%2F006VYEqnzy7fjjYn5HC8c%26690';
 
 export default class ListViewDemo extends Component{

@@ -1,8 +1,12 @@
 import React,{Component}from "react";
-import {View,Image,StyleSheet} from "react-native";
+import {View, Image, StyleSheet, TouchableOpacity} from "react-native";
 import TabNavigator from "react-native-tab-navigator";
 import PopularPage from "./PopularPage";
 import {colorPrimary} from "../common/BaseStyles";
+import AsyncStorageDemo from "../test/AsyncStorageDemo";
+import NavigationBar from "../common/NavigationBar";
+import ListViewDemo from "../test/ListViewDemo";
+import Toast from "react-native-easy-toast";
 
 
 export default class HomePage extends Component{
@@ -37,7 +41,7 @@ export default class HomePage extends Component{
                         renderIcon={() => <Image style={styles.image} source={require('../../res/images/ic_trending.png')} />}
                         renderSelectedIcon={() => <Image style={[styles.image,{tintColor:'yellow'}]} source={require('../../res/images/ic_trending.png')} />}
                         onPress={() => this.setState({ selectedTab: 'profile' })}>
-                        <View style={styles.page2}></View>
+                        <AsyncStorageDemo />
                     </TabNavigator.Item>
                     <TabNavigator.Item
                         selected={this.state.selectedTab === 'favorite'}
