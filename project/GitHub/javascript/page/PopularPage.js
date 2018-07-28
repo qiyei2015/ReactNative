@@ -3,10 +3,10 @@ import {View, Image, StyleSheet, TouchableOpacity, Text, ListView, RefreshContro
 import DataRepository from "../expand/dao/DataRepository";
 import ScrollableTabView,{ScrollableTabBar} from "react-native-scrollable-tab-view";
 import { PropTypes} from 'prop-types';
-import Toast, {DURATION} from 'react-native-easy-toast'
 import RepositoryCell from "../component/RepositoryCell";
 import {colorPrimary} from "../common/BaseStyles";
 import NavigationBar from "../common/NavigationBar";
+import Toast from "react-native-easy-toast";
 
 
 const popularSearchUrl = "https://api.github.com/search/repositories?q=";
@@ -27,12 +27,12 @@ export default class PopularPage extends Component{
             <View style={styles.container}>
                 <NavigationBar
                     title={"最热"}
+                    style={{
+                        backgroundColor: colorPrimary,
+                    }}
                     statusBar={{
                         backgroundColor: colorPrimary,
                         hidden: false,
-                    }}
-                    style={{
-                        backgroundColor: colorPrimary,
                     }}
                     leftView={
                         <TouchableOpacity
@@ -150,7 +150,7 @@ class PopularTab extends Component{
     //每一行渲染数据
     renderRow(item){
         return(
-            <RepositoryCell data={item}/>
+            <RepositoryCell {...this.props} data={item}/>
         )
     }
 }

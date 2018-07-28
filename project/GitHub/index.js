@@ -1,5 +1,5 @@
 import {AppRegistry} from 'react-native';
-import setup from './src/page/Setup'
+import setup from './javascript/page/Setup'
 
 AppRegistry.registerComponent('GitHub', () => setup);
 

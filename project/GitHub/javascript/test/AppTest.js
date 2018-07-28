@@ -13,10 +13,10 @@ import {
     View
 } from 'react-native';
 import { PropTypes} from 'prop-types';
-import Counter from "./src/component/Counter";
-import PropsTest from "./src/test/PropsTest";
-import StateTest from "./src/test/StateTest";
-import RefTest from "./src/test/RefTest";
+import Counter from "./javascript/component/Counter";
+import PropsTest from "./javascript/test/PropsTest";
+import StateTest from "./javascript/test/StateTest";
+import RefTest from "./javascript/test/RefTest";
 
 
 const instructions = Platform.select({
