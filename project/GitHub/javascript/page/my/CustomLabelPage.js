@@ -1,5 +1,5 @@
 import React,{Component} from "react";
-import {Text, View, StyleSheet, TouchableOpacity, Image, ScrollView} from "react-native";
+import {Text, View, StyleSheet, TouchableOpacity, Image, ScrollView,Alert} from "react-native";
 import NavigationBar from "../../common/NavigationBar";
 import {colorPrimary} from "../../common/BaseStyles";
 import ViewUtil from "../../util/ViewUtil";
@@ -10,7 +10,7 @@ import ArrayUtil from "../../util/ArrayUtil";
 export default class CustomLabelPage extends Component{
     constructor(props){
         super(props);
-        this.languageDao = new LanguageDao(FLAG_LANGUAGE.flag_language);
+        this.languageDao = new LanguageDao(FLAG_LANGUAGE.flag_key);
         this.changeValues = [];
         this.state = {
             //数组
@@ -58,7 +58,7 @@ export default class CustomLabelPage extends Component{
                 this.setState({
                     dataArray: result,
                 });
-                ArrayUtil.clone(this.changeValues,this.state.dataArray);
+                // ArrayUtil.clone(this.changeValues,this.state.dataArray);
             })
             .catch(error => {
                 console.log(error);
@@ -66,13 +66,25 @@ export default class CustomLabelPage extends Component{
     }
 
     onBack(){
-        this.languageDao.clear();
+        if (this.changeValues.length === 0){
+            this.props.navigation.goBack();
+            return;
+        }
+        Alert.alert(
+            '提示',
+            '要保存修改吗？',
+            [
+                {text: '取消', onPress: () => this.props.navigation.goBack(), style: 'cancel'},
+                {text: '确认', onPress: () => this.onSave()},
+            ],
+            { cancelable: false }
+        )
     }
 
     //保存数据
     onSave(){
         if (this.changeValues.length !== 0){
-            this.languageDao.save(this.changeValues);
+            this.languageDao.save(this.state.dataArray);
         }
         this.props.navigation.goBack();
     }
@@ -124,7 +136,7 @@ export default class CustomLabelPage extends Component{
     //标签单击函数
     onClick(data){
         data.checked = !data.checked;
-        ArrayUtil.updateArray2(this.changeValues,data);
+        ArrayUtil.updateArray(this.changeValues,data);
     }
 }
 

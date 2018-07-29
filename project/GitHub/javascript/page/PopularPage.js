@@ -15,7 +15,7 @@ const popularSearchUrl = "https://api.github.com/search/repositories?q=";
 export default class PopularPage extends Component{
     constructor(props){
         super(props);
-        this.languageDao = new LanguageDao(FLAG_LANGUAGE.flag_language);
+        this.languageDao = new LanguageDao(FLAG_LANGUAGE.flag_key);
         this.state = {
             languages:[],
             searchKey:"android",
@@ -24,6 +24,32 @@ export default class PopularPage extends Component{
 
     render(){
         let {navigation} = this.props;
+
+        let content = this.state.languages.length > 0 ?
+            <ScrollableTabView
+                tabBarBackgroundColor= {colorPrimary}
+                tabBarInactiveTextColor="mintcream"
+                tabBarActiveTextColor="white"
+                tabBarUnderlineStyle={{backgroundColor:"#E7E7E7",height:2}}
+                renderTabBar={() =>
+                    <ScrollableTabBar
+                        style={{height:40,borderWidth: 0, elevation: 2}}
+                        tabStyle={{height:39}}/>
+                }
+                initialPage={0}
+                onScroll={(position)=>{}}
+            >
+                {/*根据配置文件加载标签*/}
+                {this.state.languages.map((result,i,arr) => {
+                    let lan = arr[i];
+                    return lan.checked ?  <PopularTab tabLabel={lan.name} theme={{colorPrimary: colorPrimary}}/>:null;
+                })}
+                {/*<PopularTab tabLabel="java" theme={{colorPrimary: colorPrimary}}/>*/}
+                {/*<PopularTab tabLabel="android" theme={{colorPrimary: colorPrimary}}/>*/}
+                {/*<PopularTab tabLabel="ios" theme={{colorPrimary: colorPrimary}}/>*/}
+                {/*<PopularTab tabLabel="C++" theme={{colorPrimary: colorPrimary}}/>*/}
+            </ScrollableTabView> : null;
+
         return(
             <View style={styles.container}>
                 <NavigationBar
@@ -50,24 +76,7 @@ export default class PopularPage extends Component{
                         </TouchableOpacity>
                     }
                 />
-                <ScrollableTabView
-                    tabBarBackgroundColor= {colorPrimary}
-                    tabBarInactiveTextColor="mintcream"
-                    tabBarActiveTextColor="white"
-                    tabBarUnderlineStyle={{backgroundColor:"#E7E7E7",height:2}}
-                    renderTabBar={() =>
-                        <ScrollableTabBar/>
-                    }>
-                    {/*根据配置文件加载标签*/}
-                    {/*{this.state.languages.map((result,i,arr) => {*/}
-                        {/*let lan = arr[i];*/}
-                        {/*return lan.checked ?  <PopularTab tabLabel={lan.name} theme={{colorPrimary: colorPrimary}}/>:null;*/}
-                    {/*})}*/}
-                    <PopularTab tabLabel="java" theme={{colorPrimary: colorPrimary}}/>
-                    <PopularTab tabLabel="android" theme={{colorPrimary: colorPrimary}}/>
-                    <PopularTab tabLabel="ios" theme={{colorPrimary: colorPrimary}}/>
-                    <PopularTab tabLabel="C++" theme={{colorPrimary: colorPrimary}}/>
-                </ScrollableTabView>
+                {content}
                 {/*需要放在最外层*/}
                 <Toast ref={(toast) => this.toast = toast}/>
             </View>

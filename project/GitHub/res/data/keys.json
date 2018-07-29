@@ -6,6 +6,11 @@
     "checked": true
   },
   {
+    "path": "Android",
+    "name": "Android",
+    "checked": true
+  },
+  {
     "path": "iOS",
     "name": "iOS",
     "checked": true
@@ -13,6 +18,16 @@
   {
     "path": "react-native",
     "name": "React Native",
+    "checked": true
+  },
+  {
+    "path": "Java",
+    "name": "Java",
+    "checked": true
+  },
+  {
+    "path": "C++",
+    "name": "C++",
     "checked": true
   },
   {

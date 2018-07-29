@@ -25,7 +25,7 @@ export default class LanguageDao {
                             reject(e);
                         }
                     } else {
-                        let data = this.flag === FLAG_LANGUAGE.flag_language ? keys:null;
+                        let data = this.flag === FLAG_LANGUAGE.flag_key ? keys:null;
                         this.save(data);
                         resolve(data);
                     }
