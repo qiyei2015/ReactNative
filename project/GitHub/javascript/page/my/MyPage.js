@@ -22,20 +22,24 @@ export default class MyPage extends Component{
                     }}
                 />
                 <TouchableOpacity
-                    onPress={() => {
-                        //跳转到指定页面，并传入参数
-                        navigation.navigate(
-                            "CustomLabelPage",
-                            {...this.props}
-                        )
-                    }}
-                >
-                    <Text>我的</Text>
+                    onPress={() => this.gotoLabelPage("CustomLabelPage")}>
+                    <Text>自定义标签</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                    onPress={() => this.gotoLabelPage("SortLabelPage")}>
+                    <Text>标签排序</Text>
                 </TouchableOpacity>
             </View>
         )
     }
 
+    gotoLabelPage(page){
+        //跳转到指定页面，并传入参数
+        this.props.navigation.navigate(
+            page,
+            {...this.props}
+        )
+    }
 }
 
 const styles = StyleSheet.create({

@@ -4,6 +4,7 @@ import WelcomePage from "../page/WelcomePage";
 import HomePage from "../page/HomePage";
 import MyPage from "../page/my/MyPage";
 import CustomLabelPage from "../page/my/CustomLabelPage";
+import SortLabelPage from "../page/my/SortLabelPage";
 
 //App路由配置
 export default AppNavigator = StackNavigator({
@@ -18,6 +19,9 @@ export default AppNavigator = StackNavigator({
     },
     CustomLabelPage: {
         screen: CustomLabelPage,
+    },
+    SortLabelPage: {
+        screen: SortLabelPage,
     },
 },{
     //全局配置

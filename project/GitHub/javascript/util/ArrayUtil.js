@@ -34,9 +34,34 @@ export default class ArrayUtil {
      * @param destArray
      * @param srcArray
      */
-    static clone(array,srcArray){
+    static clone(srcArray){
+        if (!srcArray){
+            return [];
+        }
+        let array = [];
         for (let i = 0,len = srcArray.length ; i < len;i++) {
             array[i] = srcArray[i];
         }
+        return array;
+    }
+
+    /**
+     * 判断两个数组是否相等
+     * @param arr1
+     * @param arr2
+     */
+    static isEqual(arr1,arr2){
+        if ((!arr1 || !arr2)) {
+            return false;
+        }
+        if (arr1.length !== arr2.length){
+            return false;
+        }
+        for (let i= 0; i < arr1.length ;i++){
+            if (arr1[i] !== arr2[i]){
+                return false;
+            }
+        }
+        return true;
     }
 }

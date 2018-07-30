@@ -20,8 +20,7 @@ export default class CustomLabelPage extends Component{
 
     render(){
         let rightButton = <TouchableOpacity
-            onPress={() => this.onSave()}
-        >
+            onPress={() => this.onSave()}>
             <View style={{margin: 10}}>
                 <Text style={styles.rightText}>保存</Text>
             </View>
