@@ -11,8 +11,7 @@ export default class ArrayUtil {
         for (let i = 0,len = array.length ; i < len;i++) {
             let temp = array[i];
             if (temp === item){
-                // array.splice(i,1);
-                array[i] = item;
+                array.splice(i,1);
                 return;
             }
         }
@@ -63,5 +62,21 @@ export default class ArrayUtil {
             }
         }
         return true;
+    }
+
+    /**
+     * 从数组中移除item
+     * @param array
+     * @param item
+     */
+    static remove(array,item){
+        if (!array instanceof Array) {
+            return ;
+        }
+        for (let i = 0;i < array.length ;i++){
+            if (item === array[i]){
+                array.splice(i,1);
+            }
+        }
     }
 }

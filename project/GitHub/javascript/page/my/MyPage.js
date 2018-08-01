@@ -22,22 +22,29 @@ export default class MyPage extends Component{
                     }}
                 />
                 <TouchableOpacity
+                    style={styles.row}
                     onPress={() => this.gotoLabelPage("CustomLabelPage")}>
                     <Text>自定义标签</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
+                    style={styles.row}
                     onPress={() => this.gotoLabelPage("SortLabelPage")}>
                     <Text>标签排序</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                    style={styles.row}
+                    onPress={() => this.gotoLabelPage("CustomLabelPage",true)}>
+                    <Text>标签移除</Text>
                 </TouchableOpacity>
             </View>
         )
     }
 
-    gotoLabelPage(page){
+    gotoLabelPage(page,remove){
         //跳转到指定页面，并传入参数
         this.props.navigation.navigate(
             page,
-            {...this.props}
+            {...this.props,removeLabel:remove},
         )
     }
 }
@@ -47,4 +54,7 @@ const styles = StyleSheet.create({
         flex:1,
         backgroundColor:'#F5FCFF',
     },
+    row:{
+        margin:10,
+    }
 });

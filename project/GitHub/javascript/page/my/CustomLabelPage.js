@@ -10,6 +10,7 @@ import ArrayUtil from "../../util/ArrayUtil";
 export default class CustomLabelPage extends Component{
     constructor(props){
         super(props);
+        this.removeLabel = this.props.navigation.state.params.removeLabel ? true:false;
         this.languageDao = new LanguageDao(FLAG_LANGUAGE.flag_key);
         this.changeValues = [];
         this.state = {
@@ -19,16 +20,18 @@ export default class CustomLabelPage extends Component{
     }
 
     render(){
+        let title = this.removeLabel ? "标签移除":"自定义标签";
+        let rightTitle = this.removeLabel ? "移除":"保存";
         let rightButton = <TouchableOpacity
             onPress={() => this.onSave()}>
             <View style={{margin: 10}}>
-                <Text style={styles.rightText}>保存</Text>
+                <Text style={styles.rightText}>{rightTitle}</Text>
             </View>
-        </TouchableOpacity>
+        </TouchableOpacity>;
         return(
             <View style={styles.container}>
                 <NavigationBar
-                    title={"自定义标签"}
+                    title={title}
                     style={{
                         backgroundColor: colorPrimary,
                     }}
@@ -83,6 +86,12 @@ export default class CustomLabelPage extends Component{
     //保存数据
     onSave(){
         if (this.changeValues.length !== 0){
+            //移除label
+            if (this.removeLabel){
+                for (let i = 0 ;i < this.changeValues.length ;i++){
+                    ArrayUtil.remove(this.state.dataArray,this.changeValues[i]);
+                }
+            }
             this.languageDao.save(this.state.dataArray);
         }
         this.props.navigation.goBack();
@@ -119,6 +128,7 @@ export default class CustomLabelPage extends Component{
 
     renderCheckBox(data) {
         let leftText = data.name;
+        let checked = this.removeLabel ? false:data.checked;
         return <CheckBox
             style={{flex: 1,padding: 10}}
             leftText={leftText}
@@ -126,7 +136,7 @@ export default class CustomLabelPage extends Component{
                 this.onClick(data);
             }
             }
-            isChecked={data.checked}
+            isChecked={checked}
             checkedImage={<Image style={{tintColor:"#6495ED"}} source={require("./img/ic_check_box.png")}/>}
             unCheckedImage={<Image style={{tintColor:"#6495ED"}} source={require("./img/ic_check_box_outline_blank.png")}/>}
             />
@@ -134,7 +144,10 @@ export default class CustomLabelPage extends Component{
 
     //标签单击函数
     onClick(data){
-        data.checked = !data.checked;
+        //只有不是移除标签才需要改变状态
+        if (!this.removeLabel){
+            data.checked = !data.checked;
+        }
         ArrayUtil.updateArray(this.changeValues,data);
     }
 }
