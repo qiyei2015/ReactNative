@@ -6,7 +6,6 @@ import { PropTypes} from 'prop-types';
 import RepositoryCell from "../component/RepositoryCell";
 import {colorPrimary} from "../common/BaseStyles";
 import NavigationBar from "../common/NavigationBar";
-import Toast from "react-native-easy-toast";
 import LanguageDao,{FLAG_LANGUAGE} from "../expand/dao/LanguageDao";
 
 
@@ -77,8 +76,6 @@ export default class PopularPage extends Component{
                     }
                 />
                 {content}
-                {/*需要放在最外层*/}
-                <Toast ref={(toast) => this.toast = toast}/>
             </View>
         );
     }

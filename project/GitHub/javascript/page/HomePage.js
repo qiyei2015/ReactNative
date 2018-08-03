@@ -1,10 +1,12 @@
 import React,{Component}from "react";
-import {View, Image, StyleSheet, TouchableOpacity} from "react-native";
+import {View, Image, StyleSheet, TouchableOpacity,DeviceEventEmitter} from "react-native";
 import TabNavigator from "react-native-tab-navigator";
 import PopularPage from "./PopularPage";
 import {colorPrimary} from "../common/BaseStyles";
 import AsyncStorageDemo from "../test/AsyncStorageDemo";
 import MyPage from "./my/MyPage";
+import Toast,{DURATION} from "react-native-easy-toast";
+import Constant from "../common/Constant";
 
 
 export default class HomePage extends Component{
@@ -62,8 +64,22 @@ export default class HomePage extends Component{
                         <MyPage {...this.props}/>
                     </TabNavigator.Item>
                 </TabNavigator>
+                {/*需要放在最外层*/}
+                <Toast ref={(toast) => this.toast = toast}/>
             </View>
         );
+    }
+
+    componentDidMount(){
+        //注册showToast事件
+        this.showToastListener = DeviceEventEmitter.addListener(Constant.SHOW_TOAST,(text) => {
+            this.toast.show(text,DURATION.LENGTH_SHORT);
+        });
+    }
+
+    componentWillUnmount(){
+        //移除监听
+        this.showToastListener && this.showToastListener.remove();
     }
 }
 

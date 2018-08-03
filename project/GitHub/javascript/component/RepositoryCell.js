@@ -1,7 +1,6 @@
 import React,{Component}from "react";
-import {View, Image, StyleSheet, TouchableOpacity, Text, ListView, RefreshControl} from "react-native";
-import Toast,{DURATION}from "react-native-easy-toast";
-
+import {View, Image, StyleSheet, TouchableOpacity, Text,DeviceEventEmitter} from "react-native";
+import Constant from "../common/Constant";
 
 
 export default class RepositoryCell extends Component{
@@ -12,7 +11,7 @@ export default class RepositoryCell extends Component{
                 <TouchableOpacity
                     style={styles.cell_container}
                     onPress={() => {
-                        this.toast.show("你点击:" + this.props.data.full_name,DURATION.LENGTH_SHORT);
+                        DeviceEventEmitter.emit(Constant.SHOW_TOAST,"你点击:" + this.props.data.full_name);
                     }}>
                     <Text style={styles.title}>{this.props.data.full_name}</Text>
                     <Text style={styles.description}>{this.props.data.description}</Text>
@@ -26,8 +25,6 @@ export default class RepositoryCell extends Component{
                         <Image style={{width:22,height:22}} source={require("../../res/images/ic_star.png")}/>
                     </View>
                 </TouchableOpacity>
-                {/*需要放在最外层*/}
-                <Toast ref={(toast) => this.toast = toast}/>
             </View>
         );
     }
