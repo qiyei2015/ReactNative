@@ -1,5 +1,14 @@
 import React,{Component}from "react";
-import {View, Image, StyleSheet, TouchableOpacity, Text, ListView, RefreshControl} from "react-native";
+import {
+    View,
+    Image,
+    StyleSheet,
+    TouchableOpacity,
+    Text,
+    ListView,
+    RefreshControl,
+    DeviceEventEmitter
+} from "react-native";
 import DataRepository from "../expand/dao/DataRepository";
 import ScrollableTabView,{ScrollableTabBar} from "react-native-scrollable-tab-view";
 import { PropTypes} from 'prop-types';
@@ -7,6 +16,7 @@ import RepositoryCell from "../component/RepositoryCell";
 import {colorPrimary} from "../common/BaseStyles";
 import NavigationBar from "../common/NavigationBar";
 import LanguageDao,{FLAG_LANGUAGE} from "../expand/dao/LanguageDao";
+import Constant from "../common/Constant";
 
 
 const popularSearchUrl = "https://api.github.com/search/repositories?q=";
@@ -41,7 +51,7 @@ export default class PopularPage extends Component{
                 {/*根据配置文件加载标签*/}
                 {this.state.languages.map((result,i,arr) => {
                     let lan = arr[i];
-                    return lan.checked ?  <PopularTab tabLabel={lan.name} theme={{colorPrimary: colorPrimary}}/>:null;
+                    return lan.checked ?  <PopularTab key={i} tabLabel={lan.name} theme={{colorPrimary: colorPrimary}}/>:null;
                 })}
                 {/*<PopularTab tabLabel="java" theme={{colorPrimary: colorPrimary}}/>*/}
                 {/*<PopularTab tabLabel="android" theme={{colorPrimary: colorPrimary}}/>*/}
@@ -162,7 +172,7 @@ class PopularTab extends Component{
             refreshing:true,
         });
 
-        this.dataRepository.fetchNetworkRepository(url)
+        this.dataRepository.fetchRepository(url)
             .then((result) => {
                 this.setState({
                     refreshing:false,

@@ -8,14 +8,16 @@ import MyPage from "./my/MyPage";
 import Toast,{DURATION} from "react-native-easy-toast";
 import Constant from "../common/Constant";
 
-
 export default class HomePage extends Component{
 
     constructor(props){
         super(props);
         this.state = {
             selectedTab:'popular'
-        }
+        };
+        //屏蔽黄色告警
+        console.disableYellowBox = true;
+        console.warn("YellowBox is disabled.");
     }
 
     render(){
