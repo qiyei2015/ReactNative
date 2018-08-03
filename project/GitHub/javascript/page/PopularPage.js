@@ -53,10 +53,6 @@ export default class PopularPage extends Component{
                     let lan = arr[i];
                     return lan.checked ?  <PopularTab key={i} tabLabel={lan.name} theme={{colorPrimary: colorPrimary}}/>:null;
                 })}
-                {/*<PopularTab tabLabel="java" theme={{colorPrimary: colorPrimary}}/>*/}
-                {/*<PopularTab tabLabel="android" theme={{colorPrimary: colorPrimary}}/>*/}
-                {/*<PopularTab tabLabel="ios" theme={{colorPrimary: colorPrimary}}/>*/}
-                {/*<PopularTab tabLabel="C++" theme={{colorPrimary: colorPrimary}}/>*/}
             </ScrollableTabView> : null;
 
         return(
