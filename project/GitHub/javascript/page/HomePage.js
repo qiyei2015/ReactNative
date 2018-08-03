@@ -7,6 +7,7 @@ import AsyncStorageDemo from "../test/AsyncStorageDemo";
 import MyPage from "./my/MyPage";
 import Toast,{DURATION} from "react-native-easy-toast";
 import Constant from "../common/Constant";
+import WebViewDemo from "../test/WebViewDemo";
 
 export default class HomePage extends Component{
 
@@ -54,7 +55,7 @@ export default class HomePage extends Component{
                         //角标显示
                         badgeText=""
                         onPress={() => this.setState({ selectedTab: 'favorite' })}>
-                        <View style={styles.page3}></View>
+                        <WebViewDemo/>
                     </TabNavigator.Item>
                     <TabNavigator.Item
                         selected={this.state.selectedTab === 'my'}
