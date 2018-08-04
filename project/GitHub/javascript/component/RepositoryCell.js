@@ -10,9 +10,7 @@ export default class RepositoryCell extends Component{
             <View style={styles.container}>
                 <TouchableOpacity
                     style={styles.cell_container}
-                    onPress={() => {
-                        DeviceEventEmitter.emit(Constant.SHOW_TOAST,"你点击:" + this.props.data.full_name);
-                    }}>
+                    onPress={this.props.onSelected}>
                     <Text style={styles.title}>{this.props.data.full_name}</Text>
                     <Text style={styles.description}>{this.props.data.description}</Text>
                     {/*最后一行布局及样式*/}

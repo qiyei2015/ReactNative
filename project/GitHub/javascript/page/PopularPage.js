@@ -17,6 +17,7 @@ import {colorPrimary} from "../common/BaseStyles";
 import NavigationBar from "../common/NavigationBar";
 import LanguageDao,{FLAG_LANGUAGE} from "../expand/dao/LanguageDao";
 import Constant from "../common/Constant";
+import RepositoryDetail from "./RepositoryDetail";
 
 
 const popularSearchUrl = "https://api.github.com/search/repositories?q=";
@@ -51,7 +52,7 @@ export default class PopularPage extends Component{
                 {/*根据配置文件加载标签*/}
                 {this.state.languages.map((result,i,arr) => {
                     let lan = arr[i];
-                    return lan.checked ?  <PopularTab key={i} tabLabel={lan.name} theme={{colorPrimary: colorPrimary}}/>:null;
+                    return lan.checked ?  <PopularTab key={i} tabLabel={lan.name} theme={{colorPrimary: colorPrimary}} {...this.props}/>:null;
                 })}
             </ScrollableTabView> : null;
 
@@ -72,12 +73,14 @@ export default class PopularPage extends Component{
                                 navigation.goBack();
                             }
                             }>
-                            <Image style={{width:22,height:22,margin:5}} source={require("../../res/images/ic_arrow_back_white_36pt.png")}/>
+                            <Image style={{width: 22, height: 22, margin: 5}}
+                                   source={require("../../res/images/ic_arrow_back_white_36pt.png")}/>
                         </TouchableOpacity>
                     }
                     rightView={
                         <TouchableOpacity>
-                            <Image style={{width:22,height:22,margin:5}} source={require("../../res/images/ic_star.png")}/>
+                            <Image style={{width: 22, height: 22, margin: 5}}
+                                   source={require("../../res/images/ic_star.png")}/>
                         </TouchableOpacity>
                     }
                 />
@@ -186,7 +189,16 @@ class PopularTab extends Component{
     //每一行渲染数据
     renderRow(item){
         return(
-            <RepositoryCell {...this.props} data={item}/>
+            //设置onSelected的回调函数
+            <RepositoryCell {...this.props} data={item} onSelected={() => this.onSelected(item)}/>
+        )
+    }
+
+    //选中某一行
+    onSelected(item){
+        this.props.navigation.navigate(
+            "RepositoryDetail",
+            {...this.props,data:item},
         )
     }
 }
