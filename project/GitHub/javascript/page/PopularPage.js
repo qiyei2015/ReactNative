@@ -20,7 +20,7 @@ import Constant from "../common/Constant";
 import RepositoryDetail from "./RepositoryDetail";
 
 
-const popularSearchUrl = "https://api.github.com/search/repositories?q=";
+const BASE_URL = "https://api.github.com/search/repositories?q=";
 
 export default class PopularPage extends Component{
     constructor(props){
@@ -167,7 +167,7 @@ class PopularTab extends Component{
     //加载网络数据
     onLoadFromNetwork(){
         const subUrl = "&sort=stars";
-        let url = popularSearchUrl + this.props.tabLabel + subUrl;
+        let url = BASE_URL + this.props.tabLabel + subUrl;
         //设置开始刷新
         this.setState({
             refreshing:true,

@@ -9,6 +9,28 @@ import Constant from "../common/Constant";
 import WebViewDemo from "../test/WebViewDemo";
 import TrendingPage from "./TrendingPage";
 
+
+
+
+//页面模型
+class PageModel {
+    constructor(component,key,name,icon){
+        this.component = component;
+        this.key = key;
+        this.name = name;
+        this.icon = icon;
+    }
+}
+
+
+const PAGE = {
+    popular: new PageModel(PopularPage, "popular", "最热", require('../../res/images/ic_popular.png')),
+    trending: new PageModel(TrendingPage, "trending", "趋势", require('../../res/images/ic_trending.png')),
+    favorite: new PageModel(WebViewDemo, "favorite", "收藏", require('../../res/images/ic_favorite.png')),
+    my: new PageModel(MyPage, "my", "我的", require('../../res/images/ic_my.png')),
+};
+
+
 export default class HomePage extends Component{
 
     constructor(props){
@@ -25,47 +47,10 @@ export default class HomePage extends Component{
         return(
             <View style={styles.container}>
                 <TabNavigator>
-                    <TabNavigator.Item
-                        selected={this.state.selectedTab === 'popular'}
-                        selectedTitleStyle={{color:colorPrimary}}
-                        title="最热"
-                        renderIcon={() => <Image style={styles.image} source={require('../../res/images/ic_popular.png')} />}
-                        renderSelectedIcon={() => <Image style={[styles.image,{tintColor:colorPrimary}]} source={require('../../res/images/ic_popular.png')} />}
-                        //角标显示
-                        badgeText=""
-                        onPress={() => this.setState({ selectedTab: 'popular' })}>
-                        {/*传递属性参数*/}
-                        <PopularPage {...this.props}/>
-                    </TabNavigator.Item>
-                    <TabNavigator.Item
-                        selected={this.state.selectedTab === 'profile'}
-                        selectedTitleStyle={{color:'yellow'}}
-                        title="趋势"
-                        renderIcon={() => <Image style={styles.image} source={require('../../res/images/ic_trending.png')} />}
-                        renderSelectedIcon={() => <Image style={[styles.image,{tintColor:'yellow'}]} source={require('../../res/images/ic_trending.png')} />}
-                        onPress={() => this.setState({ selectedTab: 'profile' })}>
-                        <TrendingPage/>
-                    </TabNavigator.Item>
-                    <TabNavigator.Item
-                        selected={this.state.selectedTab === 'favorite'}
-                        selectedTitleStyle={{color:'green'}}
-                        title="收藏"
-                        renderIcon={() => <Image style={styles.image} source={require('../../res/images/ic_favorite.png')} />}
-                        renderSelectedIcon={() => <Image style={[styles.image,{tintColor:'green'}]} source={require('../../res/images/ic_favorite.png')} />}
-                        //角标显示
-                        badgeText=""
-                        onPress={() => this.setState({ selectedTab: 'favorite' })}>
-                        <WebViewDemo/>
-                    </TabNavigator.Item>
-                    <TabNavigator.Item
-                        selected={this.state.selectedTab === 'my'}
-                        selectedTitleStyle={{color:'blue'}}
-                        title="我的"
-                        renderIcon={() => <Image style={styles.image} source={require('../../res/images/ic_my.png')} />}
-                        renderSelectedIcon={() => <Image style={[styles.image,{tintColor:'blue'}]} source={require('../../res/images/ic_my.png')} />}
-                        onPress={() => this.setState({ selectedTab: 'my' })}>
-                        <MyPage {...this.props}/>
-                    </TabNavigator.Item>
+                    {this.renderPageTab(PAGE.popular)}
+                    {this.renderPageTab(PAGE.trending)}
+                    {this.renderPageTab(PAGE.favorite)}
+                    {this.renderPageTab(PAGE.my)}
                 </TabNavigator>
                 {/*需要放在最外层*/}
                 <Toast ref={(toast) => this.toast = toast}/>
@@ -83,6 +68,25 @@ export default class HomePage extends Component{
     componentWillUnmount(){
         //移除监听
         this.showToastListener && this.showToastListener.remove();
+    }
+
+    //渲染PageTab页面
+    renderPageTab(model){
+        return(
+            <TabNavigator.Item
+                selected={this.state.selectedTab === model.key}
+                selectedTitleStyle={{color: colorPrimary}}
+                title={model.name}
+                renderIcon={() => <Image style={styles.image} source={model.icon}/>}
+                renderSelectedIcon={() => <Image style={[styles.image, {tintColor: colorPrimary}]}
+                                                 source={model.icon}/>}
+                //角标显示
+                badgeText=""
+                onPress={() => this.setState({selectedTab: model.key})}>
+                {/*传递属性参数*/}
+                <model.component {...this.props}/>
+            </TabNavigator.Item>
+        );
     }
 }
 
