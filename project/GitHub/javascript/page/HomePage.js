@@ -8,7 +8,7 @@ import Toast,{DURATION} from "react-native-easy-toast";
 import Constant from "../common/Constant";
 import WebViewDemo from "../test/WebViewDemo";
 import TrendingPage from "./TrendingPage";
-import GithubTrendingDemo from "../test/GithubTrendingDemo";
+
 
 
 

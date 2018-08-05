@@ -6,6 +6,7 @@ import {
     TouchableOpacity,
     ListView,
     RefreshControl,
+    DeviceEventEmitter,
 } from "react-native";
 
 import DataRepository, {FLAG_STORAGE} from "../expand/dao/DataRepository";
@@ -17,6 +18,7 @@ import LanguageDao,{FLAG_LANGUAGE} from "../expand/dao/LanguageDao";
 
 import RepositoryDetail from "./RepositoryDetail";
 import TrendingRepoCell from "../component/TrendingRepoCell";
+import Constant from "../common/Constant";
 
 const BASE_URL = "https://github.com/trending/";
 
@@ -188,9 +190,12 @@ class TrendingTab extends Component{
 
     //每一行渲染数据
     renderRow(item){
-        return(
+        return (
             //设置onSelected的回调函数
-            <TrendingRepoCell {...this.props} data={item} onSelected={() => this.onSelected(item)}/>
+            <TrendingRepoCell {...this.props} data={item} onSelected={() => this.onSelected(item)}
+                              onFavorite={(item, favorite) => {
+                                  this._onFavorite(item, favorite)
+                              }}/>
         )
     }
 
@@ -200,6 +205,16 @@ class TrendingTab extends Component{
             "RepositoryDetail",
             {...this.props,data:item},
         )
+    }
+
+    /**
+     * 是否收藏的回调
+     * @param item
+     * @param favorite
+     * @private
+     */
+    _onFavorite(item,favorite){
+        DeviceEventEmitter.emit(Constant.SHOW_TOAST,"name:" + item.fullName + " favorite:" + favorite);
     }
 }
 

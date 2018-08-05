@@ -1,14 +1,22 @@
 import React,{Component}from "react";
-import {View, Image, StyleSheet, TouchableOpacity, Text} from "react-native";
+import {View, Image, StyleSheet, TouchableOpacity, Text,DeviceEventEmitter} from "react-native";
 import HTMLView from 'react-native-htmlview'
+import { PropTypes} from 'prop-types';
 
 export default class TrendingRepoCell extends Component{
+
+
+    static propTypes = {
+        data:PropTypes.object,
+        onSelected:PropTypes.func,
+        onFavorite:PropTypes.func,
+    };
 
     constructor(props){
         super(props);
         this.state = {
             isFavorite:this.props.data.isFavorite,
-            favoriteIcon:this.props.data ? require('../../res/images/ic_star.png') : require('../../res/images/ic_unstar_transparent.png'),
+            favoriteIcon:this.props.data.isFavorite ? require('../../res/images/ic_star.png') : require('../../res/images/ic_unstar_transparent.png'),
         };
     }
 
@@ -17,7 +25,7 @@ export default class TrendingRepoCell extends Component{
         let description='<p>'+item.description+'</p>';
         let favoriteButton=item?
             <TouchableOpacity
-                style={{padding:6}}
+                style={{padding:10}}
                 onPress={()=>this.onPressFavorite()} underlayColor='transparent'>
                 <Image
                     ref='favoriteIcon'
@@ -64,7 +72,7 @@ export default class TrendingRepoCell extends Component{
     //是否喜欢
     onPressFavorite() {
         this.setFavoriteState(!this.state.isFavorite)
-        //this.props.onFavorite(this.props.projectModel.item, !this.state.isFavorite)
+        this.props.onFavorite(this.props.data, !this.state.isFavorite)
     }
 
     //设置属性

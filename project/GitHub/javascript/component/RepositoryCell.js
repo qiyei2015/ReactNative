@@ -1,5 +1,5 @@
 import React,{Component}from "react";
-import {View, Image, StyleSheet, TouchableOpacity, Text,DeviceEventEmitter} from "react-native";
+import {View, Image, StyleSheet, TouchableOpacity, Text} from "react-native";
 import Constant from "../common/Constant";
 
 

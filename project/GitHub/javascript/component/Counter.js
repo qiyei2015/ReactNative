@@ -1,6 +1,6 @@
 import React,{ Component } from 'react';
 import {StyleSheet, Text, TextInput, TouchableOpacity, View} from "react-native";
-import { PropTypes} from 'prop-types';
+
 
 /**
  * 计数器
