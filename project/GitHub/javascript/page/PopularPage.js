@@ -9,7 +9,7 @@ import {
     RefreshControl,
     DeviceEventEmitter
 } from "react-native";
-import DataRepository from "../expand/dao/DataRepository";
+import DataRepository, {FLAG_STORAGE} from "../expand/dao/DataRepository";
 import ScrollableTabView,{ScrollableTabBar} from "react-native-scrollable-tab-view";
 import { PropTypes} from 'prop-types';
 import RepositoryCell from "../component/RepositoryCell";
@@ -121,7 +121,9 @@ class PopularTab extends Component{
 
     constructor(props){
         super(props);
-        this.dataRepository = new DataRepository();
+        //初始化数据仓库
+        this.dataRepository = new DataRepository(FLAG_STORAGE.flag_popular);
+
         this.state = {
             result:"",
             dataSource:new ListView.DataSource({rowHasChanged:(r1,r2) => r1 !== r2}),

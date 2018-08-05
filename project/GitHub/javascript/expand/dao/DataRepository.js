@@ -1,7 +1,22 @@
 import {AsyncStorage, DeviceEventEmitter} from "react-native";
 import Constant from "../../common/Constant";
+import GitHubTrending from "GitHubTrending";
+
+
+const FLAG_STORAGE = {flag_popular:"popular",flag_trending:"trending"};
 
 export default class DataRepository {
+
+    /**
+     * 构造方法
+     * @param flag
+     */
+    constructor(flag){
+        this.flag = flag;
+        if (this.flag === FLAG_STORAGE.flag_trending){
+            this.trending = new GitHubTrending();
+        }
+    }
 
     //获取数据
     fetchRepository(url){
@@ -17,7 +32,7 @@ export default class DataRepository {
                             DeviceEventEmitter.emit(Constant.SHOW_TOAST, "网络数据 1");
                             resolve(data);
                         } else {
-                            reject(data);
+                            reject(new Error("data is null"));
                             console.log(data);
                         }
                     }).catch((error) => {
@@ -32,7 +47,7 @@ export default class DataRepository {
                         DeviceEventEmitter.emit(Constant.SHOW_TOAST, "网络数据 2");
                         resolve(data);
                     } else {
-                        reject(data);
+                        reject(new Error("data is null"));
                         console.log(data);
                     }
                 }).catch((error) => {
@@ -65,6 +80,18 @@ export default class DataRepository {
     //获取网络数据
     fetchNetworkRepository(url){
         return new Promise((resolve, reject) => {
+            //trending模块
+            if (this.trending){
+                this.trending.fetchTrending(url)
+                    .then((result)=> {
+                        //保存数据
+                        this.saveRepository(url,result);
+                        resolve(result);
+                    }).catch((error)=> {
+                    reject(error);
+                });
+                return;
+            }
             fetch(url)
                 .then(response => response.json())
                 .then(result => {
@@ -119,3 +146,5 @@ export default class DataRepository {
         return true;
     }
 }
+
+export {FLAG_STORAGE};
