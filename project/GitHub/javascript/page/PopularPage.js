@@ -28,7 +28,6 @@ export default class PopularPage extends Component{
         this.languageDao = new LanguageDao(FLAG_LANGUAGE.flag_key);
         this.state = {
             languages:[],
-            searchKey:"android",
         }
     }
 

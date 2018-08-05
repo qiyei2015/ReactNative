@@ -4,20 +4,19 @@ import {
     Image,
     StyleSheet,
     TouchableOpacity,
-    Text,
     ListView,
     RefreshControl,
-    DeviceEventEmitter
 } from "react-native";
+
 import DataRepository, {FLAG_STORAGE} from "../expand/dao/DataRepository";
 import ScrollableTabView,{ScrollableTabBar} from "react-native-scrollable-tab-view";
 import { PropTypes} from 'prop-types';
-import RepositoryCell from "../component/RepositoryCell";
 import {colorPrimary} from "../common/BaseStyles";
 import NavigationBar from "../common/NavigationBar";
 import LanguageDao,{FLAG_LANGUAGE} from "../expand/dao/LanguageDao";
-import Constant from "../common/Constant";
+
 import RepositoryDetail from "./RepositoryDetail";
+import TrendingRepoCell from "../component/TrendingRepoCell";
 
 const BASE_URL = "https://github.com/trending/";
 
@@ -27,7 +26,6 @@ export default class TrendingPage extends Component{
         this.languageDao = new LanguageDao(FLAG_LANGUAGE.flag_language);
         this.state = {
             languages:[],
-            searchKey:"android",
         }
     }
 
@@ -51,7 +49,7 @@ export default class TrendingPage extends Component{
                 {/*根据配置文件加载标签*/}
                 {this.state.languages.map((result,i,arr) => {
                     let lan = arr[i];
-                    return lan.checked ?  <TrendingTab key={i} tabLabel={lan.name} theme={{colorPrimary: colorPrimary}} {...this.props}/>:null;
+                    return lan.checked ?  <TrendingTab key={i} tabLabel={lan.name} labelData={lan} theme={{colorPrimary: colorPrimary}} {...this.props}/>:null;
                 })}
             </ScrollableTabView> : null;
 
@@ -111,11 +109,11 @@ export default class TrendingPage extends Component{
 class TrendingTab extends Component{
 
     static defaultProps={
-        tabLabel:"",
+        labelData:"",
     };
 
     static propTypes={
-        tabLabel: PropTypes.string.isRequired,
+        labelData: PropTypes.object,
     };
 
     constructor(props){
@@ -165,8 +163,7 @@ class TrendingTab extends Component{
 
     //加载网络数据
     onLoadFromNetwork(){
-        const subUrl = "&sort=stars";
-        let url = BASE_URL + this.props.tabLabel + subUrl;
+        let url = BASE_URL + this.props.labelData.path + "?since=daily";
         //设置开始刷新
         this.setState({
             refreshing:true,
@@ -174,9 +171,11 @@ class TrendingTab extends Component{
 
         this.dataRepository.fetchRepository(url)
             .then((result) => {
+                this.items=result && result.items ? result.items : result ? result : [];
+                console.log(""+JSON.stringify(result));
                 this.setState({
                     refreshing:false,
-                    dataSource:this.state.dataSource.cloneWithRows(result.items),
+                    dataSource:this.state.dataSource.cloneWithRows(this.items),
                 })
             })
             .catch((error) => {
@@ -191,7 +190,7 @@ class TrendingTab extends Component{
     renderRow(item){
         return(
             //设置onSelected的回调函数
-            <RepositoryCell {...this.props} data={item} onSelected={() => this.onSelected(item)}/>
+            <TrendingRepoCell {...this.props} data={item} onSelected={() => this.onSelected(item)}/>
         )
     }
 

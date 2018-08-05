@@ -1,5 +1,5 @@
 import React,{Component}from "react";
-import {View,TouchableOpacity, Text, TextInput, AsyncStorage} from "react-native";
+import {View, TouchableOpacity, Text, TextInput, AsyncStorage, ScrollView} from "react-native";
 import GitHubTrending from 'GitHubTrending';
 
 
@@ -26,7 +26,9 @@ export default class GithubTrendingDemo extends Component{
                     </TouchableOpacity>
                 </View>
                 <View>
-                    <Text>{this.state.result}</Text>
+                    <ScrollView>
+                        <Text>{this.state.result}</Text>
+                    </ScrollView>
                 </View>
             </View>
         );
