@@ -6,7 +6,7 @@ import {
     TouchableOpacity,
     ListView,
     RefreshControl,
-    DeviceEventEmitter,
+    DeviceEventEmitter, Text,
 } from "react-native";
 
 import DataRepository, {FLAG_STORAGE} from "../expand/dao/DataRepository";
@@ -19,8 +19,16 @@ import LanguageDao,{FLAG_LANGUAGE} from "../expand/dao/LanguageDao";
 import RepositoryDetail from "./RepositoryDetail";
 import TrendingRepoCell from "../component/TrendingRepoCell";
 import Constant from "../common/Constant";
+import TrendingDialog ,{TimeSpans} from "../component/TrendingDialog";
+
+
+
+
 
 const BASE_URL = "https://github.com/trending/";
+
+const EVENT_TYPE_TIME_SPAN_CHANGE="EVENT_TYPE_TIME_SPAN_CHANGE";
+
 
 export default class TrendingPage extends Component{
     constructor(props){
@@ -28,6 +36,8 @@ export default class TrendingPage extends Component{
         this.languageDao = new LanguageDao(FLAG_LANGUAGE.flag_language);
         this.state = {
             languages:[],
+            isVisible: false,
+            timeSpan:TimeSpans[0],
         }
     }
 
@@ -49,16 +59,19 @@ export default class TrendingPage extends Component{
                 onScroll={(position)=>{}}
             >
                 {/*根据配置文件加载标签*/}
-                {this.state.languages.map((result,i,arr) => {
+                {this.state.languages.map((result, i, arr) => {
                     let lan = arr[i];
-                    return lan.checked ?  <TrendingTab key={i} tabLabel={lan.name} labelData={lan} theme={{colorPrimary: colorPrimary}} {...this.props}/>:null;
+                    return lan.checked ? <TrendingTab key={i} tabLabel={lan.name} labelData={lan}
+                                                      theme={{colorPrimary: colorPrimary}}
+                                                      timeSpan={this.state.timeSpan} {...this.props}/> : null;
                 })}
             </ScrollableTabView> : null;
 
         return(
             <View style={styles.container}>
+                {/*导航条*/}
                 <NavigationBar
-                    title={"趋势"}
+                    titleView={this.renderTitleView()}
                     style={{
                         backgroundColor: colorPrimary,
                     }}
@@ -84,6 +97,8 @@ export default class TrendingPage extends Component{
                     }
                 />
                 {content}
+                {/*对话框*/}
+                {this.renderTrendingDialog()}
             </View>
         );
     }
@@ -91,6 +106,65 @@ export default class TrendingPage extends Component{
     //视图加载完成
     componentDidMount(){
         this.loadData();
+    }
+
+    /**
+     * 渲染TitleView
+     */
+    renderTitleView(){
+        return (
+            <View>
+                <TouchableOpacity
+                    ref='button'
+                    underlayColor='transparent'
+                    onPress={() => this.showPopover()}>
+                    <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                        <Text style={{
+                            fontSize: 18,
+                            color: '#FFFFFF',
+                            fontWeight: '400'
+                        }}>趋势 {this.state.timeSpan.showText}</Text>
+                        <Image
+                            style={{width: 12, height: 12, marginLeft: 5}}
+                            source={require('../../res/images/ic_spinner_triangle.png')}
+                        />
+                    </View>
+                </TouchableOpacity>
+            </View>
+        );
+    }
+
+    /**
+     * 渲染对话框
+     * @returns {*}
+     */
+    renderTrendingDialog(){
+        return (
+            <TrendingDialog
+                ref = {dialog => this.dialog = dialog}
+                onSelect={(tab) => this.onSelectTimeSpan(tab)}/>
+        );
+
+    }
+
+    /**
+     * 选中timeSpan
+     */
+    onSelectTimeSpan(timeSpan){
+        this.closePopover();
+        //发送更新事件到TendingTab
+        DeviceEventEmitter.emit(EVENT_TYPE_TIME_SPAN_CHANGE,this.state.timeSpan,timeSpan);
+        this.setState({
+           timeSpan:timeSpan,
+        });
+    }
+
+    showPopover() {
+        this.dialog.show();
+    }
+
+    closePopover() {
+        this.dialog.dismiss();
     }
 
     //加载数据
@@ -160,12 +234,21 @@ class TrendingTab extends Component{
 
     //页面装载完成
     componentDidMount(){
-        this.onLoadFromNetwork();
+        this.timeSpanChangeListener = DeviceEventEmitter.addListener(EVENT_TYPE_TIME_SPAN_CHANGE, (from,to) => {
+            this.loadData(to);
+        });
+        this.loadData(this.props.timeSpan);
     }
 
-    //加载网络数据
-    onLoadFromNetwork(){
-        let url = BASE_URL + this.props.labelData.path + "?since=daily";
+    componentWillUnmount(){
+        //卸载监听
+        this.timeSpanChangeListener && this.timeSpanChangeListener.remove();
+
+    }
+
+    //加载数据
+    loadData(timeSpan){
+        let url = BASE_URL + this.props.labelData.path + "?since=" + timeSpan.searchText;
         //设置开始刷新
         this.setState({
             refreshing:true,
