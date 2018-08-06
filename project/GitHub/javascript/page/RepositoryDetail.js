@@ -5,6 +5,8 @@ import {colorPrimary} from "../common/BaseStyles";
 import NavigationBar from "../common/NavigationBar";
 
 
+const TRENDING_URL = 'https://github.com/';
+
 /**
  * 详情页面
  */
@@ -13,10 +15,11 @@ export default class RepositoryDetail extends Component{
         super(props);
         //获取数据
         this.data = this.props.navigation.state.params.data;
+        this.isTrending = this.props.navigation.state.params.isTrending ? true : false;
         //设置url,title等
         this.state = {
-            url:this.data.html_url,
-            title:this.data.full_name,
+            url:this.isTrending ? TRENDING_URL + this.data.fullName : this.data.html_url,
+            title:this.isTrending ? this.data.fullName : this.data.full_name,
             canGoBack:false,
         }
     }

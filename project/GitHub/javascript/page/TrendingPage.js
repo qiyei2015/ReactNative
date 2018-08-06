@@ -284,9 +284,10 @@ class TrendingTab extends Component{
 
     //选中某一行
     onSelected(item){
+        item.fullName
         this.props.navigation.navigate(
             "RepositoryDetail",
-            {...this.props,data:item},
+            {...this.props,data:item,isTrending:true},
         )
     }
 
