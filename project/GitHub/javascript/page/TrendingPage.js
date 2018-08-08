@@ -224,7 +224,7 @@ class TrendingTab extends Component{
                             title="Loading"
                             titleColor={this.props.theme.colorPrimary}
                             refreshing={this.state.refreshing}
-                            onRefresh={() => this.onLoadFromNetwork()}
+                            onRefresh={() => this.loadData(this.props.timeSpan)}
                         />
                     }
                 />

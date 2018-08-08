@@ -11,7 +11,8 @@ export default class CustomLabelPage extends Component{
     constructor(props){
         super(props);
         this.removeLabel = this.props.navigation.state.params.removeLabel ? true:false;
-        this.languageDao = new LanguageDao(FLAG_LANGUAGE.flag_key);
+        this.flag = this.props.navigation.state.params.flag ? this.props.navigation.state.params.flag:FLAG_LANGUAGE.flag_key;
+        this.languageDao = new LanguageDao(this.flag);
         this.changeValues = [];
         this.state = {
             //数组
@@ -20,7 +21,7 @@ export default class CustomLabelPage extends Component{
     }
 
     render(){
-        let title = this.removeLabel ? "标签移除":"自定义标签";
+        let title = this.removeLabel ? "标签移除":this.flag === FLAG_LANGUAGE.flag_key ? "自定义标签":"自定义语言";
         let rightTitle = this.removeLabel ? "移除":"保存";
         let rightButton = <TouchableOpacity
             onPress={() => this.onSave()}>
