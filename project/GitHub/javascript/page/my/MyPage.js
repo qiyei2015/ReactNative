@@ -33,13 +33,18 @@ export default class MyPage extends Component{
                 </TouchableOpacity>
                 <TouchableOpacity
                     style={styles.row}
-                    onPress={() => this.gotoSortPage("SortLabelPage")}>
+                    onPress={() => this.gotoLabelPage("SortLabelPage",FLAG_LANGUAGE.flag_key)}>
                     <Text>标签排序</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
                     style={styles.row}
                     onPress={() => this.gotoSortPage("CustomLabelPage",true)}>
                     <Text>标签移除</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                    style={styles.row}
+                    onPress={() => this.gotoLabelPage("SortLabelPage",FLAG_LANGUAGE.flag_language)}>
+                    <Text>语言排序</Text>
                 </TouchableOpacity>
             </View>
         )
@@ -52,6 +57,7 @@ export default class MyPage extends Component{
             {...this.props,flag:flag},
         )
     }
+
 
     gotoSortPage(page,remove){
         //跳转到指定页面，并传入参数

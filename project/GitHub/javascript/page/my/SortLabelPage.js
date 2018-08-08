@@ -11,7 +11,8 @@ export default class SortLabelPage extends Component{
 
     constructor(props){
         super(props);
-        this.languageDao = new LanguageDao(FLAG_LANGUAGE.flag_key);
+        this.flag = this.props.navigation.state.params.flag ? this.props.navigation.state.params.flag : FLAG_LANGUAGE.flag_key;
+        this.languageDao = new LanguageDao(this.flag);
         //读取的配置数组
         this.dataArray = [];
         this.sortResultArray = [];
@@ -29,10 +30,11 @@ export default class SortLabelPage extends Component{
                 <Text style={styles.rightText}>保存</Text>
             </View>
         </TouchableOpacity>;
+        let title = this.flag === FLAG_LANGUAGE.flag_key ? "标签排序" : "语言排序";
         return(
             <View style={styles.container}>
                 <NavigationBar
-                    title={"标签排序"}
+                    title={title}
                     style={{
                         backgroundColor: colorPrimary,
                     }}
