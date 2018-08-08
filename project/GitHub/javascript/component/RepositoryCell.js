@@ -1,11 +1,37 @@
 import React,{Component}from "react";
-import {View, Image, StyleSheet, TouchableOpacity, Text} from "react-native";
+import {View, Image, StyleSheet, TouchableOpacity, Text,DeviceEventEmitter} from "react-native";
 import Constant from "../common/Constant";
+import {PropTypes} from "prop-types";
 
 
 export default class RepositoryCell extends Component{
 
+    static propTypes = {
+        data:PropTypes.object,
+        onSelected:PropTypes.func,
+        onFavorite:PropTypes.func,
+    };
+
+
+    constructor(props){
+        super(props);
+        this.state = {
+            isFavorite:this.props.data.isFavorite,
+            favoriteIcon:this.props.data.isFavorite ? require('../../res/images/ic_star.png') : require('../../res/images/ic_unstar_transparent.png'),
+        };
+    }
+
     render(){
+        let item = this.props.data;
+        let favoriteButton = item ?
+            <TouchableOpacity
+                style={{padding: 10}}
+                onPress={() => this.onPressFavorite()} underlayColor='transparent'>
+                <Image
+                    ref='favoriteIcon'
+                    style={[{width: 22, height: 22,}, {tintColor: "#2196F3"}]}
+                    source={this.state.favoriteIcon}/>
+            </TouchableOpacity> : null;
         return (
             <View style={styles.container}>
                 <TouchableOpacity
@@ -20,11 +46,26 @@ export default class RepositoryCell extends Component{
                             <Image style={{width:22,height:22}} source={{uri:this.props.data.owner.avatar_url}}/>
                         </View>
                         <Text style={styles.description}>Stars:{this.props.data.stargazers_count}</Text>
-                        <Image style={{width:22,height:22}} source={require("../../res/images/ic_star.png")}/>
+                        {favoriteButton}
                     </View>
                 </TouchableOpacity>
             </View>
         );
+    }
+
+    onPressFavorite(){
+        let favorite = !this.state.isFavorite;
+        this.setFavorite(favorite);
+        //回调给父组件
+        this.props.onFavorite(this.props.data,favorite);
+    }
+
+    setFavorite(favorite){
+        // DeviceEventEmitter.emit(Constant.SHOW_TOAST,"favorite:" + favorite);
+        this.setState({
+            isFavorite:favorite,
+            favoriteIcon:favorite ? require('../../res/images/ic_star.png') : require('../../res/images/ic_unstar_transparent.png'),
+        });
     }
 }
 

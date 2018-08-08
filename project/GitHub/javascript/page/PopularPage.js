@@ -191,7 +191,10 @@ class PopularTab extends Component{
     renderRow(item){
         return(
             //设置onSelected的回调函数
-            <RepositoryCell {...this.props} data={item} onSelected={() => this.onSelected(item)}/>
+            <RepositoryCell {...this.props} data={item}
+                            onSelected={() => this.onSelected(item)}
+                            onFavorite={(data,favorite) => this._onFavorite(data, favorite)}
+            />
         )
     }
 
@@ -201,6 +204,10 @@ class PopularTab extends Component{
             "RepositoryDetail",
             {...this.props,data:item},
         )
+    }
+
+    _onFavorite(data, favorite){
+        //DeviceEventEmitter.emit(Constant.SHOW_TOAST,"data: "+ data.full_name +" favorite:" + favorite);
     }
 }
 
