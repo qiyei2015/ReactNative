@@ -16,6 +16,7 @@ import Theme from "../config/Theme";
 import Icon from "react-native-vector-icons/Ionicons";
 import TabNavigatorDemo from "./TabNavigatorDemo";
 import AppStackNavigator, {AppTabNavigator} from "../navigator/AppNavigator";
+import CountDemo from "./CountDemo";
 
 
 /**
@@ -112,6 +113,14 @@ let App = createStackNavigator({
             header:null,
             headerText:null, //去除标题
         }
+    },
+    CountDemo:{
+        screen:CountDemo,
+    },
+
+},{
+    navigationOptions:{
+        header:null,
     }
 });
 export default App

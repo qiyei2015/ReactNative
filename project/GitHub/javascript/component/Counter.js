@@ -1,6 +1,6 @@
 import React,{ Component } from 'react';
 import {StyleSheet, Text, TextInput, TouchableOpacity, View} from "react-native";
-
+import {PropTypes} from "prop-types";
 
 /**
  * 计数器
@@ -8,7 +8,7 @@ import {StyleSheet, Text, TextInput, TouchableOpacity, View} from "react-native"
 export default class Counter extends Component{
 
     /**
-     * 定义属性
+     * 定义默认属性
      * @type {{}}
      */
     static defaultProps = {
@@ -69,42 +69,45 @@ export default class Counter extends Component{
 
     //减少计数
     reduce(){
-       this.setState({
-           value:this.state.value - 1,
-       })
+        this.updateValue(this.state.value-1);
     }
 
     //增加计数
     plus(){
+        this.updateValue(this.state.value+1);
+    }
+
+    updateValue(newValue){
         this.setState({
-            value:this.state.value + 1,
-        })
+            value: newValue,
+        });
+        this.props.onValueChange(newValue);
     }
 
     //检查输入的内容
     checkInput(){
         let res = this.state.value;
-        if (res === '' || res < 0){
+        if (res === '' || res < 0) {
             res = 0;
         } else {
             res = Math.floor(res); //舍去小数
         }
-        this.setState({
-            value:res
-        })
+        this.updateValue(res);
     }
 
     //内容改变函数
     onChangeText(txt){
         this.setState({
             value:Number(txt)
-        })
+        });
+        this.props.onValueChange(Number(txt));
     }
 
     //返回数值
     getCount(){
         return this.state.value;
     }
+
 }
 
 //样式

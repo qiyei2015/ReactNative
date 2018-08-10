@@ -23,6 +23,9 @@ export default class LauncherPage extends Component{
                 <TouchableOpacity style={styles.listItem} activeOpacity={0.6} onPress={this.gotoTabNavigatorDemo.bind(this)}>
                     <Text>TabNavigatorDemo</Text>
                 </TouchableOpacity>
+                <TouchableOpacity style={styles.listItem} activeOpacity={0.6} onPress={() => this.gotoCountDemo()}>
+                    <Text>CountDemo</Text>
+                </TouchableOpacity>
             </View>
         );
     }
@@ -40,6 +43,10 @@ export default class LauncherPage extends Component{
     }
     gotoTabNavigatorDemo(){
         this.props.navigation.push('TabNavigatorDemo');
+    }
+
+    gotoCountDemo(){
+        this.props.navigation.push('CountDemo');
     }
 }
 
