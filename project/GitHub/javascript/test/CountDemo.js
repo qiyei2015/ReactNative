@@ -62,5 +62,7 @@ const styles = StyleSheet.create({
     },
     count:{
         backgroundColor:"#FF22FF",//
+        width:50,
+        height: 30,
     }
 });
