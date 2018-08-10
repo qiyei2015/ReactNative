@@ -20,6 +20,7 @@ import RepositoryDetail from "./RepositoryDetail";
 import TrendingRepoCell from "../component/TrendingRepoCell";
 import Constant from "../common/Constant";
 import TrendingDialog ,{TimeSpans} from "../component/TrendingDialog";
+import ProjectModel from "../model/ProjectModel";
 
 
 
@@ -273,9 +274,10 @@ class TrendingTab extends Component{
 
     //每一行渲染数据
     renderRow(item){
+        let projectModel = new ProjectModel(item);
         return (
             //设置onSelected的回调函数
-            <TrendingRepoCell {...this.props} data={item} onSelected={() => this.onSelected(item)}
+            <TrendingRepoCell {...this.props} projectModel={projectModel} onSelected={() => this.onSelected(item)}
                               onFavorite={(item, favorite) => {
                                   this._onFavorite(item, favorite)
                               }}/>

@@ -7,7 +7,7 @@ import {PropTypes} from "prop-types";
 export default class RepositoryCell extends Component{
 
     static propTypes = {
-        data:PropTypes.object,
+        projectModel:PropTypes.object,
         onSelected:PropTypes.func,
         onFavorite:PropTypes.func,
     };
@@ -15,14 +15,15 @@ export default class RepositoryCell extends Component{
 
     constructor(props){
         super(props);
+
         this.state = {
-            isFavorite:this.props.data.isFavorite,
-            favoriteIcon:this.props.data.isFavorite ? require('../../res/images/ic_star.png') : require('../../res/images/ic_unstar_transparent.png'),
+            isFavorite:this.props.projectModel.favorite,
+            favoriteIcon:this.props.projectModel.favorite ? require('../../res/images/ic_star.png') : require('../../res/images/ic_unstar_transparent.png'),
         };
     }
 
     render(){
-        let item = this.props.data;
+        let item = this.props.projectModel.item;
         let favoriteButton = item ?
             <TouchableOpacity
                 style={{padding: 10}}
@@ -37,15 +38,15 @@ export default class RepositoryCell extends Component{
                 <TouchableOpacity
                     style={styles.cell_container}
                     onPress={this.props.onSelected}>
-                    <Text style={styles.title}>{this.props.data.full_name}</Text>
-                    <Text style={styles.description}>{this.props.data.description}</Text>
+                    <Text style={styles.title}>{item.full_name}</Text>
+                    <Text style={styles.description}>{item.description}</Text>
                     {/*最后一行布局及样式*/}
                     <View style={{flexDirection:"row",alignItems:"center",justifyContent:"space-between"}}>
                         <View style={{flexDirection:"row",alignItems:"center"}}>
                             <Text>Author:</Text>
-                            <Image style={{width:22,height:22}} source={{uri:this.props.data.owner.avatar_url}}/>
+                            <Image style={{width:22,height:22}} source={{uri:item.owner.avatar_url}}/>
                         </View>
-                        <Text style={styles.description}>Stars:{this.props.data.stargazers_count}</Text>
+                        <Text style={styles.description}>Stars:{item.stargazers_count}</Text>
                         {favoriteButton}
                     </View>
                 </TouchableOpacity>
@@ -57,7 +58,7 @@ export default class RepositoryCell extends Component{
         let favorite = !this.state.isFavorite;
         this.setFavorite(favorite);
         //回调给父组件
-        this.props.onFavorite(this.props.data,favorite);
+        this.props.onFavorite(this.props.projectModel.item,favorite);
     }
 
     setFavorite(favorite){

@@ -15,13 +15,13 @@ export default class TrendingRepoCell extends Component{
     constructor(props){
         super(props);
         this.state = {
-            isFavorite:this.props.data.isFavorite,
-            favoriteIcon:this.props.data.isFavorite ? require('../../res/images/ic_star.png') : require('../../res/images/ic_unstar_transparent.png'),
+            isFavorite:this.props.projectModel.isFavorite,
+            favoriteIcon:this.props.projectModel.isFavorite ? require('../../res/images/ic_star.png') : require('../../res/images/ic_unstar_transparent.png'),
         };
     }
 
     render(){
-        let item = this.props.data;
+        let item = this.props.projectModel.item;
         let description='<p>'+item.description+'</p>';
         let favoriteButton=item?
             <TouchableOpacity
@@ -72,12 +72,12 @@ export default class TrendingRepoCell extends Component{
     //是否喜欢
     onPressFavorite() {
         this.setFavoriteState(!this.state.isFavorite)
-        this.props.onFavorite(this.props.data, !this.state.isFavorite)
+        this.props.onFavorite(this.props.projectModel.item, !this.state.isFavorite)
     }
 
     //设置属性
     setFavoriteState(isFavorite) {
-        this.props.data.isFavorite = isFavorite;
+        this.props.projectModel.favorite = isFavorite;
         this.setState({
             isFavorite: isFavorite,
             favoriteIcon: isFavorite ? require('../../res/images/ic_star.png') : require('../../res/images/ic_unstar_transparent.png')

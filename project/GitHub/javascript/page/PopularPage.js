@@ -18,6 +18,7 @@ import NavigationBar from "../common/NavigationBar";
 import LanguageDao,{FLAG_LANGUAGE} from "../expand/dao/LanguageDao";
 import Constant from "../common/Constant";
 import RepositoryDetail from "./RepositoryDetail";
+import ProjectModel from "../model/ProjectModel";
 
 
 const BASE_URL = "https://api.github.com/search/repositories?q=";
@@ -189,9 +190,10 @@ class PopularTab extends Component{
 
     //每一行渲染数据
     renderRow(item){
+        let projectModel = new ProjectModel(item);
         return(
             //设置onSelected的回调函数
-            <RepositoryCell {...this.props} data={item}
+            <RepositoryCell {...this.props} key={projectModel.item.id} projectModel={projectModel}
                             onSelected={() => this.onSelected(item)}
                             onFavorite={(data,favorite) => this._onFavorite(data, favorite)}
             />
@@ -206,8 +208,8 @@ class PopularTab extends Component{
         )
     }
 
-    _onFavorite(data, favorite){
-        //DeviceEventEmitter.emit(Constant.SHOW_TOAST,"data: "+ data.full_name +" favorite:" + favorite);
+    _onFavorite(item, favorite){
+        DeviceEventEmitter.emit(Constant.SHOW_TOAST,"data: "+ item.full_name +" favorite:" + favorite);
     }
 }
 
