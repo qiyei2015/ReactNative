@@ -19,6 +19,7 @@ import LanguageDao,{FLAG_LANGUAGE} from "../expand/dao/LanguageDao";
 import Constant from "../common/Constant";
 import RepositoryDetail from "./RepositoryDetail";
 import ProjectModel from "../model/ProjectModel";
+import FavoriteDao, {FLAG_FAVORITE} from "../expand/dao/FavoriteDao";
 
 
 const BASE_URL = "https://api.github.com/search/repositories?q=";
@@ -27,6 +28,8 @@ export default class PopularPage extends Component{
     constructor(props){
         super(props);
         this.languageDao = new LanguageDao(FLAG_LANGUAGE.flag_key);
+
+
         this.state = {
             languages:[],
         }
@@ -124,6 +127,8 @@ class PopularTab extends Component{
         //初始化数据仓库
         this.dataRepository = new DataRepository(FLAG_STORAGE.flag_popular);
 
+        this.favoriteDao = new FavoriteDao(FLAG_FAVORITE.flag_key);
+
         this.state = {
             result:"",
             dataSource:new ListView.DataSource({rowHasChanged:(r1,r2) => r1 !== r2}),
@@ -209,7 +214,17 @@ class PopularTab extends Component{
     }
 
     _onFavorite(item, favorite){
-        DeviceEventEmitter.emit(Constant.SHOW_TOAST,"data: "+ item.full_name +" favorite:" + favorite);
+        if (favorite){
+            this.favoriteDao.saveFavoriteItem(item.full_name,item);
+        }
+
+        this.favoriteDao.getFavoriteItem(item.full_name).then(result => {
+            if (result) {
+                DeviceEventEmitter.emit(Constant.SHOW_TOAST, "name: " + result.full_name);
+            }
+        }).catch(error => {
+        });
+
     }
 }
 

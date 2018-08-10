@@ -21,6 +21,7 @@ import TrendingRepoCell from "../component/TrendingRepoCell";
 import Constant from "../common/Constant";
 import TrendingDialog ,{TimeSpans} from "../component/TrendingDialog";
 import ProjectModel from "../model/ProjectModel";
+import FavoriteDao, {FLAG_FAVORITE} from "../expand/dao/FavoriteDao";
 
 
 
@@ -35,6 +36,7 @@ export default class TrendingPage extends Component{
     constructor(props){
         super(props);
         this.languageDao = new LanguageDao(FLAG_LANGUAGE.flag_language);
+        this.favoriteDao = new FavoriteDao(FLAG_FAVORITE.flag_language);
         this.state = {
             languages:[],
             isVisible: false,

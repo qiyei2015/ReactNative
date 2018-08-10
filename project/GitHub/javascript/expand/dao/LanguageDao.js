@@ -7,14 +7,14 @@ export var FLAG_LANGUAGE = {flag_language:"flag_language_language",flag_key:"fla
 
 export default class LanguageDao {
 
-    constructor(flag){
-        this.flag = flag;
+    constructor(type){
+        this.type = type;
     }
 
     //读取配置
     fetch(){
         return new Promise((resolve, reject) => {
-            AsyncStorage.getItem(this.flag,(error, result) => {
+            AsyncStorage.getItem(this.type,(error, result) => {
                 if (error){
                     reject(error);
                 } else {
@@ -26,7 +26,7 @@ export default class LanguageDao {
                             reject(e);
                         }
                     } else {
-                        let data = this.flag === FLAG_LANGUAGE.flag_key ? keys:languages;
+                        let data = this.type === FLAG_LANGUAGE.flag_key ? keys:languages;
                         this.save(data);
                         resolve(data);
                     }
@@ -38,14 +38,14 @@ export default class LanguageDao {
     //保存数据
     save(data){
         console.log("save:" + JSON.stringify(data));
-        AsyncStorage.setItem(this.flag,JSON.stringify(data),error => {
+        AsyncStorage.setItem(this.type,JSON.stringify(data), error => {
             console.log(error);
         });
     }
 
     //清除数据
     clear(){
-        AsyncStorage.removeItem(this.flag,error => {
+        AsyncStorage.removeItem(this.type, error => {
             console.log(error);
         });
     }
