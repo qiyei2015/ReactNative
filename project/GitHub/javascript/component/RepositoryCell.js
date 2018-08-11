@@ -22,6 +22,15 @@ export default class RepositoryCell extends Component{
         };
     }
 
+
+    /**
+     * 组件接收到新的props时，会触发该函数
+     * @param nextProps 新属性值
+     */
+    componentWillReceiveProps(nextProps) {
+        this.setFavorite(nextProps.projectModel.favorite)
+    }
+
     render(){
         let item = this.projectModel.item;
         let favoriteButton = item ?
@@ -54,16 +63,23 @@ export default class RepositoryCell extends Component{
         );
     }
 
+    /**
+     * 按下收藏按钮
+     */
     onPressFavorite(){
         let favorite = !this.state.isFavorite;
-        //更新属性
-        this.props.projectModel.favorite = favorite;
         this.setFavorite(favorite);
         //回调给父组件
         this.props.onFavorite(this.projectModel,favorite);
     }
 
+    /**
+     * 设置收藏状态
+     * @param favorite
+     */
     setFavorite(favorite){
+        //更新属性
+        this.props.projectModel.favorite = favorite;
         // DeviceEventEmitter.emit(Constant.SHOW_TOAST,"favorite:" + favorite);
         this.setState({
             isFavorite:favorite,

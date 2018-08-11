@@ -20,6 +20,14 @@ export default class TrendingRepoCell extends Component{
         };
     }
 
+    /**
+     * 组件接收到新的props时，会触发该函数
+     * @param nextProps 新属性值
+     */
+    componentWillReceiveProps(nextProps) {
+        this.setFavoriteState(nextProps.projectModel.favorite)
+    }
+
     render(){
         let item = this.props.projectModel.item;
         let description='<p>'+item.description+'</p>';
