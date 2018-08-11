@@ -126,9 +126,9 @@ class PopularTab extends Component{
         super(props);
         //初始化数据仓库
         this.dataRepository = new DataRepository(FLAG_STORAGE.flag_popular);
+        this.items = [];
         this.state = {
-            result:"",
-            dataSource:new ListView.DataSource({rowHasChanged:(r1,r2) => r1 !== r2}),
+            projectModels:new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2}),
             refreshing:false,
             favoriteKeys:[],
         }
@@ -139,7 +139,7 @@ class PopularTab extends Component{
             <View style={{flex:1}}>
                 <ListView
                     //关联dataSource
-                    dataSource={this.state.dataSource}
+                    dataSource={this.state.projectModels}
                     //返回的视图，当前row数据
                     renderRow={(rowData) => this.renderRow(rowData)}
                     //行与行之间分隔符
@@ -164,11 +164,10 @@ class PopularTab extends Component{
 
     //页面装载完成
     componentDidMount(){
-        this.getFavoriteKeys();
         this.loadPopularData();
     }
 
-    //加载网络数据
+    //加载数据
     loadPopularData(){
         const subUrl = "&sort=stars";
         let url = BASE_URL + this.props.tabLabel + subUrl;
@@ -177,39 +176,37 @@ class PopularTab extends Component{
             refreshing:true,
         });
 
+        //1 加载popular数据
         this.dataRepository.fetchRepository(url)
             .then((result) => {
-                this.setState({
-                    refreshing:false,
-                    dataSource:this.state.dataSource.cloneWithRows(result.items),
-                })
+                //从数据仓库中获取items数据
+                this.items = result.items ? result.items:[];
+                //2 获取收藏的keys
+                this.getFavoriteKeys();
             })
             .catch((error) => {
-                this.setState({
-                    result: JSON.stringify(error),
-                    refreshing:false,
-                })
+                //2 获取收藏的keys
+                this.getFavoriteKeys();
+                console.log(error);
             });
     }
 
     //每一行渲染数据
-    renderRow(item){
-        let projectModel = new ProjectModel(item,Util.checkFavorite(item.id.toString(),this.state.favoriteKeys));
+    renderRow(projectModel){
         return(
             //设置onSelected的回调函数
             <RepositoryCell {...this.props} key={projectModel.item.id} projectModel={projectModel}
-                            onSelected={() => this.onSelected(item)}
-                            onFavorite={(data,favorite) => this._onFavorite(data, favorite)}
+                            onSelected={() => this.onSelected(projectModel)}
+                            onFavorite={(projectModel,favorite) => this._onFavorite(projectModel, favorite)}
             />
         )
     }
 
     //选中某一行
-    onSelected(item){
-        let model = new ProjectModel(item,Util.checkFavorite(item.id.toString(),this.state.favoriteKeys));
+    onSelected(projectModel){
         this.props.navigation.navigate(
             "RepositoryDetail",
-            {...this.props,projectModel:model},
+            {...this.props,projectModel:projectModel},
         )
     }
 
@@ -219,13 +216,14 @@ class PopularTab extends Component{
      * @param favorite
      * @private
      */
-    _onFavorite(item, favorite){
+    _onFavorite(projectModel, favorite){
+        //更新状态
         if (favorite){
-            favoriteDao.saveFavoriteItem(item.id.toString(),item);
+            favoriteDao.saveFavoriteItem(projectModel.item.id.toString(),projectModel.item);
         }else {
-            favoriteDao.removeFavoritem(item.id.toString());
+            favoriteDao.removeFavoritem(projectModel.item.id.toString());
         }
-        this.getFavoriteKeys();
+        //this.getFavoriteKeys();
     }
 
     /**
@@ -239,11 +237,35 @@ class PopularTab extends Component{
                     favoriteKeys:result,
                 });
             }
-        }).catch(error => {
 
+            //3 更新popular item
+            this.updatePopularItem(this.items);
+        }).catch(error => {
+            //3 更新popular item
+            this.updatePopularItem(this.items);
+            console.log(error);
         });
     }
 
+
+    /**
+     * 更新显示的ListView Item数据
+     * @param items
+     */
+    updatePopularItem(items){
+        let array = [];
+        for (let i = 0 ;i < items.length ;i++){
+            let model = new ProjectModel(items[i],Util.checkFavorite(items[i].id.toString(),this.state.favoriteKeys));
+            array.push(model);
+        }
+
+        DeviceEventEmitter.emit(Constant.SHOW_TOAST,""+this.state.favoriteKeys);
+        //4 更新ListView数据源，显示数据
+        this.setState({
+            refreshing:false,
+            projectModels:this.state.projectModels.cloneWithRows(array),
+        });
+    }
 }
 
 const styles = StyleSheet.create({

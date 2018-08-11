@@ -55,9 +55,11 @@ export default class RepositoryCell extends Component{
 
     onPressFavorite(){
         let favorite = !this.state.isFavorite;
+        //更新属性
+        this.props.projectModel.favorite = favorite;
         this.setFavorite(favorite);
         //回调给父组件
-        this.props.onFavorite(this.projectModel.item,favorite);
+        this.props.onFavorite(this.projectModel,favorite);
     }
 
     setFavorite(favorite){
