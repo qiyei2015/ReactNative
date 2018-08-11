@@ -1,9 +1,10 @@
 
 import React,{Component}from "react";
-import {View, WebView, StyleSheet, TouchableOpacity, Image} from "react-native";
+import {View, WebView, StyleSheet, TouchableOpacity, Image,DeviceEventEmitter} from "react-native";
 import {colorPrimary} from "../common/BaseStyles";
 import NavigationBar from "../common/NavigationBar";
-
+import Constant from "../common/Constant";
+import FavoriteDao, {FLAG_FAVORITE} from "../expand/dao/FavoriteDao";
 
 const TRENDING_URL = 'https://github.com/';
 
@@ -14,16 +15,29 @@ export default class RepositoryDetail extends Component{
     constructor(props){
         super(props);
         //获取数据
-        this.data = this.props.navigation.state.params.projectModel.item;
+        this.projectModel = this.props.navigation.state.params.projectModel;
         this.isTrending = this.props.navigation.state.params.isTrending ? true : false;
+
+        if (this.isTrending){
+            this.favoriteDao = new FavoriteDao(FLAG_FAVORITE.flag_language);
+        } else {
+            this.favoriteDao = new FavoriteDao(FLAG_FAVORITE.flag_key);
+        }
         //设置url,title等
         this.state = {
-            url:this.isTrending ? TRENDING_URL + this.data.fullName : this.data.html_url,
-            title:this.isTrending ? this.data.fullName : this.data.full_name,
+            url:this.isTrending ? TRENDING_URL + this.projectModel.item.fullName : this.projectModel.item.html_url,
+            title:this.isTrending ? this.projectModel.item.fullName : this.projectModel.item.full_name,
             canGoBack:false,
+            favorite:this.projectModel.favorite,
+            favoriteIcon:this.projectModel.favorite ? require("../../res/images/ic_star.png"):require("../../res/images/ic_star_navbar.png"),
         }
     }
     render(){
+        let favoriteButton = <TouchableOpacity onPress={() => this._onFavorite()}>
+            <Image style={{width: 22, height: 22, margin: 5}}
+                   source={this.state.favoriteIcon}/>
+        </TouchableOpacity>;
+
         return (
             <View style={styles.container}>
                 <NavigationBar
@@ -45,12 +59,7 @@ export default class RepositoryDetail extends Component{
                                    source={require("../../res/images/ic_arrow_back_white_36pt.png")}/>
                         </TouchableOpacity>
                     }
-                    rightView={
-                        <TouchableOpacity>
-                            <Image style={{width: 22, height: 22, margin: 5}}
-                                   source={require("../../res/images/ic_star.png")}/>
-                        </TouchableOpacity>
-                    }
+                    rightView={favoriteButton}
                 />
                 <WebView
                     ref = {webView => this.webView = webView}
@@ -78,6 +87,40 @@ export default class RepositoryDetail extends Component{
             canGoBack:navState.canGoBack,
             url: navState.url,
         });
+    }
+
+    /**
+     * 收藏点击
+     * @private
+     */
+    _onFavorite(){
+        let isFavorite = !this.state.favorite;
+        // DeviceEventEmitter.emit(Constant.SHOW_TOAST,"favorite:" + isFavorite);
+        this.setState({
+            favorite:isFavorite,
+            favoriteIcon:isFavorite ? require("../../res/images/ic_star.png"):require("../../res/images/ic_star_navbar.png"),
+        });
+        this.updateFavoriteItem(isFavorite);
+    }
+
+    /**
+     * 更新收藏item
+     * @param isFavorite
+     */
+    updateFavoriteItem(isFavorite){
+        let key = null;
+        //获取key
+        if (this.isTrending){
+            key = this.projectModel.item.fullName;
+        }else {
+            key = this.projectModel.item.id.toString();
+        }
+        //添加item或者删除item
+        if (isFavorite){
+            this.favoriteDao.saveFavoriteItem(key,this.projectModel.item);
+        } else {
+            this.favoriteDao.removeFavoritem(key);
+        }
     }
 }
 
