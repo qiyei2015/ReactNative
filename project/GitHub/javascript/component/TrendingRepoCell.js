@@ -15,8 +15,8 @@ export default class TrendingRepoCell extends Component{
     constructor(props){
         super(props);
         this.state = {
-            isFavorite:this.props.projectModel.isFavorite,
-            favoriteIcon:this.props.projectModel.isFavorite ? require('../../res/images/ic_star.png') : require('../../res/images/ic_unstar_transparent.png'),
+            isFavorite:this.props.projectModel.favorite,
+            favoriteIcon:this.props.projectModel.favorite ? require('../../res/images/ic_star.png') : require('../../res/images/ic_unstar_transparent.png'),
         };
     }
 

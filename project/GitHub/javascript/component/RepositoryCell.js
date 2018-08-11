@@ -12,18 +12,17 @@ export default class RepositoryCell extends Component{
         onFavorite:PropTypes.func,
     };
 
-
     constructor(props){
         super(props);
-
+        this.projectModel = this.props.projectModel;
         this.state = {
-            isFavorite:this.props.projectModel.favorite,
-            favoriteIcon:this.props.projectModel.favorite ? require('../../res/images/ic_star.png') : require('../../res/images/ic_unstar_transparent.png'),
+            isFavorite:this.projectModel.favorite,
+            favoriteIcon:this.projectModel.favorite ? require('../../res/images/ic_star.png') : require('../../res/images/ic_unstar_transparent.png'),
         };
     }
 
     render(){
-        let item = this.props.projectModel.item;
+        let item = this.projectModel.item;
         let favoriteButton = item ?
             <TouchableOpacity
                 style={{padding: 10}}
@@ -58,7 +57,7 @@ export default class RepositoryCell extends Component{
         let favorite = !this.state.isFavorite;
         this.setFavorite(favorite);
         //回调给父组件
-        this.props.onFavorite(this.props.projectModel.item,favorite);
+        this.props.onFavorite(this.projectModel.item,favorite);
     }
 
     setFavorite(favorite){

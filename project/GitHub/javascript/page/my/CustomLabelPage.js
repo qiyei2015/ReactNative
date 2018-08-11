@@ -57,7 +57,7 @@ export default class CustomLabelPage extends Component{
     loadData(){
         this.languageDao.fetch()
             .then(result => {
-                console.log("loadData:" + JSON.stringify(result));
+                console.log("loadTrendingData:" + JSON.stringify(result));
                 this.setState({
                     dataArray: result,
                 });

@@ -22,6 +22,7 @@ import Constant from "../common/Constant";
 import TrendingDialog ,{TimeSpans} from "../component/TrendingDialog";
 import ProjectModel from "../model/ProjectModel";
 import FavoriteDao, {FLAG_FAVORITE} from "../expand/dao/FavoriteDao";
+import Util from "../util/Util";
 
 
 
@@ -31,12 +32,12 @@ const BASE_URL = "https://github.com/trending/";
 
 const EVENT_TYPE_TIME_SPAN_CHANGE="EVENT_TYPE_TIME_SPAN_CHANGE";
 
+const favoriteDao = new FavoriteDao(FLAG_FAVORITE.flag_language);
 
 export default class TrendingPage extends Component{
     constructor(props){
         super(props);
         this.languageDao = new LanguageDao(FLAG_LANGUAGE.flag_language);
-        this.favoriteDao = new FavoriteDao(FLAG_FAVORITE.flag_language);
         this.state = {
             languages:[],
             isVisible: false,
@@ -199,12 +200,13 @@ class TrendingTab extends Component{
         super(props);
         //初始化数据仓库
         this.dataRepository = new DataRepository(FLAG_STORAGE.flag_trending);
-
         this.state = {
-            result:"",
-            dataSource:new ListView.DataSource({rowHasChanged:(r1,r2) => r1 !== r2}),
-            refreshing:false,
+            result: "",
+            dataSource: new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2}),
+            refreshing: false,
+            favoriteKeys: [],
         }
+
     }
 
     render(){
@@ -227,7 +229,7 @@ class TrendingTab extends Component{
                             title="Loading"
                             titleColor={this.props.theme.colorPrimary}
                             refreshing={this.state.refreshing}
-                            onRefresh={() => this.loadData(this.props.timeSpan)}
+                            onRefresh={() => this.loadTrendingData(this.props.timeSpan)}
                         />
                     }
                 />
@@ -238,9 +240,10 @@ class TrendingTab extends Component{
     //页面装载完成
     componentDidMount(){
         this.timeSpanChangeListener = DeviceEventEmitter.addListener(EVENT_TYPE_TIME_SPAN_CHANGE, (from,to) => {
-            this.loadData(to);
+            this.loadTrendingData(to);
         });
-        this.loadData(this.props.timeSpan);
+        this.getFavoriteKeys();
+        this.loadTrendingData(this.props.timeSpan);
     }
 
     componentWillUnmount(){
@@ -250,7 +253,7 @@ class TrendingTab extends Component{
     }
 
     //加载数据
-    loadData(timeSpan){
+    loadTrendingData(timeSpan){
         let url = BASE_URL + this.props.labelData.path + "?since=" + timeSpan.searchText;
         //设置开始刷新
         this.setState({
@@ -276,7 +279,7 @@ class TrendingTab extends Component{
 
     //每一行渲染数据
     renderRow(item){
-        let projectModel = new ProjectModel(item);
+        let projectModel = new ProjectModel(item,Util.checkFavorite(item.fullName,this.state.favoriteKeys));
         return (
             //设置onSelected的回调函数
             <TrendingRepoCell {...this.props} projectModel={projectModel} onSelected={() => this.onSelected(item)}
@@ -288,10 +291,10 @@ class TrendingTab extends Component{
 
     //选中某一行
     onSelected(item){
-        item.fullName
+        let model = new ProjectModel(item,Util.checkFavorite(item.fullName,this.state.favoriteKeys));
         this.props.navigation.navigate(
             "RepositoryDetail",
-            {...this.props,data:item,isTrending:true},
+            {...this.props,projectModel:model,isTrending:true},
         )
     }
 
@@ -302,7 +305,29 @@ class TrendingTab extends Component{
      * @private
      */
     _onFavorite(item,favorite){
+        if (favorite){
+            favoriteDao.saveFavoriteItem(item.fullName,item);
+        }else {
+            favoriteDao.removeFavoritem(item.fullName);
+        }
+        this.getFavoriteKeys();
         DeviceEventEmitter.emit(Constant.SHOW_TOAST,"name:" + item.fullName + " favorite:" + favorite);
+    }
+
+    /**
+     * 获取keys
+     */
+    getFavoriteKeys(){
+        //获取key
+        favoriteDao.getFavoriteKeys().then(result => {
+            if (result){
+                this.setState({
+                    favoriteKeys:result,
+                });
+            }
+        }).catch(error => {
+
+        });
     }
 }
 

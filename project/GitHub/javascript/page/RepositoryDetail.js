@@ -14,7 +14,7 @@ export default class RepositoryDetail extends Component{
     constructor(props){
         super(props);
         //获取数据
-        this.data = this.props.navigation.state.params.data;
+        this.data = this.props.navigation.state.params.projectModel.item;
         this.isTrending = this.props.navigation.state.params.isTrending ? true : false;
         //设置url,title等
         this.state = {

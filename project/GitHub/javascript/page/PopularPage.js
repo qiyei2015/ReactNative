@@ -20,16 +20,17 @@ import Constant from "../common/Constant";
 import RepositoryDetail from "./RepositoryDetail";
 import ProjectModel from "../model/ProjectModel";
 import FavoriteDao, {FLAG_FAVORITE} from "../expand/dao/FavoriteDao";
+import Util from "../util/Util";
 
 
 const BASE_URL = "https://api.github.com/search/repositories?q=";
+
+const favoriteDao = new FavoriteDao(FLAG_FAVORITE.flag_key);
 
 export default class PopularPage extends Component{
     constructor(props){
         super(props);
         this.languageDao = new LanguageDao(FLAG_LANGUAGE.flag_key);
-
-
         this.state = {
             languages:[],
         }
@@ -37,7 +38,6 @@ export default class PopularPage extends Component{
 
     render(){
         let {navigation} = this.props;
-
         let content = this.state.languages.length > 0 ?
             <ScrollableTabView
                 tabBarBackgroundColor= {colorPrimary}
@@ -126,13 +126,11 @@ class PopularTab extends Component{
         super(props);
         //初始化数据仓库
         this.dataRepository = new DataRepository(FLAG_STORAGE.flag_popular);
-
-        this.favoriteDao = new FavoriteDao(FLAG_FAVORITE.flag_key);
-
         this.state = {
             result:"",
             dataSource:new ListView.DataSource({rowHasChanged:(r1,r2) => r1 !== r2}),
             refreshing:false,
+            favoriteKeys:[],
         }
     }
 
@@ -156,7 +154,7 @@ class PopularTab extends Component{
                             title="Loading"
                             titleColor={this.props.theme.colorPrimary}
                             refreshing={this.state.refreshing}
-                            onRefresh={() => this.onLoadFromNetwork()}
+                            onRefresh={() => this.loadPopularData()}
                         />
                     }
                 />
@@ -166,11 +164,12 @@ class PopularTab extends Component{
 
     //页面装载完成
     componentDidMount(){
-        this.onLoadFromNetwork();
+        this.getFavoriteKeys();
+        this.loadPopularData();
     }
 
     //加载网络数据
-    onLoadFromNetwork(){
+    loadPopularData(){
         const subUrl = "&sort=stars";
         let url = BASE_URL + this.props.tabLabel + subUrl;
         //设置开始刷新
@@ -195,7 +194,7 @@ class PopularTab extends Component{
 
     //每一行渲染数据
     renderRow(item){
-        let projectModel = new ProjectModel(item);
+        let projectModel = new ProjectModel(item,Util.checkFavorite(item.id.toString(),this.state.favoriteKeys));
         return(
             //设置onSelected的回调函数
             <RepositoryCell {...this.props} key={projectModel.item.id} projectModel={projectModel}
@@ -207,25 +206,44 @@ class PopularTab extends Component{
 
     //选中某一行
     onSelected(item){
+        let model = new ProjectModel(item,Util.checkFavorite(item.id.toString(),this.state.favoriteKeys));
         this.props.navigation.navigate(
             "RepositoryDetail",
-            {...this.props,data:item},
+            {...this.props,projectModel:model},
         )
     }
 
+    /**
+     * 点击收藏函数
+     * @param item
+     * @param favorite
+     * @private
+     */
     _onFavorite(item, favorite){
         if (favorite){
-            this.favoriteDao.saveFavoriteItem(item.full_name,item);
+            favoriteDao.saveFavoriteItem(item.id.toString(),item);
+        }else {
+            favoriteDao.removeFavoritem(item.id.toString());
         }
+        this.getFavoriteKeys();
+    }
 
-        this.favoriteDao.getFavoriteItem(item.full_name).then(result => {
-            if (result) {
-                DeviceEventEmitter.emit(Constant.SHOW_TOAST, "name: " + result.full_name);
+    /**
+     * 获取keys
+     */
+    getFavoriteKeys(){
+        //获取key
+        favoriteDao.getFavoriteKeys().then(result => {
+            if (result){
+                this.setState({
+                    favoriteKeys:result,
+                });
             }
         }).catch(error => {
-        });
 
+        });
     }
+
 }
 
 const styles = StyleSheet.create({
