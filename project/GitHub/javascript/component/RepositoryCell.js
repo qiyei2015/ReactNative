@@ -15,9 +15,10 @@ export default class RepositoryCell extends Component{
     constructor(props){
         super(props);
         this.projectModel = this.props.projectModel;
+        console.log(this.projectModel);
         this.state = {
             isFavorite:this.projectModel.favorite,
-            favoriteIcon:this.projectModel.favorite ? require('../../res/images/ic_star.png') : require('../../res/images/ic_unstar_transparent.png'),
+            favoriteIcon:RepositoryCell.getFavoriteIcon(this.projectModel.favorite),
         };
     }
 
@@ -66,9 +67,19 @@ export default class RepositoryCell extends Component{
         // DeviceEventEmitter.emit(Constant.SHOW_TOAST,"favorite:" + favorite);
         this.setState({
             isFavorite:favorite,
-            favoriteIcon:favorite ? require('../../res/images/ic_star.png') : require('../../res/images/ic_unstar_transparent.png'),
+            favoriteIcon:RepositoryCell.getFavoriteIcon(favorite),
         });
     }
+
+    /**
+     * 获取收藏按钮
+     * @param isFavorite
+     * @returns {*}
+     */
+    static getFavoriteIcon(isFavorite){
+        return isFavorite ? require('../../res/images/ic_star.png') : require('../../res/images/ic_unstar_transparent.png')
+    }
+
 }
 
 const styles = StyleSheet.create({

@@ -71,8 +71,8 @@ export default class TrendingRepoCell extends Component{
 
     //是否喜欢
     onPressFavorite() {
-        this.setFavoriteState(!this.state.isFavorite)
-        this.props.onFavorite(this.props.projectModel.item, !this.state.isFavorite)
+        this.setFavoriteState(!this.state.isFavorite);
+        this.props.onFavorite(this.props.projectModel, !this.state.isFavorite)
     }
 
     //设置属性

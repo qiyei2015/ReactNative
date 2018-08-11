@@ -180,7 +180,7 @@ class PopularTab extends Component{
         this.dataRepository.fetchRepository(url)
             .then((result) => {
                 //从数据仓库中获取items数据
-                this.items = result.items ? result.items:[];
+                this.items=result && result.items ? result.items : result ? result : [];
                 //2 获取收藏的keys
                 this.getFavoriteKeys();
             })
@@ -223,7 +223,7 @@ class PopularTab extends Component{
         }else {
             favoriteDao.removeFavoritem(projectModel.item.id.toString());
         }
-        //this.getFavoriteKeys();
+        // this.getFavoriteKeys();
     }
 
     /**
@@ -259,7 +259,7 @@ class PopularTab extends Component{
             array.push(model);
         }
 
-        DeviceEventEmitter.emit(Constant.SHOW_TOAST,""+this.state.favoriteKeys);
+        DeviceEventEmitter.emit(Constant.SHOW_TOAST,""+Util.checkFavorite(items[0].id.toString(),this.state.favoriteKeys));
         //4 更新ListView数据源，显示数据
         this.setState({
             refreshing:false,

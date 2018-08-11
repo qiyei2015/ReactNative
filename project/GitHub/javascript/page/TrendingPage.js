@@ -200,9 +200,9 @@ class TrendingTab extends Component{
         super(props);
         //初始化数据仓库
         this.dataRepository = new DataRepository(FLAG_STORAGE.flag_trending);
+        this.items = [];
         this.state = {
-            result: "",
-            dataSource: new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2}),
+            projectModels: new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2}),
             refreshing: false,
             favoriteKeys: [],
         }
@@ -214,9 +214,9 @@ class TrendingTab extends Component{
             <View style={{flex:1}}>
                 <ListView
                     //关联dataSource
-                    dataSource={this.state.dataSource}
+                    dataSource={this.state.projectModels}
                     //返回的视图，当前row数据
-                    renderRow={(rowData) => this.renderRow(rowData)}
+                    renderRow={(projectModel) => this.renderRow(projectModel)}
                     //行与行之间分隔符
                     // renderSeparator={(sectionID, rowID, adjacentRowHighlighted) => this.renderSeparator(sectionID, rowID, adjacentRowHighlighted)}
                     refreshControl={
@@ -242,7 +242,6 @@ class TrendingTab extends Component{
         this.timeSpanChangeListener = DeviceEventEmitter.addListener(EVENT_TYPE_TIME_SPAN_CHANGE, (from,to) => {
             this.loadTrendingData(to);
         });
-        this.getFavoriteKeys();
         this.loadTrendingData(this.props.timeSpan);
     }
 
@@ -252,7 +251,7 @@ class TrendingTab extends Component{
 
     }
 
-    //加载数据
+    //1 加载数据
     loadTrendingData(timeSpan){
         let url = BASE_URL + this.props.labelData.path + "?since=" + timeSpan.searchText;
         //设置开始刷新
@@ -263,38 +262,32 @@ class TrendingTab extends Component{
         this.dataRepository.fetchRepository(url)
             .then((result) => {
                 this.items=result && result.items ? result.items : result ? result : [];
-                console.log(""+JSON.stringify(result));
-                this.setState({
-                    refreshing:false,
-                    dataSource:this.state.dataSource.cloneWithRows(this.items),
-                })
+                //2 获取收藏的keys
+                this.getFavoriteKeys();
             })
             .catch((error) => {
-                this.setState({
-                    result: JSON.stringify(error),
-                    refreshing:false,
-                })
+                //2 获取收藏的keys
+                this.getFavoriteKeys();
+                console.log(error);
             });
     }
 
     //每一行渲染数据
-    renderRow(item){
-        let projectModel = new ProjectModel(item,Util.checkFavorite(item.fullName,this.state.favoriteKeys));
+    renderRow(projectModel){
         return (
             //设置onSelected的回调函数
-            <TrendingRepoCell {...this.props} projectModel={projectModel} onSelected={() => this.onSelected(item)}
-                              onFavorite={(item, favorite) => {
-                                  this._onFavorite(item, favorite)
+            <TrendingRepoCell {...this.props} projectModel={projectModel} onSelected={() => this.onSelected(projectModel)}
+                              onFavorite={(projectModel, favorite) => {
+                                  this._onFavorite(projectModel, favorite)
                               }}/>
         )
     }
 
     //选中某一行
-    onSelected(item){
-        let model = new ProjectModel(item,Util.checkFavorite(item.fullName,this.state.favoriteKeys));
+    onSelected(projectModel){
         this.props.navigation.navigate(
             "RepositoryDetail",
-            {...this.props,projectModel:model,isTrending:true},
+            {...this.props,projectModel:projectModel,isTrending:true},
         )
     }
 
@@ -304,14 +297,14 @@ class TrendingTab extends Component{
      * @param favorite
      * @private
      */
-    _onFavorite(item,favorite){
+    _onFavorite(projectModel,favorite){
         if (favorite){
-            favoriteDao.saveFavoriteItem(item.fullName,item);
+            favoriteDao.saveFavoriteItem(projectModel.item.fullName,projectModel);
         }else {
-            favoriteDao.removeFavoritem(item.fullName);
+            favoriteDao.removeFavoritem(projectModel.item.fullName);
         }
-        this.getFavoriteKeys();
-        DeviceEventEmitter.emit(Constant.SHOW_TOAST,"name:" + item.fullName + " favorite:" + favorite);
+        //this.getFavoriteKeys();
+        //DeviceEventEmitter.emit(Constant.SHOW_TOAST,"name:" + projectModel.item.fullName + " favorite:" + favorite);
     }
 
     /**
@@ -325,8 +318,32 @@ class TrendingTab extends Component{
                     favoriteKeys:result,
                 });
             }
-        }).catch(error => {
 
+            //3 更新item
+            this.updateTrendingItem(this.items);
+        }).catch(error => {
+            //3 更新item
+            this.updateTrendingItem(this.items);
+            console.log(error);
+        });
+    }
+
+    /**
+     * 更新显示的ListView Item数据
+     * @param items
+     */
+    updateTrendingItem(items){
+        let array = [];
+        for (let i = 0 ;i < items.length ;i++){
+            let model = new ProjectModel(items[i],Util.checkFavorite(items[i].fullName,this.state.favoriteKeys));
+            array.push(model);
+        }
+
+        DeviceEventEmitter.emit(Constant.SHOW_TOAST,""+Util.checkFavorite(items[0].fullName,this.state.favoriteKeys));
+        //4 更新ListView数据源，显示数据
+        this.setState({
+            refreshing:false,
+            projectModels:this.state.projectModels.cloneWithRows(array),
         });
     }
 }
