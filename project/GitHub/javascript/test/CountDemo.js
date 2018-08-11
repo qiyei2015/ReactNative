@@ -17,7 +17,6 @@ export default class CountDemo extends Component{
         return (
             <View style={styles.container}>
                 <Counter
-                    style={styles.count}
                     ref={(count) => this.count = count}
                     initValue={10}
                     onValueChange={(value) => this._onValueChange(value)}
@@ -59,6 +58,7 @@ const styles = StyleSheet.create({
     container: {
         flex:1,
         borderColor:'#DDD', //边框颜色
+        alignItems: "center"
     },
     count:{
         backgroundColor:"#FF22FF",//

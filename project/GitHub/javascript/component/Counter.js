@@ -21,6 +21,7 @@ export default class Counter extends Component{
      */
     static propTypes = {
         initValue:PropTypes.number,
+        onValueChange:PropTypes.func,
     };
 
     /**
@@ -116,11 +117,12 @@ const styles = StyleSheet.create({
         margin:5,
         width: 120,
         height:35,
-        borderColor:'#DDD', //边框颜色
+        borderColor:'gray', //边框颜色
         borderWidth:1,
-        flexDirection:'row', //横向布局
-        alignItems: 'center', //子元素对齐
         borderRadius: 5, //圆角半径
+
+        flexDirection:'row', //主轴布局
+        alignItems: 'center', //侧轴对齐方式
         overflow: 'hidden', //超过控件范围的隐藏
     },
     btn1:{
@@ -131,14 +133,14 @@ const styles = StyleSheet.create({
     inputBox:{
         flex:1, //
         borderRightWidth:1, //右边距
-        borderRightColor:'#DDD', //颜色
+        borderRightColor:'gray', //颜色
     },
     reduce:{
         width:34,
         height:34,
         justifyContent:'center',
         borderRightWidth:1, //右边距
-        borderRightColor:'#DDD', //颜色
+        borderRightColor:'gray', //颜色
     },
     plus:{
         width:34,
