@@ -340,8 +340,6 @@ class TrendingTab extends Component{
             let model = new ProjectModel(items[i],Util.checkFavorite(items[i].fullName,this.state.favoriteKeys));
             array.push(model);
         }
-
-        DeviceEventEmitter.emit(Constant.SHOW_TOAST,""+Util.checkFavorite(items[0].fullName,this.state.favoriteKeys));
         //4 更新ListView数据源，显示数据
         this.setState({
             refreshing:false,

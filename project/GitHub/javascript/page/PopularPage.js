@@ -254,8 +254,6 @@ class PopularTab extends Component{
             let model = new ProjectModel(items[i],Util.checkFavorite(items[i].id.toString(),this.state.favoriteKeys));
             array.push(model);
         }
-
-        DeviceEventEmitter.emit(Constant.SHOW_TOAST,""+Util.checkFavorite(items[0].id.toString(),this.state.favoriteKeys));
         //4 更新ListView数据源，显示数据
         this.setState({
             refreshing:false,
