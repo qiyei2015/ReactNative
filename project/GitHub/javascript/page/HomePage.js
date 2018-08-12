@@ -8,6 +8,7 @@ import Toast,{DURATION} from "react-native-easy-toast";
 import Constant from "../common/Constant";
 import WebViewDemo from "../test/WebViewDemo";
 import TrendingPage from "./TrendingPage";
+import FavoritePage from "./FavoritePage";
 
 
 
@@ -27,7 +28,7 @@ class PageModel {
 const PAGE = {
     popular: new PageModel(PopularPage, "popular", "最热", require('../../res/images/ic_popular.png')),
     trending: new PageModel(TrendingPage, "trending", "趋势", require('../../res/images/ic_trending.png')),
-    favorite: new PageModel(WebViewDemo, "favorite", "收藏", require('../../res/images/ic_favorite.png')),
+    favorite: new PageModel(FavoritePage, "favorite", "收藏", require('../../res/images/ic_favorite.png')),
     my: new PageModel(MyPage, "my", "我的", require('../../res/images/ic_my.png')),
 };
 

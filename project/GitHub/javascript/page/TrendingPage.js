@@ -276,10 +276,12 @@ class TrendingTab extends Component{
     renderRow(projectModel){
         return (
             //设置onSelected的回调函数
-            <TrendingRepoCell {...this.props} projectModel={projectModel} onSelected={() => this.onSelected(projectModel)}
+            <TrendingRepoCell {...this.props} projectModel={projectModel}
+                              onSelected={() => this.onSelected(projectModel)}
                               onFavorite={(projectModel, favorite) => {
                                   this._onFavorite(projectModel, favorite)
-                              }}/>
+                              }}
+            />
         )
     }
 
@@ -299,7 +301,7 @@ class TrendingTab extends Component{
      */
     _onFavorite(projectModel,favorite){
         if (favorite){
-            favoriteDao.saveFavoriteItem(projectModel.item.fullName,projectModel);
+            favoriteDao.saveFavoriteItem(projectModel.item.fullName,projectModel.item);
         }else {
             favoriteDao.removeFavoritem(projectModel.item.fullName);
         }
