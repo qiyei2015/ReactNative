@@ -21,6 +21,7 @@ import RepositoryDetail from "./RepositoryDetail";
 import ProjectModel from "../model/ProjectModel";
 import FavoriteDao, {FLAG_FAVORITE} from "../expand/dao/FavoriteDao";
 import Util from "../util/Util";
+import ViewUtil from "../util/ViewUtil";
 
 
 const BASE_URL = "https://api.github.com/search/repositories?q=";
@@ -71,14 +72,9 @@ export default class PopularPage extends Component{
                         hidden: false,
                     }}
                     leftView={
-                        <TouchableOpacity
-                            onPress={() => {
-                                navigation.goBack();
-                            }
-                            }>
-                            <Image style={{width: 22, height: 22, margin: 5}}
-                                   source={require("../../res/images/ic_arrow_back_white_36pt.png")}/>
-                        </TouchableOpacity>
+                        ViewUtil.getLeftButton(() => {
+                            navigation.goBack();
+                        })
                     }
                     rightView={
                         <TouchableOpacity>
