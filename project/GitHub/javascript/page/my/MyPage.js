@@ -1,19 +1,22 @@
 import React,{Component} from "react";
-import {Text, View, StyleSheet, TouchableOpacity, Image, ScrollView} from "react-native";
+import {Text, View, StyleSheet, ScrollView} from "react-native";
 import NavigationBar from "../../common/NavigationBar";
 import {colorPrimary} from "../../common/BaseStyles";
 import CustomLabelPage from "./CustomLabelPage";
 import {FLAG_LANGUAGE} from "../../expand/dao/LanguageDao"
 import GlobalStyle from "../../style/GlobalStyle"
 import ViewUtil from "../../util/ViewUtil";
+import {MORE_MENU} from "../../common/MoreMenu";
 
 export default class MyPage extends Component{
     constructor(props){
         super(props);
+        this.state = {
+            customThemeViewVisible:false,
+        }
     }
 
     render(){
-        let {navigation} = this.props;
         return(
             <View style={styles.container}>
                 <NavigationBar
@@ -23,35 +26,32 @@ export default class MyPage extends Component{
                     }}
                 />
                 <ScrollView>
-                    <TouchableOpacity
-                        style={styles.row}
-                        onPress={() => this.gotoLabelPage("CustomLabelPage",FLAG_LANGUAGE.flag_key)}>
-                        <Text>自定义标签</Text>
-                    </TouchableOpacity>
                     <View style={GlobalStyle.line}/>
-                    {this.renderItemView("custom_key", require('./img/ic_custom_language.png'), '自定义标签')}
+
+                    {/*趋势管理*/}
+                    <Text style={styles.groupTitle}>趋势管理</Text>
                     <View style={GlobalStyle.line}/>
-                    <TouchableOpacity
-                        style={styles.row}
-                        onPress={() => this.gotoLabelPage("CustomLabelPage",FLAG_LANGUAGE.flag_language)}>
-                        <Text>自定义语言</Text>
-                    </TouchableOpacity>
+                    {this.renderItemView(MORE_MENU.Custom_Language)}
                     <View style={GlobalStyle.line}/>
-                    <TouchableOpacity
-                        style={styles.row}
-                        onPress={() => this.gotoLabelPage("SortLabelPage",FLAG_LANGUAGE.flag_key)}>
-                        <Text>标签排序</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity
-                        style={styles.row}
-                        onPress={() => this.gotoSortPage("CustomLabelPage",true)}>
-                        <Text>标签移除</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity
-                        style={styles.row}
-                        onPress={() => this.gotoLabelPage("SortLabelPage",FLAG_LANGUAGE.flag_language)}>
-                        <Text>语言排序</Text>
-                    </TouchableOpacity>
+                    {this.renderItemView(MORE_MENU.Sort_Language)}
+                    <View style={GlobalStyle.line}/>
+                    {/*最热管理*/}
+                    <Text style={styles.groupTitle}>最热管理</Text>
+                    <View style={GlobalStyle.line}/>
+                    {this.renderItemView(MORE_MENU.Custom_Key)}
+                    <View style={GlobalStyle.line}/>
+                    {this.renderItemView(MORE_MENU.Sort_Key)}
+                    <View style={GlobalStyle.line}/>
+                    {this.renderItemView(MORE_MENU.Remove_Key)}
+                    <View style={GlobalStyle.line}/>
+
+                    {/*设置*/}
+                    <Text style={styles.groupTitle}>设置</Text>
+                    <View style={GlobalStyle.line}/>
+                    {this.renderItemView(MORE_MENU.Custom_Theme)}
+                    <View style={GlobalStyle.line}/>
+                    {this.renderItemView(MORE_MENU.About_Author)}
+                    <View style={GlobalStyle.line}/>
                 </ScrollView>
             </View>
         )
@@ -59,38 +59,75 @@ export default class MyPage extends Component{
 
     /**
      * item事件
-     * @param tag
+     * @param tab
      */
-    onClick(tag){
+    onClick(tab){
+        let targetComponent;
+        let flag = null;
+        switch (tab) {
+            case MORE_MENU.Custom_Key:
+                targetComponent = 'CustomLabelPage';
+                flag = FLAG_LANGUAGE.flag_key;
+                break;
+            case MORE_MENU.Sort_Key:
+                targetComponent = 'SortLabelPage';
+                flag = FLAG_LANGUAGE.flag_key;
+                break;
+            case MORE_MENU.Remove_Key:
+                targetComponent = 'CustomLabelPage';
+                //flag = true;
+                break;
 
-    }
+            case MORE_MENU.Custom_Language:
+                targetComponent = 'CustomLabelPage';
+                flag = FLAG_LANGUAGE.flag_language;
+                break;
+            case MORE_MENU.Sort_Language:
+                targetComponent = 'SortLabelPage';
+                flag = FLAG_LANGUAGE.flag_language;
+                break;
 
-    gotoLabelPage(page,flag){
-        //跳转到指定页面，并传入参数
-        this.props.navigation.navigate(
-            page,
-            {...this.props,flag:flag},
-        )
-    }
 
-
-    gotoSortPage(page,remove){
-        //跳转到指定页面，并传入参数
-        this.props.navigation.navigate(
-            page,
-            {...this.props,removeLabel:remove},
-        )
+            case MORE_MENU.Custom_Theme:
+                //this.setState({customThemeViewVisible:true});
+                break;
+            case MORE_MENU.About_Author:
+                targetComponent='AboutMePage';
+                break;
+            case MORE_MENU.About:
+                targetComponent='AboutPage';
+                break;
+            case '更新':
+                this.update();
+                break;
+            default:
+                break;
+        }
+        if (targetComponent) {
+            //跳转到指定页面，并传入参数
+            this.props.navigation.navigate(
+                targetComponent,
+                {...this.props,flag:flag},
+            );
+        }
     }
 
     /**
      * 渲染设置item
-     * @param tag
+     * @param tab
      * @param icon
      * @param text
      * @returns {*}
      */
-    renderItemView(tag,icon,text){
-        return ViewUtil.getSettingItemView(this.onClick(tag),icon,text,{tintColor:colorPrimary},null);
+    renderItemView(tab){
+        return ViewUtil.getSettingItemView(() => this.onClick(tab),tab.icon,tab.name,{tintColor:colorPrimary},null);
+    }
+
+    /**
+     * 更新
+     */
+    update(){
+
     }
 
 }
@@ -100,7 +137,12 @@ const styles = StyleSheet.create({
         flex:1,
         backgroundColor:'#F5FCFF',
     },
-    row:{
-        margin:10,
-    }
+    groupTitle: {
+        marginLeft: 10,
+        marginTop: 10,
+        marginBottom: 5,
+        fontSize: 12,
+        color: 'gray'
+
+    },
 });
