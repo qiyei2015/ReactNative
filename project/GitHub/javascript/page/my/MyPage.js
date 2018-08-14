@@ -1,5 +1,5 @@
 import React,{Component} from "react";
-import {Text, View, StyleSheet, ScrollView} from "react-native";
+import {Text, View, StyleSheet, ScrollView, TouchableOpacity, Image} from "react-native";
 import NavigationBar from "../../common/NavigationBar";
 import {colorPrimary} from "../../common/BaseStyles";
 import CustomLabelPage from "./CustomLabelPage";
@@ -26,6 +26,25 @@ export default class MyPage extends Component{
                     }}
                 />
                 <ScrollView>
+                    <TouchableOpacity
+                        onPress={()=>this.onClick(MORE_MENU.About)}>
+                        <View style={[styles.item, {height: 90}]}>
+                            <View style={{alignItems: 'center', flexDirection: 'row'}}>
+                                <Image source={require('../../../res/images/ic_trending.png')}
+                                       style={{width: 40, height: 40, marginRight: 10,tintColor:colorPrimary}}/>
+                                <Text>GitHub Popular</Text>
+                            </View>
+                            <Image source={require('../../../res/images/ic_tiaozhuan.png')}
+                                   style={{
+                                       opacity: 1,
+                                       marginRight: 10,
+                                       height: 22,
+                                       width: 22,
+                                       alignSelf: 'center',
+                                       tintColor:colorPrimary
+                                   }}/>
+                        </View>
+                    </TouchableOpacity>
                     <View style={GlobalStyle.line}/>
 
                     {/*趋势管理*/}
@@ -136,6 +155,13 @@ const styles = StyleSheet.create({
     container:{
         flex:1,
         backgroundColor:'#F5FCFF',
+    },
+    item: {
+        backgroundColor: 'white',
+        padding: 10, height: 60,
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        flexDirection: 'row'
     },
     groupTitle: {
         marginLeft: 10,
