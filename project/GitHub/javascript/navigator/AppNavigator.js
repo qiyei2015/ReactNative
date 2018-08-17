@@ -8,6 +8,7 @@ import SortLabelPage from "../page/my/SortLabelPage";
 import RepositoryDetail from "../page/RepositoryDetail";
 import AboutMePage from "../page/AboutMePage";
 import AboutPage from "../page/AboutPage";
+import WebViewPage from "../page/WebViewPage";
 
 //App路由配置
 export default AppNavigator = StackNavigator({
@@ -28,6 +29,9 @@ export default AppNavigator = StackNavigator({
     },
     RepositoryDetail: {
         screen: RepositoryDetail,
+    },
+    WebViewPage: {
+        screen: WebViewPage,
     },
     AboutMePage: {
         screen: AboutMePage,
