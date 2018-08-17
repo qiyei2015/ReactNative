@@ -1,0 +1,28 @@
+{
+  "items": [
+    "RNStudyNotes",
+    "GitHubPopular",
+    "TakePhoto",
+    "react-native-awesome",
+    "GroupListView",
+    "react-native-check-box",
+    "react-native-easy-toast",
+    "PUtils",
+    "IncrementalUpdate",
+    "BreakPointUploadUtil"
+  ],
+  "info": {
+    "html_url": "https://github.com/crazycodeboy/",
+    "url": "https://api.github.com/repos/crazycodeboy/",
+    "currentRepoUrl": "https://api.github.com/repos/crazycodeboy/GitHubPopular"
+  },
+  "author": {
+    "name": "CrazyCodeBoy",
+    "description": "专注于移动开发，分享知识，共享快乐。",
+    "avatar": "http://avatar.csdn.net/1/1/E/1_fengyuzhengfan.jpg",
+    "backgroundImg": "http://www.devio.org/io/GitHubPopular/img/for_githubpopular_about_me.jpg",
+    "avatar1": "http://www.devio.org/io/GitHubPopular/img/ic_app.png",
+    "backgroundImg1": "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1534525815977&di=c0358ae156ca96a9f8274e50f931b8b3&imgtype=0&src=http%3A%2F%2Fpic32.photophoto.cn%2F20140817%2F0034034463193076_b.jpg",
+    "url": "http://www.devio.org/"
+  }
+}
