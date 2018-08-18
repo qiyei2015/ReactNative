@@ -3,8 +3,8 @@ import React,{Component}from "react";
 import {View, WebView, StyleSheet, TouchableOpacity, Image,DeviceEventEmitter} from "react-native";
 import {colorPrimary} from "../common/BaseStyles";
 import NavigationBar from "../common/NavigationBar";
-import Constant from "../common/Constant";
 import FavoriteDao, {FLAG_FAVORITE} from "../expand/dao/FavoriteDao";
+import BackPressComponent from "../component/BackPressComponent";
 
 const TRENDING_URL = 'https://github.com/';
 
@@ -14,6 +14,7 @@ const TRENDING_URL = 'https://github.com/';
 export default class RepositoryDetail extends Component{
     constructor(props){
         super(props);
+        this.backPress = new BackPressComponent({backPress:(e)=>this.onBackPress(e)});
         //获取数据
         this.projectModel = this.props.navigation.state.params.projectModel;
         this.isTrending = this.props.navigation.state.params.isTrending ? true : false;
@@ -69,6 +70,19 @@ export default class RepositoryDetail extends Component{
                 />
             </View>
         );
+    }
+
+    componentDidMount(){
+        this.backPress.componentDidMount();
+    }
+
+    componentWillUnmount(){
+        this.backPress.componentWillUnmount();
+    }
+
+    onBackPress(){
+        this.goBack();
+        return true;
     }
 
     //返回
