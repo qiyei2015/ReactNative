@@ -45,8 +45,10 @@ export default class WebViewPage extends Component {
                 <NavigationBar
                     navigator={this.props.navigator}
                     popEnabled={false}
-                    style={colorPrimary}
-                    leftButton={ViewUtil.getLeftButton(()=>this.onBackPress())}
+                    style={{
+                        backgroundColor: colorPrimary,
+                    }}
+                    leftView={ViewUtil.getLeftButton(()=>this.onBackPress())}
                     title={this.state.title}
                 />
                 <WebView
