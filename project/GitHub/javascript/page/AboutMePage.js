@@ -5,6 +5,7 @@ import ParallaxComponent from "../component/ParallaxComponent";
 import config from "../../res/data/config";
 import ViewUtil from "../util/ViewUtil";
 import GlobalStyle from "../style/GlobalStyle";
+import RepositoryCell from "../component/RepositoryCell";
 
 
 const ITEM = {
@@ -83,7 +84,7 @@ export default class AboutMePage extends Component{
             {ViewUtil.getSettingItemView(()=>this.onClick(ITEM.REPOSITORY), require('../../res/images/ic_code.png'), ITEM.REPOSITORY, {tintColor: colorPrimary},
                 this.getClickIcon(this.state.showRepository))}
             <View style={GlobalStyle.line}/>
-            {this.state.showRepository ? this.parallaxComponent.renderRepository(this.state.projectModels) : null}
+            {this.state.showRepository ? this.renderRepository(this.state.projectModels) : null}
 
             {ViewUtil.getSettingItemView(()=>this.onClick(ITEM.QQ), require('../../res/images/ic_computer.png'), ITEM.QQ.name, {tintColor: colorPrimary},
                 this.getClickIcon(this.state.showQQ))}
@@ -193,6 +194,48 @@ export default class AboutMePage extends Component{
                 {...params},
             );
         }
+    }
+
+    /**
+     * 渲染残酷
+     * @param projectModels
+     */
+    renderRepository(projectModels){
+        if (!projectModels || projectModels.length === 0) {
+            return null;
+        }
+        let views = [];
+        for (let i = 0, l = projectModels.length; i < l; i++) {
+            let projectModel = projectModels[i];
+            views.push(
+                <RepositoryCell
+                    key={projectModel.item.id}
+                    theme={this.props.theme}
+                    onSelect={()=>this.onSelected(projectModel)}
+                    projectModel={projectModel}
+                    onFavorite={(projectModel, favorite) =>
+                        this._onFavorite(projectModel, favorite)}/>
+            );
+        }
+        return views;
+    }
+
+    //选中某一行
+    onSelected(projectModel){
+        this.props.navigation.navigate(
+            "RepositoryDetail",
+            {...this.props,projectModel:projectModel},
+        )
+    }
+
+    /**
+     * 点击收藏函数
+     * @param item
+     * @param favorite
+     * @private
+     */
+    _onFavorite(projectModel, favorite){
+
     }
 
 }
