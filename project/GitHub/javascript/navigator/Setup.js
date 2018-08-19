@@ -1,4 +1,4 @@
-import AppNavigator from "../navigator/AppNavigator";
+import AppNavigator from "./AppNavigator";
 import App from "../test/App";
 
 
