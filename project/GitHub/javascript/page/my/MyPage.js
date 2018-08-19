@@ -7,12 +7,13 @@ import {FLAG_LANGUAGE} from "../../expand/dao/LanguageDao"
 import GlobalStyle from "../../style/GlobalStyle"
 import ViewUtil from "../../util/ViewUtil";
 import {MORE_MENU} from "../../common/MoreMenu";
+import CustomThemePage from "./CustomThemePage";
 
 export default class MyPage extends Component{
     constructor(props){
         super(props);
         this.state = {
-            customThemeViewVisible:false,
+            customThemeVisible:false,
         }
     }
 
@@ -72,6 +73,7 @@ export default class MyPage extends Component{
                     {this.renderItemView(MORE_MENU.About_Author)}
                     <View style={GlobalStyle.line}/>
                 </ScrollView>
+                {this.renderCustomThemeView()}
             </View>
         )
     }
@@ -108,7 +110,7 @@ export default class MyPage extends Component{
 
 
             case MORE_MENU.Custom_Theme:
-                //this.setState({customThemeViewVisible:true});
+                this.setState({customThemeVisible:true});
                 break;
             case MORE_MENU.About_Author:
                 targetComponent='AboutMePage';
@@ -140,6 +142,17 @@ export default class MyPage extends Component{
      */
     renderItemView(tab){
         return ViewUtil.getSettingItemView(() => this.onClick(tab),tab.icon,tab.name,{tintColor:colorPrimary},null);
+    }
+
+    /**
+     * 自定义主题页面
+     */
+    renderCustomThemeView(){
+        return <CustomThemePage
+            visible={this.state.customThemeVisible}
+            onThemeClose={() => this.setState({customThemeVisible:false})}
+            {...this.props}
+        />
     }
 
     /**
