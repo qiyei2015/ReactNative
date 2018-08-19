@@ -18,7 +18,6 @@
     "react-native-scrollable-tab-view": "^0.8.0",
     "react-native-sortable-listview": "^0.2.8",
     "react-native-tab-navigator": "^0.3.4",
-    "react-native-vector-icons": "^4.6.0",
     "react-navigation": "^2.5.5"
   },
   "devDependencies": {
