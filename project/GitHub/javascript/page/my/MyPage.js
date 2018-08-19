@@ -130,11 +130,6 @@ export default class MyPage extends Component{
         if (targetComponent) {
             //跳转到指定页面，并传入参数
             NavigatorUtil.goToMenuPage(targetComponent,params);
-
-            // this.props.navigation.navigate(
-            //     targetComponent,
-            //     {...this.props,flag:flag,theme:this.props.theme},
-            // );
         }
     }
 
@@ -186,7 +181,6 @@ const styles = StyleSheet.create({
         marginTop: 10,
         marginBottom: 5,
         fontSize: 12,
-        color: 'gray'
-
+        color: 'gray',
     },
 });
