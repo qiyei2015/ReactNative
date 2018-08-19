@@ -3,7 +3,7 @@ import {Text, View, StyleSheet, TouchableOpacity, Image, ScrollView,Alert} from 
 import NavigationBar from "../../common/NavigationBar";
 import {colorPrimary} from "../../common/BaseStyles";
 import ViewUtil from "../../util/ViewUtil";
-import LanguageDao,{FLAG_LANGUAGE} from "../../expand/dao/LanguageDao";
+import LanguageDao,{FLAG_LANGUAGE} from "../../model/dao/LanguageDao";
 import CheckBox from "react-native-check-box";
 import ArrayUtil from "../../util/ArrayUtil";
 

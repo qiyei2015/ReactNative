@@ -3,7 +3,7 @@ import {Text, View, StyleSheet, ScrollView, TouchableOpacity, Image} from "react
 import NavigationBar from "../../common/NavigationBar";
 import {colorPrimary} from "../../common/BaseStyles";
 import CustomLabelPage from "./CustomLabelPage";
-import {FLAG_LANGUAGE} from "../../expand/dao/LanguageDao"
+import {FLAG_LANGUAGE} from "../../model/dao/LanguageDao"
 import GlobalStyle from "../../style/GlobalStyle"
 import ViewUtil from "../../util/ViewUtil";
 import {MORE_MENU} from "../../common/MoreMenu";

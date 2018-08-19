@@ -7,7 +7,7 @@ import ParallaxComponent from "../component/ParallaxComponent";
 import GlobalStyle from "../style/GlobalStyle";
 
 import config from '../../res/data/config.json'
-import {FLAG_LANGUAGE} from "../expand/dao/LanguageDao";
+import {FLAG_LANGUAGE} from "../model/dao/LanguageDao";
 
 export default class AboutPage extends Component{
     constructor(props){

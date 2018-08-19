@@ -3,7 +3,7 @@ import React,{Component}from "react";
 import {View, WebView, StyleSheet, TouchableOpacity, Image,DeviceEventEmitter} from "react-native";
 import {colorPrimary} from "../common/BaseStyles";
 import NavigationBar from "../common/NavigationBar";
-import FavoriteDao, {FLAG_FAVORITE} from "../expand/dao/FavoriteDao";
+import FavoriteDao, {FLAG_FAVORITE} from "../model/dao/FavoriteDao";
 import BackPressComponent from "../component/BackPressComponent";
 
 const TRENDING_URL = 'https://github.com/';

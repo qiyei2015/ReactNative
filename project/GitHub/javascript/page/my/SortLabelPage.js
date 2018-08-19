@@ -1,6 +1,6 @@
 import React,{Component} from "react";
 import {Text, View, StyleSheet, TouchableOpacity, Image, ScrollView, Alert, TouchableHighlight} from "react-native";
-import LanguageDao, {FLAG_LANGUAGE} from "../../expand/dao/LanguageDao";
+import LanguageDao, {FLAG_LANGUAGE} from "../../model/dao/LanguageDao";
 import ArrayUtil from "../../util/ArrayUtil";
 import SortableListView from 'react-native-sortable-listview'
 import {colorPrimary} from "../../common/BaseStyles";

@@ -9,17 +9,17 @@ import {
     RefreshControl,
     DeviceEventEmitter
 } from "react-native";
-import DataRepository, {FLAG_STORAGE} from "../expand/dao/DataRepository";
+import DataRepository, {FLAG_STORAGE} from "../model/dao/DataRepository";
 import ScrollableTabView,{ScrollableTabBar} from "react-native-scrollable-tab-view";
 import { PropTypes} from 'prop-types';
 import RepositoryCell from "../component/RepositoryCell";
 import {colorPrimary} from "../common/BaseStyles";
 import NavigationBar from "../common/NavigationBar";
-import LanguageDao,{FLAG_LANGUAGE} from "../expand/dao/LanguageDao";
+import LanguageDao,{FLAG_LANGUAGE} from "../model/dao/LanguageDao";
 import Constant from "../common/Constant";
 import RepositoryDetail from "./RepositoryDetail";
 import ProjectModel from "../model/ProjectModel";
-import FavoriteDao, {FLAG_FAVORITE} from "../expand/dao/FavoriteDao";
+import FavoriteDao, {FLAG_FAVORITE} from "../model/dao/FavoriteDao";
 import Util from "../util/Util";
 import ViewUtil from "../util/ViewUtil";
 
