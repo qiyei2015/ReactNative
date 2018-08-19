@@ -12,20 +12,15 @@ import {
 import DataRepository, {FLAG_STORAGE} from "../model/dao/DataRepository";
 import ScrollableTabView,{ScrollableTabBar} from "react-native-scrollable-tab-view";
 import { PropTypes} from 'prop-types';
-import {colorPrimary} from "../common/BaseStyles";
 import NavigationBar from "../common/NavigationBar";
 import LanguageDao,{FLAG_LANGUAGE} from "../model/dao/LanguageDao";
 
 import RepositoryDetail from "./RepositoryDetail";
 import TrendingRepoCell from "../component/TrendingRepoCell";
-import Constant from "../common/Constant";
 import TrendingDialog ,{TimeSpans} from "../component/TrendingDialog";
 import ProjectModel from "../model/ProjectModel";
 import FavoriteDao, {FLAG_FAVORITE} from "../model/dao/FavoriteDao";
 import Util from "../util/Util";
-
-
-
 
 
 const BASE_URL = "https://github.com/trending/";
@@ -39,6 +34,7 @@ export default class TrendingPage extends Component{
         super(props);
         this.languageDao = new LanguageDao(FLAG_LANGUAGE.flag_language);
         this.state = {
+            theme:this.props.theme,
             languages:[],
             isVisible: false,
             timeSpan:TimeSpans[0],
@@ -50,7 +46,7 @@ export default class TrendingPage extends Component{
 
         let content = this.state.languages.length > 0 ?
             <ScrollableTabView
-                tabBarBackgroundColor= {colorPrimary}
+                tabBarBackgroundColor= {this.state.theme.colorPrimary}
                 tabBarInactiveTextColor="mintcream"
                 tabBarActiveTextColor="white"
                 tabBarUnderlineStyle={{backgroundColor:"#E7E7E7",height:2}}
@@ -66,7 +62,7 @@ export default class TrendingPage extends Component{
                 {this.state.languages.map((result, i, arr) => {
                     let lan = arr[i];
                     return lan.checked ? <TrendingTab key={i} tabLabel={lan.name} labelData={lan}
-                                                      theme={{colorPrimary: colorPrimary}}
+                                                      theme={this.state.theme}
                                                       timeSpan={this.state.timeSpan} {...this.props}/> : null;
                 })}
             </ScrollableTabView> : null;
@@ -77,10 +73,10 @@ export default class TrendingPage extends Component{
                 <NavigationBar
                     titleView={this.renderTitleView()}
                     style={{
-                        backgroundColor: colorPrimary,
+                        backgroundColor: this.state.theme.colorPrimary,
                     }}
                     statusBar={{
-                        backgroundColor: colorPrimary,
+                        backgroundColor: this.state.theme.colorPrimary,
                         hidden: false,
                     }}
                     leftView={
@@ -276,11 +272,13 @@ class TrendingTab extends Component{
     renderRow(projectModel){
         return (
             //设置onSelected的回调函数
-            <TrendingRepoCell {...this.props} projectModel={projectModel}
-                              onSelected={() => this.onSelected(projectModel)}
-                              onFavorite={(projectModel, favorite) => {
-                                  this._onFavorite(projectModel, favorite)
-                              }}
+            <TrendingRepoCell
+                theme={this.props.theme}
+                projectModel={projectModel}
+                onSelected={() => this.onSelected(projectModel)}
+                onFavorite={(projectModel, favorite) => {
+                    this._onFavorite(projectModel, favorite)
+                }}
             />
         )
     }
@@ -305,8 +303,6 @@ class TrendingTab extends Component{
         }else {
             favoriteDao.removeFavoritem(projectModel.item.fullName);
         }
-        //this.getFavoriteKeys();
-        //DeviceEventEmitter.emit(Constant.SHOW_TOAST,"name:" + projectModel.item.fullName + " favorite:" + favorite);
     }
 
     /**

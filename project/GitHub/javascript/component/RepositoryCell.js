@@ -16,7 +16,6 @@ export default class RepositoryCell extends Component{
     constructor(props){
         super(props);
         this.projectModel = this.props.projectModel;
-        console.log(this.projectModel);
         this.state = {
             isFavorite:this.projectModel.favorite,
             favoriteIcon:RepositoryCell.getFavoriteIcon(this.projectModel.favorite),
@@ -40,7 +39,7 @@ export default class RepositoryCell extends Component{
                 onPress={() => this.onPressFavorite()} underlayColor='transparent'>
                 <Image
                     ref='favoriteIcon'
-                    style={[{width: 22, height: 22,}, {tintColor: "#2196F3"}]}
+                    style={[{width: 22, height: 22,},this.props.theme.styles.tabBarSelectedIcon]}
                     source={this.state.favoriteIcon}/>
             </TouchableOpacity> : null;
         return (
@@ -81,7 +80,6 @@ export default class RepositoryCell extends Component{
     setFavorite(favorite){
         //更新属性
         this.props.projectModel.favorite = favorite;
-        // DeviceEventEmitter.emit(Constant.SHOW_TOAST,"favorite:" + favorite);
         this.setState({
             isFavorite:favorite,
             favoriteIcon:RepositoryCell.getFavoriteIcon(favorite),

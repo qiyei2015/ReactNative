@@ -1,7 +1,6 @@
 import React,{Component} from "react";
 import {Text, View, StyleSheet, TouchableOpacity, Image, ScrollView,Alert} from "react-native";
 import NavigationBar from "../../common/NavigationBar";
-import {colorPrimary} from "../../common/BaseStyles";
 import ViewUtil from "../../util/ViewUtil";
 import LanguageDao,{FLAG_LANGUAGE} from "../../model/dao/LanguageDao";
 import CheckBox from "react-native-check-box";
@@ -10,8 +9,9 @@ import ArrayUtil from "../../util/ArrayUtil";
 export default class CustomLabelPage extends Component{
     constructor(props){
         super(props);
-        this.removeLabel = this.props.navigation.state.params.removeLabel ? true:false;
-        this.flag = this.props.navigation.state.params.flag ? this.props.navigation.state.params.flag:FLAG_LANGUAGE.flag_key;
+        this.params = this.props.navigation.state.params;
+        this.removeLabel = this.params.removeLabel ? true:false;
+        this.flag = this.params.flag ? this.params.flag:FLAG_LANGUAGE.flag_key;
         this.languageDao = new LanguageDao(this.flag);
         this.changeValues = [];
         this.state = {
@@ -34,7 +34,7 @@ export default class CustomLabelPage extends Component{
                 <NavigationBar
                     title={title}
                     style={{
-                        backgroundColor: colorPrimary,
+                        backgroundColor: this.params.theme.colorPrimary,
                     }}
                     leftView={ViewUtil.getLeftButton(() => {
                         this.onBack();
@@ -61,7 +61,6 @@ export default class CustomLabelPage extends Component{
                 this.setState({
                     dataArray: result,
                 });
-                // ArrayUtil.clone(this.changeValues,this.state.dataArray);
             })
             .catch(error => {
                 console.log(error);
@@ -138,8 +137,8 @@ export default class CustomLabelPage extends Component{
             }
             }
             isChecked={checked}
-            checkedImage={<Image style={{tintColor:"#6495ED"}} source={require("./img/ic_check_box.png")}/>}
-            unCheckedImage={<Image style={{tintColor:"#6495ED"}} source={require("./img/ic_check_box_outline_blank.png")}/>}
+            checkedImage={<Image style={this.params.theme.styles.tabBarSelectedIcon} source={require("./img/ic_check_box.png")}/>}
+            unCheckedImage={<Image style={this.params.theme.styles.tabBarSelectedIcon} source={require("./img/ic_check_box_outline_blank.png")}/>}
             />
     }
 

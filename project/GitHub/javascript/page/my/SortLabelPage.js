@@ -3,7 +3,6 @@ import {Text, View, StyleSheet, TouchableOpacity, Image, ScrollView, Alert, Touc
 import LanguageDao, {FLAG_LANGUAGE} from "../../model/dao/LanguageDao";
 import ArrayUtil from "../../util/ArrayUtil";
 import SortableListView from 'react-native-sortable-listview'
-import {colorPrimary} from "../../common/BaseStyles";
 import ViewUtil from "../../util/ViewUtil";
 import NavigationBar from "../../common/NavigationBar";
 
@@ -11,7 +10,8 @@ export default class SortLabelPage extends Component{
 
     constructor(props){
         super(props);
-        this.flag = this.props.navigation.state.params.flag ? this.props.navigation.state.params.flag : FLAG_LANGUAGE.flag_key;
+        this.params = this.props.navigation.state.params;
+        this.flag = this.params.flag ? this.params.flag : FLAG_LANGUAGE.flag_key;
         this.languageDao = new LanguageDao(this.flag);
         //读取的配置数组
         this.dataArray = [];
@@ -36,7 +36,7 @@ export default class SortLabelPage extends Component{
                 <NavigationBar
                     title={title}
                     style={{
-                        backgroundColor: colorPrimary,
+                        backgroundColor: this.params.theme.colorPrimary,
                     }}
                     leftView={ViewUtil.getLeftButton(() => {
                         this.onBack();
@@ -51,7 +51,7 @@ export default class SortLabelPage extends Component{
                         this.state.checkedArray.splice(e.to, 0, this.state.checkedArray.splice(e.from, 1)[0])
                         this.forceUpdate()
                     }}
-                    renderRow={row => <SortCell data={row} />}
+                    renderRow={row => <SortCell data={row} {...this.props}/>}
                 />
             </View>
         );
@@ -133,6 +133,12 @@ export default class SortLabelPage extends Component{
 
 
 class SortCell extends Component{
+
+    constructor(props){
+        super(props);
+        this.params = this.props.navigation.state.params;
+    }
+
     render(){
         return(
             <TouchableHighlight
@@ -145,7 +151,7 @@ class SortCell extends Component{
                 }}
                 {...this.props.sortHandlers}>
                 <View style={styles.row}>
-                    <Image style={{width:22,height:22, marginRight:20,tintColor:"#2196F3"}} source={require("./img/ic_sort.png")}/>
+                    <Image style={{width:22,height:22, marginRight:20,tintColor:this.params.theme.colorPrimary}} source={require("./img/ic_sort.png")}/>
                     <Text>{this.props.data.name}</Text>
                 </View>
             </TouchableHighlight>

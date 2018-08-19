@@ -1,6 +1,5 @@
 import React,{Component} from "react";
-import {Text, View, StyleSheet, ScrollView, TouchableOpacity, Image,Clipboard,Linking} from "react-native";
-import {colorPrimary} from "../common/BaseStyles";
+import {View, StyleSheet,Clipboard,Linking} from "react-native";
 import ParallaxComponent from "../component/ParallaxComponent";
 import config from "../../res/data/config";
 import ViewUtil from "../util/ViewUtil";
@@ -62,6 +61,7 @@ const ITEM = {
 export default class AboutMePage extends Component{
     constructor(props){
         super(props);
+        //获取传递过来的参数
         this.params = this.props.navigation.state.params;
         this.parallaxComponent = new ParallaxComponent({...this.params,navigation:this.props.navigation},(dic)=>this.updateState(dic),"aboutme",config);
         this.state = {
@@ -76,22 +76,22 @@ export default class AboutMePage extends Component{
 
     render(){
         let content = <View>
-            {ViewUtil.getSettingItemView(()=>this.onClick(ITEM.BLOG), require('../../res/images/ic_computer.png'), ITEM.BLOG.name, {tintColor: colorPrimary},
+            {ViewUtil.getSettingItemView(()=>this.onClick(ITEM.BLOG), require('../../res/images/ic_computer.png'), ITEM.BLOG.name, this.params.theme.styles.tabBarSelectedIcon,
                 this.getClickIcon(this.state.showBlog))}
             <View style={GlobalStyle.line}/>
             {this.state.showBlog ? this.renderItems(ITEM.BLOG.items) : null}
 
-            {ViewUtil.getSettingItemView(()=>this.onClick(ITEM.REPOSITORY), require('../../res/images/ic_code.png'), ITEM.REPOSITORY, {tintColor: colorPrimary},
+            {ViewUtil.getSettingItemView(()=>this.onClick(ITEM.REPOSITORY), require('../../res/images/ic_code.png'), ITEM.REPOSITORY, this.params.theme.styles.tabBarSelectedIcon,
                 this.getClickIcon(this.state.showRepository))}
             <View style={GlobalStyle.line}/>
             {this.state.showRepository ? this.renderRepository(this.state.projectModels) : null}
 
-            {ViewUtil.getSettingItemView(()=>this.onClick(ITEM.QQ), require('../../res/images/ic_computer.png'), ITEM.QQ.name, {tintColor: colorPrimary},
+            {ViewUtil.getSettingItemView(()=>this.onClick(ITEM.QQ), require('../../res/images/ic_computer.png'), ITEM.QQ.name, this.params.theme.styles.tabBarSelectedIcon,
                 this.getClickIcon(this.state.showQQ))}
             <View style={GlobalStyle.line}/>
             {this.state.showQQ ? this.renderItems(ITEM.QQ.items, true) : null}
 
-            {ViewUtil.getSettingItemView(()=>this.onClick(ITEM.CONTACT), require('../../res/images/ic_contacts.png'), ITEM.CONTACT.name,{tintColor: colorPrimary},
+            {ViewUtil.getSettingItemView(()=>this.onClick(ITEM.CONTACT), require('../../res/images/ic_contacts.png'), ITEM.CONTACT.name,this.params.theme.styles.tabBarSelectedIcon,
                 this.getClickIcon(this.state.showContact))}
             <View style={GlobalStyle.line}/>
             {this.state.showContact ? this.renderItems(ITEM.CONTACT.items, true) : null}
@@ -119,7 +119,7 @@ export default class AboutMePage extends Component{
             let title = isShowAccount ? dic[i].title + ':' + dic[i].account : dic[i].title;
             views.push(
                 <View key={i}>
-                    {ViewUtil.getSettingItemView(()=>this.onClick(dic[i]), '', title,{tintColor: colorPrimary})}
+                    {ViewUtil.getSettingItemView(()=>this.onClick(dic[i]), '', title,this.params.theme.styles.tabBarSelectedIcon)}
                     <View style={GlobalStyle.line}/>
                 </View>
             )

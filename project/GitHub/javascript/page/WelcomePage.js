@@ -1,11 +1,14 @@
 import React,{Component} from "react";
 import {Text, View,StyleSheet} from "react-native";
-import {mainBackgroundColor} from "../common/BaseStyles";
+import ThemeDao from "../model/dao/ThemeDao";
+import NavigatorUtil from "../util/NavigatorUtil";
 
+const TAG = "WelcomePage:";
 
 export default class WelcomePage extends Component{
     constructor(props){
         super(props);
+        this.themeDao = new ThemeDao();
     }
 
     render(){
@@ -18,10 +21,18 @@ export default class WelcomePage extends Component{
 
     //已经被加载
     componentDidMount() {
-        const {navigation} = this.props;
+        this.themeDao.getTheme().then((data) => {
+            this.theme = data;
+        }).catch(error => {
+            console.log(TAG + error);
+        });
 
         this.timer = setTimeout(() => {
-            navigation.navigate("HomePage");
+            console.log(TAG+this.theme);
+            NavigatorUtil.resetToHomePage({
+                theme:this.theme,
+                navigation:this.props.navigation,
+            });
         },1000);
     }
 

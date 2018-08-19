@@ -3,8 +3,8 @@ import React,{Component} from "react";
 import {Modal, ScrollView, StyleSheet, Text, TouchableOpacity, View,Platform} from "react-native";
 import {Theme} from "../../style/ThemeFactory";
 import NavigationBar from "../../common/NavigationBar";
-import {colorPrimary} from "../../common/BaseStyles";
 import GlobalStyle from "../../style/GlobalStyle"
+import ThemeDao from "../../model/dao/ThemeDao";
 
 /**
  * 自定义主题
@@ -13,6 +13,7 @@ export default class CustomThemePage extends Component{
 
     constructor(props){
         super(props);
+        this.themeDao = new ThemeDao();
         this.state= {
             visible: this.props.visible,
         };
@@ -43,7 +44,7 @@ export default class CustomThemePage extends Component{
             <NavigationBar
                 title={"自定义主题"}
                 style={{
-                    backgroundColor: colorPrimary,
+                    backgroundColor: this.props.theme.colorPrimary,
                 }}
             />
             <View style={styles.modalContainer}>
@@ -87,6 +88,7 @@ export default class CustomThemePage extends Component{
     }
 
     onSelectedTheme(theme){
+        this.themeDao.saveTheme(theme);
         this.onClose();
     }
 

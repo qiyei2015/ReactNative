@@ -4,19 +4,15 @@ import {
     Image,
     StyleSheet,
     TouchableOpacity,
-    Text,
     ListView,
     RefreshControl,
-    DeviceEventEmitter
 } from "react-native";
 import DataRepository, {FLAG_STORAGE} from "../model/dao/DataRepository";
 import ScrollableTabView,{ScrollableTabBar} from "react-native-scrollable-tab-view";
 import { PropTypes} from 'prop-types';
 import RepositoryCell from "../component/RepositoryCell";
-import {colorPrimary} from "../common/BaseStyles";
 import NavigationBar from "../common/NavigationBar";
 import LanguageDao,{FLAG_LANGUAGE} from "../model/dao/LanguageDao";
-import Constant from "../common/Constant";
 import RepositoryDetail from "./RepositoryDetail";
 import ProjectModel from "../model/ProjectModel";
 import FavoriteDao, {FLAG_FAVORITE} from "../model/dao/FavoriteDao";
@@ -33,6 +29,7 @@ export default class PopularPage extends Component{
         super(props);
         this.languageDao = new LanguageDao(FLAG_LANGUAGE.flag_key);
         this.state = {
+            theme:this.props.theme,
             languages:[],
         }
     }
@@ -41,7 +38,7 @@ export default class PopularPage extends Component{
         let {navigation} = this.props;
         let content = this.state.languages.length > 0 ?
             <ScrollableTabView
-                tabBarBackgroundColor= {colorPrimary}
+                tabBarBackgroundColor= {this.state.theme.colorPrimary}
                 tabBarInactiveTextColor="mintcream"
                 tabBarActiveTextColor="white"
                 tabBarUnderlineStyle={{backgroundColor:"#E7E7E7",height:2}}
@@ -56,7 +53,7 @@ export default class PopularPage extends Component{
                 {/*根据配置文件加载标签*/}
                 {this.state.languages.map((result,i,arr) => {
                     let lan = arr[i];
-                    return lan.checked ?  <PopularTab key={i} tabLabel={lan.name} theme={{colorPrimary: colorPrimary}} {...this.props}/>:null;
+                    return lan.checked ?  <PopularTab key={i} tabLabel={lan.name} {...this.props}/>:null;
                 })}
             </ScrollableTabView> : null;
 
@@ -65,10 +62,10 @@ export default class PopularPage extends Component{
                 <NavigationBar
                     title={"最热"}
                     style={{
-                        backgroundColor: colorPrimary,
+                        backgroundColor: this.state.theme.colorPrimary,
                     }}
                     statusBar={{
-                        backgroundColor: colorPrimary,
+                        backgroundColor: this.state.theme.colorPrimaryDark,
                         hidden: false,
                     }}
                     leftView={
@@ -124,6 +121,8 @@ class PopularTab extends Component{
         this.dataRepository = new DataRepository(FLAG_STORAGE.flag_popular);
         this.items = [];
         this.state = {
+            //上级传递过来
+            theme:this.props.theme,
             projectModels:new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2}),
             refreshing:false,
             favoriteKeys:[],
@@ -191,7 +190,8 @@ class PopularTab extends Component{
     renderRow(projectModel){
         return(
             //设置onSelected的回调函数
-            <RepositoryCell {...this.props} key={projectModel.item.id} projectModel={projectModel}
+            <RepositoryCell key={projectModel.item.id} projectModel={projectModel}
+                            theme={this.props.theme}
                             onSelected={() => this.onSelected(projectModel)}
                             onFavorite={(projectModel,favorite) => this._onFavorite(projectModel, favorite)}
             />

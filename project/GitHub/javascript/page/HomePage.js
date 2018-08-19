@@ -1,16 +1,13 @@
 import React,{Component}from "react";
-import {View, Image, StyleSheet, TouchableOpacity,DeviceEventEmitter} from "react-native";
+import {View, Image, StyleSheet,DeviceEventEmitter} from "react-native";
 import TabNavigator from "react-native-tab-navigator";
 import PopularPage from "./PopularPage";
-import {colorPrimary} from "../common/BaseStyles";
 import MyPage from "./my/MyPage";
 import Toast,{DURATION} from "react-native-easy-toast";
 import Constant from "../common/Constant";
-import WebViewDemo from "../test/WebViewDemo";
 import TrendingPage from "./TrendingPage";
 import FavoritePage from "./FavoritePage";
-
-
+import ThemeFactory, {Theme} from "../style/ThemeFactory";
 
 
 
@@ -24,7 +21,6 @@ class PageModel {
     }
 }
 
-
 const PAGE = {
     popular: new PageModel(PopularPage, "popular", "最热", require('../../res/images/ic_popular.png')),
     trending: new PageModel(TrendingPage, "trending", "趋势", require('../../res/images/ic_trending.png')),
@@ -37,8 +33,10 @@ export default class HomePage extends Component{
 
     constructor(props){
         super(props);
+        this.params = this.props.navigation.state.params;
         this.state = {
-            selectedTab:'popular'
+            selectedTab:'popular',
+            theme:this.params.theme || ThemeFactory.createTheme(Theme.Default),
         };
         //屏蔽黄色告警
         console.disableYellowBox = true;
@@ -77,16 +75,16 @@ export default class HomePage extends Component{
         return(
             <TabNavigator.Item
                 selected={this.state.selectedTab === model.key}
-                selectedTitleStyle={{color: colorPrimary}}
+                selectedTitleStyle={this.state.theme.styles.selectedTitleStyle}
                 title={model.name}
                 renderIcon={() => <Image style={styles.image} source={model.icon}/>}
-                renderSelectedIcon={() => <Image style={[styles.image, {tintColor: colorPrimary}]}
+                renderSelectedIcon={() => <Image style={[styles.image,this.state.theme.styles.tabBarSelectedIcon]}
                                                  source={model.icon}/>}
                 //角标显示
                 badgeText=""
                 onPress={() => this.setState({selectedTab: model.key})}>
                 {/*传递属性参数*/}
-                <model.component {...this.props}/>
+                <model.component {...this.props} theme={this.state.theme}/>
             </TabNavigator.Item>
         );
     }

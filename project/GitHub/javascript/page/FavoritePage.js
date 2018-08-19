@@ -13,10 +13,7 @@ import DataRepository, {FLAG_STORAGE} from "../model/dao/DataRepository";
 import ScrollableTabView,{ScrollableTabBar} from "react-native-scrollable-tab-view";
 import { PropTypes} from 'prop-types';
 import RepositoryCell from "../component/RepositoryCell";
-import {colorPrimary} from "../common/BaseStyles";
 import NavigationBar from "../common/NavigationBar";
-import LanguageDao,{FLAG_LANGUAGE} from "../model/dao/LanguageDao";
-import Constant from "../common/Constant";
 import RepositoryDetail from "./RepositoryDetail";
 import ProjectModel from "../model/ProjectModel";
 import FavoriteDao, {FLAG_FAVORITE} from "../model/dao/FavoriteDao";
@@ -33,12 +30,15 @@ const FLAG = [{name:"最热",key:FLAG_FAVORITE.flag_key},{name:"趋势",key:FLAG
 export default class FavoritePage extends Component{
     constructor(props){
         super(props);
+        this.state = {
+            theme:this.props.theme,
+        }
     }
 
     render(){
         let {navigation} = this.props;
         let content = <ScrollableTabView
-            tabBarBackgroundColor={colorPrimary}
+            tabBarBackgroundColor={this.state.theme.colorPrimary}
             tabBarInactiveTextColor="mintcream"
             tabBarActiveTextColor="white"
             tabBarUnderlineStyle={{backgroundColor: "#E7E7E7", height: 2}}
@@ -51,18 +51,18 @@ export default class FavoritePage extends Component{
             onScroll={(position) => {
             }}
         >
-            <FavoriteTab tabLabel={FLAG[0].name} data = {FLAG[0]} theme={{colorPrimary: colorPrimary}} {...this.props}/>
-            <FavoriteTab tabLabel={FLAG[1].name} data = {FLAG[1]} theme={{colorPrimary: colorPrimary}} {...this.props}/>
+            <FavoriteTab tabLabel={FLAG[0].name} data = {FLAG[0]} theme={this.state.theme} {...this.props}/>
+            <FavoriteTab tabLabel={FLAG[1].name} data = {FLAG[1]} theme={this.state.theme} {...this.props}/>
         </ScrollableTabView>;
         return(
             <View style={styles.container}>
                 <NavigationBar
                     title={"收藏"}
                     style={{
-                        backgroundColor: colorPrimary,
+                        backgroundColor: this.state.theme.colorPrimary,
                     }}
                     statusBar={{
-                        backgroundColor: colorPrimary,
+                        backgroundColor: this.state.theme.colorPrimary,
                         hidden: false,
                     }}
                     leftView={

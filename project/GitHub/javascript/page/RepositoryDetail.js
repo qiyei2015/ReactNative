@@ -1,7 +1,6 @@
 
 import React,{Component}from "react";
 import {View, WebView, StyleSheet, TouchableOpacity, Image,DeviceEventEmitter} from "react-native";
-import {colorPrimary} from "../common/BaseStyles";
 import NavigationBar from "../common/NavigationBar";
 import FavoriteDao, {FLAG_FAVORITE} from "../model/dao/FavoriteDao";
 import BackPressComponent from "../component/BackPressComponent";
@@ -14,10 +13,11 @@ const TRENDING_URL = 'https://github.com/';
 export default class RepositoryDetail extends Component{
     constructor(props){
         super(props);
+        this.params = this.props.navigation.state.params;
         this.backPress = new BackPressComponent({backPress:(e)=>this.onBackPress(e)});
         //获取数据
-        this.projectModel = this.props.navigation.state.params.projectModel;
-        this.isTrending = this.props.navigation.state.params.isTrending ? true : false;
+        this.projectModel = this.params.projectModel;
+        this.isTrending = this.params.isTrending ? true : false;
 
         if (this.isTrending){
             this.favoriteDao = new FavoriteDao(FLAG_FAVORITE.flag_language);
@@ -44,10 +44,10 @@ export default class RepositoryDetail extends Component{
                 <NavigationBar
                     title={this.state.title}
                     style={{
-                        backgroundColor: colorPrimary,
+                        backgroundColor: this.params.theme.colorPrimary,
                     }}
                     statusBar={{
-                        backgroundColor: colorPrimary,
+                        backgroundColor: this.params.theme.colorPrimary,
                         hidden: false,
                     }}
                     leftView={

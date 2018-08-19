@@ -1,18 +1,19 @@
 import React,{Component} from "react";
 import {Text, View, StyleSheet, ScrollView, TouchableOpacity, Image} from "react-native";
 import NavigationBar from "../../common/NavigationBar";
-import {colorPrimary} from "../../common/BaseStyles";
 import CustomLabelPage from "./CustomLabelPage";
 import {FLAG_LANGUAGE} from "../../model/dao/LanguageDao"
 import GlobalStyle from "../../style/GlobalStyle"
 import ViewUtil from "../../util/ViewUtil";
 import {MORE_MENU} from "../../common/MoreMenu";
 import CustomThemePage from "./CustomThemePage";
+import NavigatorUtil from "../../util/NavigatorUtil";
 
 export default class MyPage extends Component{
     constructor(props){
         super(props);
         this.state = {
+            theme:this.props.theme,
             customThemeVisible:false,
         }
     }
@@ -23,7 +24,7 @@ export default class MyPage extends Component{
                 <NavigationBar
                     title={"我的"}
                     style={{
-                        backgroundColor: colorPrimary,
+                        backgroundColor: this.state.theme.colorPrimary,
                     }}
                 />
                 <ScrollView>
@@ -32,7 +33,7 @@ export default class MyPage extends Component{
                         <View style={[styles.item, {height: 90}]}>
                             <View style={{alignItems: 'center', flexDirection: 'row'}}>
                                 <Image source={require('../../../res/images/ic_trending.png')}
-                                       style={{width: 40, height: 40, marginRight: 10,tintColor:colorPrimary}}/>
+                                       style={{width: 40, height: 40, marginRight: 10,tintColor:this.state.theme.colorPrimary}}/>
                                 <Text>GitHub Popular</Text>
                             </View>
                             <Image source={require('../../../res/images/ic_tiaozhuan.png')}
@@ -42,7 +43,7 @@ export default class MyPage extends Component{
                                        height: 22,
                                        width: 22,
                                        alignSelf: 'center',
-                                       tintColor:colorPrimary
+                                       tintColor:this.state.theme.colorPrimary
                                    }}/>
                         </View>
                     </TouchableOpacity>
@@ -124,12 +125,16 @@ export default class MyPage extends Component{
             default:
                 break;
         }
+
+        let params = {...this.props,flag:flag};
         if (targetComponent) {
             //跳转到指定页面，并传入参数
-            this.props.navigation.navigate(
-                targetComponent,
-                {...this.props,flag:flag},
-            );
+            NavigatorUtil.goToMenuPage(targetComponent,params);
+
+            // this.props.navigation.navigate(
+            //     targetComponent,
+            //     {...this.props,flag:flag,theme:this.props.theme},
+            // );
         }
     }
 
@@ -141,7 +146,7 @@ export default class MyPage extends Component{
      * @returns {*}
      */
     renderItemView(tab){
-        return ViewUtil.getSettingItemView(() => this.onClick(tab),tab.icon,tab.name,{tintColor:colorPrimary},null);
+        return ViewUtil.getSettingItemView(() => this.onClick(tab),tab.icon,tab.name,this.state.theme.styles.tabBarSelectedIcon,null);
     }
 
     /**

@@ -1,6 +1,5 @@
 import React,{Component} from "react";
 import {View, StyleSheet,GlobalStyles} from "react-native";
-import {colorPrimary} from "../common/BaseStyles";
 import ViewUtil from "../util/ViewUtil"
 import {MORE_MENU} from "../common/MoreMenu";
 import ParallaxComponent from "../component/ParallaxComponent";
@@ -23,11 +22,11 @@ export default class AboutPage extends Component{
     render(){
         let content = <View>
             <View style={styles.item}/>
-            {ViewUtil.getSettingItemView(() => this.onClick(MORE_MENU.Website), require('../../res/images/ic_computer.png'), MORE_MENU.Website.name, {tintColor: colorPrimary})}
+            {ViewUtil.getSettingItemView(() => this.onClick(MORE_MENU.Website), require('../../res/images/ic_computer.png'), MORE_MENU.Website.name, this.params.theme.styles.tabBarSelectedIcon)}
             <View style={GlobalStyle.line}/>
-            {ViewUtil.getSettingItemView(() => this.onClick(MORE_MENU.About_Author), require('./my/img/ic_insert_emoticon.png'), MORE_MENU.About_Author.name, {tintColor: colorPrimary})}
+            {ViewUtil.getSettingItemView(() => this.onClick(MORE_MENU.About_Author), require('./my/img/ic_insert_emoticon.png'), MORE_MENU.About_Author.name, this.params.theme.styles.tabBarSelectedIcon)}
             <View style={GlobalStyle.line}/>
-            {ViewUtil.getSettingItemView(() => this.onClick(MORE_MENU.Feedback), require('../../res/images/ic_feedback.png'), MORE_MENU.Feedback.name, {tintColor: colorPrimary})}
+            {ViewUtil.getSettingItemView(() => this.onClick(MORE_MENU.Feedback), require('../../res/images/ic_feedback.png'), MORE_MENU.Feedback.name, this.params.theme.styles.tabBarSelectedIcon)}
             <View style={GlobalStyle.line}/>
         </View>;
 
