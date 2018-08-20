@@ -1,4 +1,5 @@
 import AppNavigator from "./AppNavigator";
+import App from "../test/App";
 
 
 function setup() {
