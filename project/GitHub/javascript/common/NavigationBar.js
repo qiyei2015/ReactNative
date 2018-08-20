@@ -24,7 +24,7 @@ export default class NavigationBar extends Component{
 
     //设置属性约束
     static propTypes = {
-        style:View.propTypes.style,
+        style:PropTypes.element,
         title:PropTypes.string,
         titleView:PropTypes.element,
         hide:PropTypes.bool,
