@@ -1,6 +1,7 @@
 import React,{Component}from "react";
 import {View, Image, StyleSheet, Text,Platform, StatusBar} from "react-native";
 import { PropTypes} from 'prop-types';
+import {Theme} from "../style/ThemeFactory";
 
 const NAV_BAR_HEIGHT_ANDROID = 50;
 const NAV_BAR_HEIGHT_IOS = 44;
@@ -24,7 +25,6 @@ export default class NavigationBar extends Component{
 
     //设置属性约束
     static propTypes = {
-        style:PropTypes.element,
         title:PropTypes.string,
         titleView:PropTypes.element,
         hide:PropTypes.bool,
@@ -69,7 +69,7 @@ export default class NavigationBar extends Component{
 
 const styles = StyleSheet.create({
     container:{
-
+        backgroundColor:Theme.Default,
     },
     navigationBar:{
         justifyContent:"space-between",//主轴

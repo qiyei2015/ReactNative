@@ -28,7 +28,7 @@ export default class WelcomePage extends Component{
         });
 
         this.timer = setTimeout(() => {
-            console.log(TAG+this.theme);
+            console.log(TAG+"result -> "+this.theme.colorPrimary);
             NavigatorUtil.resetToHomePage({
                 theme:this.theme,
                 navigation:this.props.navigation,

@@ -18,14 +18,12 @@ export default class ThemeDao {
                     reject(error);
                     return ;
                 }
-                if (result){
-                    resolve(ThemeFactory.createTheme(Theme[result]));
-                } else {
+                if (!result) {
                     //先保存默认主题
                     this.saveTheme(Theme.Default);
-                    //返回默认主题
-                    return ThemeFactory.createTheme(Theme.Default);
+                    result = Theme.Default;
                 }
+                resolve(ThemeFactory.createTheme(result));
             });
         });
     }

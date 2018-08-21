@@ -88,7 +88,8 @@ export default class CustomThemePage extends Component{
     }
 
     onSelectedTheme(theme){
-        this.themeDao.saveTheme(theme);
+        //保存具体的theme值
+        this.themeDao.saveTheme(Theme[theme]);
         this.onClose();
     }
 
